@@ -100,7 +100,7 @@ export const questions: Question[] = [
     question: 'Quantos endereços de host utilizáveis existem em uma sub-rede /29?',
     options: ['6', '8', '14', '30'],
     answer: 0,
-    explanation: 'Um prefixo /29 deixa 32 - 29 = 3 bits para hosts. Isso dá 2^3 = 8 endereços totais. Subtraindo o endereço de rede e o endereço de broadcast, restam 6 endereços de host utilizáveis.',
+    explanation: 'A /29 prefixo deixa 32 - 29 = 3 bits para hosts. Isso dá 2^3 = 8 endereços totais. Subtraindo o endereço de rede e o endereço de broadcast, restam 6 endereços de host utilizáveis.',
   },
   {
     id: 6,
@@ -151,14 +151,6 @@ export const questions: Question[] = [
     explanation: 'VPN significa Rede Privada Virtual. Ela cria uma conexão segura e criptografada em uma rede menos segura, como a internet pública.',
   },
 ];
-
-export const userPerformance = {
-  'Modelos OSI/TCP-IP': 75,
-  'Sub-redes e Endereçamento IP': 45,
-  'Protocolos de Rede': 85,
-  'Dispositivos de Rede': 60,
-  'Segurança de Rede': 30,
-};
 
 export const weeklyProgress = [
   { week: 'Semana 1', points: 150 },

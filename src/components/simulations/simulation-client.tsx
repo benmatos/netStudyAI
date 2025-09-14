@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { Question, ClientTopic } from '@/lib/data';
 import { getIconForTopic } from '@/lib/data';
 import { Button } from '@/components/ui/button';
@@ -61,6 +61,28 @@ export default function SimulationClient({ topic, questions }: SimulationClientP
     setIsFinished(false);
   };
   
+  useEffect(() => {
+    if (isFinished) {
+      const finalScore = (score / questions.length) * 100;
+      const simulationResult = {
+        topicId: topic.id,
+        topicName: topic.name,
+        score: finalScore,
+        correct: score,
+        total: questions.length,
+        date: new Date().toISOString(),
+      };
+
+      try {
+        const history = JSON.parse(localStorage.getItem('simulationHistory') || '[]');
+        history.push(simulationResult);
+        localStorage.setItem('simulationHistory', JSON.stringify(history));
+      } catch (error) {
+        console.error("Could not save simulation result:", error);
+      }
+    }
+  }, [isFinished, score, questions.length, topic.id, topic.name]);
+
   if (isFinished) {
     const finalScore = (score / questions.length) * 100;
     return (

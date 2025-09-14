@@ -5,7 +5,6 @@ import {
   generateAdaptiveStudyPlan,
   type AdaptiveStudyPlanInput,
 } from '@/ai/flows/adaptive-study-plan-generation';
-import { userPerformance } from '@/lib/data';
 
 export async function getStudyPlanAction(currentPerformance: Record<string, number>) {
   try {
