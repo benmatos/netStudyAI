@@ -1,3 +1,5 @@
+'use client';
+
 import MainLayout from '@/components/main-layout';
 import SimulationClient from '@/components/simulations/simulation-client';
 import { topics, questions as defaultQuestions, ClientTopic, Question } from '@/lib/data';
@@ -37,11 +39,12 @@ export default function SimulationPage({ params }: SimulationPageProps) {
   }, []);
 
   const topicData = topics.find((t) => t.id === params.topic);
-  const topicQuestions = allQuestions.filter((q) => q.topicId === params.topic);
-
+  
   if (isLoading) {
     return <MainLayout><div>Carregando...</div></MainLayout>;
   }
+  
+  const topicQuestions = allQuestions.filter((q) => q.topicId === params.topic);
 
   if (!topicData || topicQuestions.length === 0) {
     notFound();
