@@ -12,7 +12,7 @@ interface SimulationPageProps {
   };
 }
 
-export default function SimulationPage({ params }: SimulationPageProps) {
+export default function SimulationPage({ params: { topic } }: SimulationPageProps) {
   const [allQuestions, setAllQuestions] = useState<Question[]>(defaultQuestions);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -38,19 +38,19 @@ export default function SimulationPage({ params }: SimulationPageProps) {
     }
   }, []);
 
-  const topicData = topics.find((t) => t.id === params.topic);
+  const topicData = topics.find((t) => t.id === topic);
   
   if (isLoading) {
     return <MainLayout><div>Carregando...</div></MainLayout>;
   }
   
-  const topicQuestions = allQuestions.filter((q) => q.topicId === params.topic);
+  const topicQuestions = allQuestions.filter((q) => q.topicId === topic);
 
   if (!topicData || topicQuestions.length === 0) {
     notFound();
   }
 
-  const topic: ClientTopic = {
+  const clientTopic: ClientTopic = {
     id: topicData.id,
     name: topicData.name,
     description: topicData.description,
@@ -58,7 +58,7 @@ export default function SimulationPage({ params }: SimulationPageProps) {
 
   return (
     <MainLayout>
-      <SimulationClient topic={topic} questions={topicQuestions} />
+      <SimulationClient topic={clientTopic} questions={topicQuestions} />
     </MainLayout>
   );
 }
