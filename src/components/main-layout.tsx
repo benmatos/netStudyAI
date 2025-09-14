@@ -12,7 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetHeader } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import {
   Home,
   FileText,
@@ -71,16 +71,17 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
             </SheetTrigger>
             <SheetContent side="left" className="flex flex-col">
               <SheetHeader>
-                <SheetTitle className="sr-only">Menu Principal</SheetTitle>
+                <SheetTitle>
+                  <Link
+                    href="/"
+                    className="flex items-center gap-3 text-lg font-semibold mb-4"
+                  >
+                    <Logo className="h-8 w-8" />
+                    <span className="font-headline">NetStudyAI</span>
+                  </Link>
+                </SheetTitle>
               </SheetHeader>
               <nav className="grid gap-2 text-lg font-medium">
-                <Link
-                  href="/"
-                  className="flex items-center gap-3 text-lg font-semibold mb-4"
-                >
-                  <Logo className="h-8 w-8" />
-                  <span className="font-headline">NetStudyAI</span>
-                </Link>
                 {navItems.map(({ href, icon: Icon, label }) => (
                   <Link
                     key={label}
@@ -128,7 +129,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
             </DropdownMenuContent>
           </DropdownMenu>
         </header>
-        <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6 bg-background/50">
+        <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
           {children}
         </main>
       </div>

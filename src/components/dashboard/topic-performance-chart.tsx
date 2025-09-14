@@ -61,7 +61,7 @@ export default function TopicPerformanceChart({ className }: { className?: Class
       </CardHeader>
       <CardContent>
         {chartData.length > 0 ? (
-          <ChartContainer config={chartConfig} className="min-h-[250px] w-full h-[300px] sm:h-[350px]">
+          <ChartContainer config={chartConfig} className="min-h-[250px] h-[250px] sm:h-[350px] w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
                 accessibilityLayer
@@ -70,7 +70,7 @@ export default function TopicPerformanceChart({ className }: { className?: Class
                   top: 5,
                   right: 5,
                   left: -25,
-                  bottom: 40,
+                  bottom: 55,
                 }}
               >
                 <CartesianGrid vertical={false} />
@@ -81,6 +81,7 @@ export default function TopicPerformanceChart({ className }: { className?: Class
                   axisLine={false}
                   angle={-45}
                   textAnchor="end"
+                  interval={0}
                   height={1}
                   tickFormatter={(value) => value.length > 15 ? `${value.slice(0, 15)}...` : value}
                 />

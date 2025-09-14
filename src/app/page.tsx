@@ -60,9 +60,9 @@ export default function DashboardPage() {
           </AlertDialogContent>
         </AlertDialog>
       </div>
-      <div className="flex flex-1 rounded-lg">
-        <div className="grid w-full auto-rows-max gap-4 md:gap-6">
-          <PerformanceOverview />
+      <div className="grid auto-rows-max items-start gap-4 md:gap-8">
+        <PerformanceOverview />
+        <div className="grid gap-4 sm:grid-cols-1">
           <TopicPerformanceChart />
           <AdaptiveStudyPlan />
         </div>
