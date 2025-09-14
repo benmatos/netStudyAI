@@ -62,9 +62,3 @@ export default function SimulationPage({ params }: SimulationPageProps) {
     </MainLayout>
   );
 }
-
-export async function generateStaticParams() {
-  return topics.map((topic) => ({
-    topic: topic.id,
-  }));
-}
