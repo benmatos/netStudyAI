@@ -1,6 +1,6 @@
 import MainLayout from '@/components/main-layout';
 import SimulationClient from '@/components/simulations/simulation-client';
-import { topics, questions, Topic } from '@/lib/data';
+import { topics, questions, ClientTopic } from '@/lib/data';
 import { notFound } from 'next/navigation';
 
 interface SimulationPageProps {
@@ -10,11 +10,17 @@ interface SimulationPageProps {
 }
 
 export default function SimulationPage({ params }: SimulationPageProps) {
-  const topic = topics.find((t) => t.id === params.topic);
+  const topicData = topics.find((t) => t.id === params.topic);
   const topicQuestions = questions.filter((q) => q.topicId === params.topic);
 
-  if (!topic || topicQuestions.length === 0) {
+  if (!topicData || topicQuestions.length === 0) {
     notFound();
+  }
+
+  const topic: ClientTopic = {
+    id: topicData.id,
+    name: topicData.name,
+    description: topicData.description,
   }
 
   return (

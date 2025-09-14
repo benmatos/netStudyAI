@@ -50,6 +50,17 @@ export interface Question {
   explanation: string;
 }
 
+export interface ClientTopic {
+  id: string;
+  name: string;
+  description: string;
+}
+
+export function getIconForTopic(topicId: string): ComponentType<{ className?: string }> {
+  const topic = topics.find(t => t.id === topicId);
+  return topic ? topic.icon : () => null;
+}
+
 export const questions: Question[] = [
   {
     id: 1,

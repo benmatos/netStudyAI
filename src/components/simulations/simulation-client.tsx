@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import type { Question, Topic } from '@/lib/data';
+import type { Question, ClientTopic } from '@/lib/data';
+import { getIconForTopic } from '@/lib/data';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
@@ -10,7 +11,7 @@ import { CheckCircle, XCircle, ArrowRight, Home, RefreshCw } from 'lucide-react'
 import Link from 'next/link';
 
 interface SimulationClientProps {
-  topic: Topic;
+  topic: ClientTopic;
   questions: Question[];
 }
 
@@ -23,6 +24,8 @@ export default function SimulationClient({ topic, questions }: SimulationClientP
 
   const currentQuestion = questions[currentQuestionIndex];
   const progressValue = (currentQuestionIndex / questions.length) * 100;
+  
+  const TopicIcon = getIconForTopic(topic.id);
 
   const handleOptionSelect = (optionIndex: number) => {
     if (isAnswered) return;
@@ -85,7 +88,7 @@ export default function SimulationClient({ topic, questions }: SimulationClientP
     <div className="w-full max-w-4xl mx-auto">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
-          <topic.icon className="h-6 w-6 text-primary" />
+          <TopicIcon className="h-6 w-6 text-primary" />
           <h1 className="text-xl font-semibold md:text-2xl font-headline">{topic.name}</h1>
         </div>
         <div className="text-sm text-muted-foreground">
