@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { CheckCircle, XCircle, ArrowRight, Home, RefreshCw } from 'lucide-react';
+import { CheckCircle, XCircle, ArrowRight, Home, RefreshCw, HelpCircle } from 'lucide-react';
 import Link from 'next/link';
 
 interface SimulationClientProps {
@@ -35,6 +35,12 @@ export default function SimulationClient({ topic, questions }: SimulationClientP
     if (optionIndex === currentQuestion.answer) {
       setScore(score + 1);
     }
+  };
+
+  const handleIDontKnow = () => {
+    if (isAnswered) return;
+    setIsAnswered(true);
+    setSelectedOption(-1); // Use -1 to indicate "I don't know"
   };
 
   const handleNext = () => {
@@ -128,6 +134,14 @@ export default function SimulationClient({ topic, questions }: SimulationClientP
             );
           })}
         </CardContent>
+        {!isAnswered && (
+            <CardFooter className="pb-6 pt-2">
+                <Button variant="ghost" className="text-muted-foreground" onClick={handleIDontKnow}>
+                    <HelpCircle className="mr-2 h-4 w-4" />
+                    Eu não sei a resposta correta
+                </Button>
+            </CardFooter>
+        )}
         {isAnswered && (
           <CardFooter className="flex-col items-start">
              <Alert variant={selectedOption === currentQuestion.answer ? "default" : "destructive"} className="bg-muted/50">
