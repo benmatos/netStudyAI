@@ -3,16 +3,13 @@
 import MainLayout from '@/components/main-layout';
 import SimulationClient from '@/components/simulations/simulation-client';
 import { topics, questions as defaultQuestions, ClientTopic, Question } from '@/lib/data';
-import { notFound } from 'next/navigation';
+import { notFound, useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-interface SimulationPageProps {
-  params: {
-    topic: string;
-  };
-}
+export default function SimulationPage() {
+  const params = useParams();
+  const topic = params.topic as string;
 
-export default function SimulationPage({ params: { topic } }: SimulationPageProps) {
   const [allQuestions, setAllQuestions] = useState<Question[]>(defaultQuestions);
   const [isLoading, setIsLoading] = useState(true);
 
