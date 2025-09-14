@@ -13,7 +13,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from '@/components/ui/sheet';
 import {
   LayoutDashboard,
   Home,
@@ -75,6 +75,8 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="flex flex-col">
+            <SheetTitle className="sr-only">Menu</SheetTitle>
+            <SheetDescription className="sr-only">Main navigation menu for the application.</SheetDescription>
               <nav className="grid gap-2 text-lg font-medium">
                 <Link
                   href="#"
