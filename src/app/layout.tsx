@@ -5,6 +5,7 @@ import './globals.css';
 export const metadata: Metadata = {
   title: 'NetStudyAI',
   description: 'Uma aplicação de estudo adaptativo para certificações de TI, impulsionada por IA.',
+  manifest: '/manifest.json',
 };
 
 export default function RootLayout({
@@ -21,6 +22,7 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap"
           rel="stylesheet"
         />
+        <meta name="theme-color" content="#FFFFFF" />
       </head>
       <body className="font-body antialiased">
         {children}
