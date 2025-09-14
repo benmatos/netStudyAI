@@ -60,9 +60,9 @@ export default function DashboardPage() {
           </AlertDialogContent>
         </AlertDialog>
       </div>
-      <div className="grid auto-rows-max items-start gap-4 md:gap-8">
+      <div className="flex flex-col items-start gap-4 md:gap-8 w-full">
         <PerformanceOverview />
-        <div className="grid gap-4 sm:grid-cols-1">
+        <div className="grid gap-4 sm:grid-cols-1 w-full">
           <TopicPerformanceChart />
           <AdaptiveStudyPlan />
         </div>
