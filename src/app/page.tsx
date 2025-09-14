@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 import MainLayout from '@/components/main-layout';
 import PerformanceOverview from '@/components/dashboard/performance-overview';
 import TopicPerformanceChart from '@/components/dashboard/topic-performance-chart';
-import GamificationStats from '@/components/dashboard/gamification-stats';
 import AdaptiveStudyPlan from '@/components/dashboard/adaptive-study-plan';
 
 export default function DashboardPage() {
@@ -25,10 +24,7 @@ export default function DashboardPage() {
       >
         <div className="grid gap-6 w-full auto-rows-max">
           <PerformanceOverview />
-          <div className="grid gap-6 lg:grid-cols-5">
-            <TopicPerformanceChart className="lg:col-span-3" />
-            <GamificationStats className="lg:col-span-2" />
-          </div>
+          <TopicPerformanceChart />
           <AdaptiveStudyPlan />
         </div>
       </div>
