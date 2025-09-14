@@ -28,7 +28,7 @@ import {
 import { Logo } from './logo';
 
 const navItems = [
-  { href: '/dashboard', icon: Home, label: 'Dashboard' },
+  { href: '/', icon: Home, label: 'Dashboard' },
   { href: '/simulations', icon: FileText, label: 'Simulations' },
 ];
 
@@ -40,7 +40,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
       <div className="hidden border-r bg-card md:block">
         <div className="flex h-full max-h-screen flex-col gap-2">
           <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
-            <Link href="/dashboard" className="flex items-center gap-2 font-semibold">
+            <Link href="/" className="flex items-center gap-2 font-semibold">
               <Logo className="h-8 w-8" />
               <span className="font-headline">NetStudyAI</span>
             </Link>
@@ -123,11 +123,9 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
               <DropdownMenuItem>Settings</DropdownMenuItem>
               <DropdownMenuItem>Support</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem asChild>
-                <Link href="/">
+              <DropdownMenuItem>
                   <LogOut className="mr-2 h-4 w-4" />
                   <span>Logout</span>
-                </Link>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

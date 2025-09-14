@@ -71,7 +71,7 @@ export default function SimulationClient({ topic, questions }: SimulationClientP
             Try Again
           </Button>
           <Button asChild>
-            <Link href="/dashboard">
+            <Link href="/">
               <Home className="mr-2 h-4 w-4" />
               Back to Dashboard
             </Link>
