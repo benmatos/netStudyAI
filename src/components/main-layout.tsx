@@ -20,6 +20,7 @@ import {
   LogOut,
   Bell,
   Upload,
+  Search,
 } from 'lucide-react';
 import { Logo } from './logo';
 
@@ -27,6 +28,7 @@ const navItems = [
   { href: '/', icon: Home, label: 'Painel' },
   { href: '/simulations', icon: FileText, label: 'Simulados' },
   { href: '/upload', icon: Upload, label: 'Upload de Questões' },
+  { href: '/search', icon: Search, label: 'Buscar Questões' },
 ];
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
