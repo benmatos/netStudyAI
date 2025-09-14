@@ -11,12 +11,12 @@ export async function getStudyPlanAction(currentPerformance: Record<string, numb
   try {
     const input: AdaptiveStudyPlanInput = {
       topicPerformance: currentPerformance,
-      userPreferences: 'I prefer visual learning and practical examples.',
+      userPreferences: 'Prefiro aprendizado visual e exemplos práticos.',
     };
     const result = await generateAdaptiveStudyPlan(input);
     return { success: true, plan: result.studyPlan };
   } catch (error) {
     console.error(error);
-    return { success: false, error: 'Failed to generate study plan.' };
+    return { success: false, error: 'Falha ao gerar o plano de estudo.' };
   }
 }

@@ -66,23 +66,23 @@ export default function SimulationClient({ topic, questions }: SimulationClientP
     return (
       <Card className="w-full max-w-2xl mx-auto">
         <CardHeader className="items-center">
-          <CardTitle className="text-2xl font-headline">Simulation Complete!</CardTitle>
-          <CardDescription>You finished the {topic.name} simulation.</CardDescription>
+          <CardTitle className="text-2xl font-headline">Simulado Concluído!</CardTitle>
+          <CardDescription>Você terminou o simulado de {topic.name}.</CardDescription>
         </CardHeader>
         <CardContent className="text-center">
-          <p className="text-sm text-muted-foreground">Your Score</p>
+          <p className="text-sm text-muted-foreground">Sua Pontuação</p>
           <p className="text-6xl font-bold text-primary my-2">{finalScore.toFixed(0)}%</p>
-          <p className="text-muted-foreground">You answered {score} out of {questions.length} questions correctly.</p>
+          <p className="text-muted-foreground">Você respondeu {score} de {questions.length} perguntas corretamente.</p>
         </CardContent>
         <CardFooter className="flex justify-center gap-4">
           <Button variant="outline" onClick={handleRestart}>
             <RefreshCw className="mr-2 h-4 w-4" />
-            Try Again
+            Tentar Novamente
           </Button>
           <Button asChild>
             <Link href="/">
               <Home className="mr-2 h-4 w-4" />
-              Back to Dashboard
+              Voltar ao Painel
             </Link>
           </Button>
         </CardFooter>
@@ -98,7 +98,7 @@ export default function SimulationClient({ topic, questions }: SimulationClientP
           <h1 className="text-xl font-semibold md:text-2xl font-headline">{topic.name}</h1>
         </div>
         <div className="text-sm text-muted-foreground">
-          Question {currentQuestionIndex + 1} of {questions.length}
+          Pergunta {currentQuestionIndex + 1} de {questions.length}
         </div>
       </div>
       <Progress value={progressValue} className="mb-6 h-2" />
@@ -145,13 +145,13 @@ export default function SimulationClient({ topic, questions }: SimulationClientP
         {isAnswered && (
           <CardFooter className="flex-col items-start">
              <Alert variant={selectedOption === currentQuestion.answer ? "default" : "destructive"} className="bg-muted/50">
-              <AlertTitle>{selectedOption === currentQuestion.answer ? "Correct!" : "Incorrect"}</AlertTitle>
+              <AlertTitle>{selectedOption === currentQuestion.answer ? "Correto!" : "Incorreto"}</AlertTitle>
               <AlertDescription>
                 {currentQuestion.explanation}
               </AlertDescription>
             </Alert>
             <Button onClick={handleNext} className="mt-4 self-end">
-              {currentQuestionIndex < questions.length - 1 ? "Next Question" : "Finish"}
+              {currentQuestionIndex < questions.length - 1 ? "Próxima Pergunta" : "Finalizar"}
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </CardFooter>

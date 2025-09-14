@@ -15,17 +15,17 @@ const AdaptiveStudyPlanInputSchema = z.object({
   topicPerformance: z
     .record(z.number())
     .describe(
-      'A record of the user performance on each topic. The keys are the topic names and the values are the percentage of correct answers (0-100).'
+      'Um registro do desempenho do usuário em cada tópico. As chaves são os nomes dos tópicos e os valores são a porcentagem de respostas corretas (0-100).'
     ),
   userPreferences: z
     .string()
     .optional()
-    .describe('Optional preferences about the study plan.'),
+    .describe('Preferências opcionais sobre o plano de estudo.'),
 });
 export type AdaptiveStudyPlanInput = z.infer<typeof AdaptiveStudyPlanInputSchema>;
 
 const AdaptiveStudyPlanOutputSchema = z.object({
-  studyPlan: z.string().describe('A personalized study plan.'),
+  studyPlan: z.string().describe('Um plano de estudo personalizado.'),
 });
 export type AdaptiveStudyPlanOutput = z.infer<typeof AdaptiveStudyPlanOutputSchema>;
 
@@ -39,19 +39,19 @@ const adaptiveStudyPlanPrompt = ai.definePrompt({
   name: 'adaptiveStudyPlanPrompt',
   input: {schema: AdaptiveStudyPlanInputSchema},
   output: {schema: AdaptiveStudyPlanOutputSchema},
-  prompt: `You are an AI study plan generator. Your goal is to generate study plans based on the user's performance on practice exams.
+  prompt: `Você é um gerador de planos de estudo de IA. Seu objetivo é gerar planos de estudo com base no desempenho do usuário em exames práticos.
 
-Here is the user's performance on each topic (percentage of correct answers):
+Aqui está o desempenho do usuário em cada tópico (porcentagem de respostas corretas):
 
 {{#each (lookup topicPerformance)}}
   {{@key}}: {{this}}%
 {{/each}}
 
-Based on this information, create a personalized study plan. If the user's score is less than 50% in a topic, recommend focusing on theory and extra exercises. If the score is between 50% and 80%, suggest revision and practice. If the score is greater than 80%, recommend advanced questions.
+Com base nessas informações, crie um plano de estudo personalizado. Se a pontuação do usuário for inferior a 50% em um tópico, recomende focar na teoria e em exercícios extras. Se a pontuação estiver entre 50% e 80%, sugira revisão e prática. Se a pontuação for superior a 80%, recomende questões avançadas.
 
-Make sure the study plan is tailored to the user's weak areas. Consider their preferences, if any: {{userPreferences}}.
+Certifique-se de que o plano de estudo seja adaptado às áreas fracas do usuário. Considere suas preferências, se houver: {{userPreferences}}.
 
-Output the study plan as a single string.
+Produza o plano de estudo como uma única string.
 `,
 });
 

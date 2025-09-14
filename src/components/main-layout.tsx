@@ -28,8 +28,8 @@ import {
 import { Logo } from './logo';
 
 const navItems = [
-  { href: '/', icon: Home, label: 'Dashboard' },
-  { href: '/simulations', icon: FileText, label: 'Simulations' },
+  { href: '/', icon: Home, label: 'Painel' },
+  { href: '/simulations', icon: FileText, label: 'Simulados' },
 ];
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
@@ -71,12 +71,12 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
             <SheetTrigger asChild>
               <Button variant="outline" size="icon" className="shrink-0 md:hidden">
                 <Menu className="h-5 w-5" />
-                <span className="sr-only">Toggle navigation menu</span>
+                <span className="sr-only">Alternar menu de navegação</span>
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="flex flex-col">
-            <SheetTitle className="sr-only">Menu</SheetTitle>
-            <SheetDescription className="sr-only">Main navigation menu for the application.</SheetDescription>
+              <SheetTitle className="sr-only">Menu</SheetTitle>
+              <SheetDescription className="sr-only">Menu de navegação principal para a aplicação.</SheetDescription>
               <nav className="grid gap-2 text-lg font-medium">
                 <Link
                   href="#"
@@ -107,7 +107,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
           </div>
           <Button variant="outline" size="icon" className="h-8 w-8">
             <Bell className="h-4 w-4" />
-            <span className="sr-only">Toggle notifications</span>
+            <span className="sr-only">Alternar notificações</span>
           </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -116,18 +116,18 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                   <AvatarImage src="https://i.pravatar.cc/150?u=a042581f4e29026704d" />
                   <AvatarFallback>U</AvatarFallback>
                 </Avatar>
-                <span className="sr-only">Toggle user menu</span>
+                <span className="sr-only">Alternar menu de usuário</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuLabel>Minha Conta</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Settings</DropdownMenuItem>
-              <DropdownMenuItem>Support</DropdownMenuItem>
+              <DropdownMenuItem>Configurações</DropdownMenuItem>
+              <DropdownMenuItem>Suporte</DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
                   <LogOut className="mr-2 h-4 w-4" />
-                  <span>Logout</span>
+                  <span>Sair</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

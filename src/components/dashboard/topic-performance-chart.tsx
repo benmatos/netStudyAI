@@ -8,13 +8,13 @@ import type { ClassValue } from 'clsx';
 import { cn } from '@/lib/utils';
 
 const chartData = Object.entries(userPerformance).map(([name, score]) => ({
-  name: name.replace(/ and /g, ' & ').replace(/ Models/, ''),
+  name: name.replace(/ e /g, ' & ').replace(/ Models/, '').replace(/ de Rede/, ''),
   score: score,
 }));
 
 const chartConfig = {
   score: {
-    label: 'Score',
+    label: 'Pontuação',
     color: 'hsl(var(--primary))',
   },
 };
@@ -23,8 +23,8 @@ export default function TopicPerformanceChart({ className }: { className?: Class
   return (
     <Card className={cn(className)}>
       <CardHeader>
-        <CardTitle>Topic Performance</CardTitle>
-        <CardDescription>Your accuracy scores for each topic.</CardDescription>
+        <CardTitle>Desempenho por Tópico</CardTitle>
+        <CardDescription>Suas pontuações de precisão para cada tópico.</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig} className="min-h-[250px] w-full">

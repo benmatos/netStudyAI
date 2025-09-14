@@ -8,7 +8,7 @@ export default function DashboardPage() {
   return (
     <MainLayout>
       <div className="flex items-center">
-        <h1 className="text-lg font-semibold md:text-2xl font-headline">Dashboard</h1>
+        <h1 className="text-lg font-semibold md:text-2xl font-headline">Painel</h1>
       </div>
       <div
         className="flex flex-1 rounded-lg"

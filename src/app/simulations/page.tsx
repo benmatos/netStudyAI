@@ -9,10 +9,10 @@ export default function SimulationsPage() {
   return (
     <MainLayout>
       <div className="flex items-center justify-between">
-        <h1 className="text-lg font-semibold md:text-2xl font-headline">Simulations</h1>
+        <h1 className="text-lg font-semibold md:text-2xl font-headline">Simulados</h1>
       </div>
       <p className="text-muted-foreground mt-2">
-        Choose a topic to start a simulated exam and test your knowledge.
+        Escolha um tópico para iniciar um exame simulado e testar seus conhecimentos.
       </p>
       <div className="grid gap-6 mt-6 sm:grid-cols-2 lg:grid-cols-3">
         {topics.map((topic) => (
@@ -29,7 +29,7 @@ export default function SimulationsPage() {
             <CardFooter>
               <Button asChild className="w-full">
                 <Link href={`/simulations/${topic.id}`}>
-                  Start Simulation <ArrowRight className="ml-2 h-4 w-4" />
+                  Iniciar Simulado <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
             </CardFooter>

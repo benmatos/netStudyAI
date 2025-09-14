@@ -23,7 +23,7 @@ export default function AdaptiveStudyPlan() {
     } else {
       toast({
         variant: 'destructive',
-        title: 'Error',
+        title: 'Erro',
         description: result.error,
       });
     }
@@ -34,9 +34,9 @@ export default function AdaptiveStudyPlan() {
       <CardHeader>
         <div className="flex items-start justify-between gap-4">
             <div>
-                <CardTitle>Adaptive Study Plan</CardTitle>
+                <CardTitle>Plano de Estudo Adaptativo</CardTitle>
                 <CardDescription>
-                    Let our AI generate a personalized study plan based on your latest performance.
+                    Deixe nossa IA gerar um plano de estudo personalizado com base em seu desempenho mais recente.
                 </CardDescription>
             </div>
             <Button onClick={handleGeneratePlan} disabled={loading}>
@@ -45,7 +45,7 @@ export default function AdaptiveStudyPlan() {
                 ) : (
                     <BrainCircuit className="mr-2 h-4 w-4" />
                 )}
-                Generate Plan
+                Gerar Plano
             </Button>
         </div>
       </CardHeader>
@@ -55,12 +55,12 @@ export default function AdaptiveStudyPlan() {
             {loading && (
               <div className="flex items-center gap-2 text-muted-foreground">
                 <Loader2 className="h-4 w-4 animate-spin" />
-                <span>Generating your personalized plan...</span>
+                <span>Gerando seu plano personalizado...</span>
               </div>
             )}
             {plan && (
               <div>
-                <h4 className="font-semibold text-foreground">Your Personalized Plan:</h4>
+                <h4 className="font-semibold text-foreground">Seu Plano Personalizado:</h4>
                 <p>{plan}</p>
               </div>
             )}
