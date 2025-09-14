@@ -1,5 +1,5 @@
 import type { ComponentType } from 'react';
-import { OsiTcpIpIcon, SubnettingIcon, NetworkProtocolsIcon, NetworkDevicesIcon, NetworkSecurityIcon } from './icons';
+import { OsiTcpIpIcon, SubnettingIcon, NetworkProtocolsIcon, NetworkDevicesIcon, NetworkSecurityIcon } from './icons.tsx';
 
 export interface Topic {
   id: string;

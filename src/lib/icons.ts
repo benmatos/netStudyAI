@@ -1,76 +1,157 @@
 import type { ComponentType } from 'react';
+import { OsiTcpIpIcon, SubnettingIcon, NetworkProtocolsIcon, NetworkDevicesIcon, NetworkSecurityIcon } from './icons.tsx';
 
-const createIcon = (path: React.ReactNode): ComponentType<{ className?: string }> => {
-  const IconComponent: ComponentType<{ className?: string }> = ({ className }) => (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={className}
-    >
-      {path}
-    </svg>
-  );
-  IconComponent.displayName = 'CustomIcon';
-  return IconComponent;
+export interface Topic {
+  id: string;
+  name: string;
+  description: string;
+  icon: ComponentType<{ className?: string }>;
+}
+
+export const topics: Topic[] = [
+  {
+    id: 'osi-tcp-ip',
+    name: 'OSI/TCP-IP Models',
+    description: 'Understand the foundational models of network communication.',
+    icon: OsiTcpIpIcon,
+  },
+  {
+    id: 'subnetting',
+    name: 'Subnetting and IP Addressing',
+    description: 'Master IPv4/IPv6 addressing and network segmentation.',
+    icon: SubnettingIcon,
+  },
+  {
+    id: 'protocols',
+    name: 'Network Protocols',
+    description: 'Learn about TCP, UDP, HTTP, DNS, and other core protocols.',
+    icon: NetworkProtocolsIcon,
+  },
+  {
+    id: 'devices',
+    name: 'Network Devices',
+    description: 'Explore switches, routers, firewalls, and their functions.',
+    icon: NetworkDevicesIcon,
+  },
+  {
+    id: 'security',
+    name: 'Network Security',
+    description: 'Dive into the principles of securing network infrastructure.',
+    icon: NetworkSecurityIcon,
+  },
+];
+
+export interface Question {
+  id: number;
+  topicId: string;
+  question: string;
+  options: string[];
+  answer: number;
+  explanation: string;
+}
+
+export const questions: Question[] = [
+  {
+    id: 1,
+    topicId: 'osi-tcp-ip',
+    question: 'Which layer of the OSI model is responsible for routing and forwarding IP packets?',
+    options: ['Physical Layer', 'Data Link Layer', 'Network Layer', 'Transport Layer'],
+    answer: 2,
+    explanation: 'The Network Layer (Layer 3) is responsible for logical addressing, routing, and path determination. It moves packets between hosts on different networks.',
+  },
+  {
+    id: 2,
+    topicId: 'osi-tcp-ip',
+    question: 'At which layer of the TCP/IP model does the TCP protocol operate?',
+    options: ['Application', 'Transport', 'Internet', 'Network Access'],
+    answer: 1,
+    explanation: 'TCP (Transmission Control Protocol) is a connection-oriented protocol that operates at the Transport Layer, providing reliable, ordered, and error-checked delivery of a stream of octets.',
+  },
+   {
+    id: 3,
+    topicId: 'osi-tcp-ip',
+    question: 'The Data Link layer is responsible for what?',
+    options: ['Error detection and correction', 'Framing and MAC addressing', 'Routing', 'Signal generation'],
+    answer: 1,
+    explanation: 'The Data Link layer (Layer 2) is responsible for node-to-node data transfer and handles framing, physical addressing (MAC), and error detection for data on the physical link.',
+  },
+  {
+    id: 4,
+    topicId: 'subnetting',
+    question: 'What is the subnet mask for a /27 network?',
+    options: ['255.255.255.0', '255.255.255.192', '255.255.255.224', '255.255.255.240'],
+    answer: 2,
+    explanation: 'A /27 prefix means 27 bits are used for the network portion. This leaves 5 bits for hosts. The subnet mask is 11111111.11111111.11111111.11100000, which translates to 255.255.255.224.',
+  },
+  {
+    id: 5,
+    topicId: 'subnetting',
+    question: 'How many usable host addresses are there in a /29 subnet?',
+    options: ['6', '8', '14', '30'],
+    answer: 0,
+    explanation: 'A /29 prefix leaves 32 - 29 = 3 bits for hosts. This gives 2^3 = 8 total addresses. Subtracting the network address and the broadcast address leaves 6 usable host addresses.',
+  },
+  {
+    id: 6,
+    topicId: 'protocols',
+    question: 'Which protocol is stateless?',
+    options: ['TCP', 'HTTP', 'FTP', 'Telnet'],
+    answer: 1,
+    explanation: 'HTTP is a stateless protocol, meaning each request from a client to a server is treated as an independent transaction. The server does not retain any session information about the client.',
+  },
+  {
+    id: 7,
+    topicId: 'protocols',
+    question: 'What port does DNS primarily use?',
+    options: ['25', '53', '80', '443'],
+    answer: 1,
+    explanation: 'The Domain Name System (DNS) primarily uses UDP port 53 for queries. It can also use TCP port 53 for zone transfers or for queries that exceed the UDP size limit.',
+  },
+  {
+    id: 8,
+    topicId: 'devices',
+    question: 'A device that connects multiple computers together in a single LAN and operates at Layer 2 is called a...?',
+    options: ['Hub', 'Router', 'Switch', 'Modem'],
+    answer: 2,
+    explanation: 'A switch is a Layer 2 device that uses MAC addresses to forward data to specific devices on a local area network (LAN), improving efficiency over a hub.',
+  },
+  {
+    id: 9,
+    topicId: 'devices',
+    question: 'Which device is used to connect different networks together and makes routing decisions based on IP addresses?',
+    options: ['Switch', 'Router', 'Bridge', 'Repeater'],
+    answer: 1,
+    explanation: 'A router is a Layer 3 device that connects two or more different networks. It uses IP addresses to determine the best path to forward packets between these networks.',
+  },
+  {
+    id: 10,
+    topicId: 'security',
+    question: 'Which of the following is a common type of firewall that monitors the state of active connections?',
+    options: ['Packet-filtering firewall', 'Proxy firewall', 'Stateful inspection firewall', 'Next-generation firewall'],
+    answer: 2,
+    explanation: 'A stateful inspection firewall tracks the state of network connections and makes decisions based on the connection\'s context, offering more security than a simple packet-filtering firewall.',
+  },
+  {
+    id: 11,
+    topicId: 'security',
+    question: 'What does "VPN" stand for?',
+    options: ['Virtual Private Network', 'Very Private Network', 'Virtual Public Network', 'Verified Private Network'],
+    answer: 0,
+    explanation: 'VPN stands for Virtual Private Network. It creates a secure, encrypted connection over a less secure network, such as the public internet.',
+  },
+];
+
+export const userPerformance = {
+  'OSI/TCP-IP Models': 75,
+  'Subnetting and IP Addressing': 45,
+  'Network Protocols': 85,
+  'Network Devices': 60,
+  'Network Security': 30,
 };
 
-export const OsiTcpIpIcon = createIcon(
-  <>
-    <rect x="3" y="15" width="18" height="4" rx="1" />
-    <rect x="3" y="10" width="18" height="4" rx="1" />
-    <rect x="3" y="5" width="18" height="4" rx="1" />
-  </>
-);
-
-export const SubnettingIcon = createIcon(
-  <>
-    <path d="M12 20h.01" />
-    <path d="M12 14v4" />
-    <path d="M12 4v4" />
-    <path d="M12 10h.01" />
-    <path d="M15 17h.01" />
-    <path d="M15 11v4" />
-    <path d="M9 17h.01" />
-    <path d="M9 11v4" />
-    <path d="M5 10h.01" />
-    <path d="M5 4v4" />
-    <path d="M19 10h.01" />
-    <path d="M19 4v4" />
-  </>
-);
-
-export const NetworkProtocolsIcon = createIcon(
-  <>
-    <path d="M17 11h-1.26a2 2 0 1 0-3.48 0H5a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2Z" />
-    <path d="M7 11h1.26a2 2 0 1 1 3.48 0H19a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2Z" />
-    <path d="M12 11V9" />
-    <path d="M12 17v2" />
-  </>
-);
-
-export const NetworkDevicesIcon = createIcon(
-  <>
-    <rect width="20" height="8" x="2" y="14" rx="2" />
-    <path d="M6 18h.01" />
-    <path d="M10 18h.01" />
-    <path d="M14 18h.01" />
-    <path d="M8 6h8" />
-    <path d="M12 6V4" />
-    <path d="m10 4-2-2" />
-    <path d="m14 4 2-2" />
-  </>
-);
-
-export const NetworkSecurityIcon = createIcon(
-  <>
-    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-    <path d="m9 12 2 2 4-4" />
-  </>
-);
+export const weeklyProgress = [
+  { week: 'Week 1', points: 150 },
+  { week: 'Week 2', points: 220 },
+  { week: 'Week 3', points: 180 },
+  { week: 'Week 4', points: 350 },
+];
