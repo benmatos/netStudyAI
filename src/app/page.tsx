@@ -1,3 +1,7 @@
+
+'use client';
+
+import { useEffect, useState } from 'react';
 import MainLayout from '@/components/main-layout';
 import PerformanceOverview from '@/components/dashboard/performance-overview';
 import TopicPerformanceChart from '@/components/dashboard/topic-performance-chart';
@@ -5,8 +9,15 @@ import GamificationStats from '@/components/dashboard/gamification-stats';
 import AdaptiveStudyPlan from '@/components/dashboard/adaptive-study-plan';
 
 export default function DashboardPage() {
+  const [key, setKey] = useState(Date.now());
+
+  useEffect(() => {
+    // Apenas para garantir a re-renderização no cliente
+    setKey(Date.now());
+  }, []);
+
   return (
-    <MainLayout>
+    <MainLayout key={key}>
       <div className="flex items-center">
         <h1 className="text-lg font-semibold md:text-2xl font-headline">Painel</h1>
       </div>
