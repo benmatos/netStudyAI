@@ -12,16 +12,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Input } from '@/components/ui/input';
-import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetHeader } from '@/components/ui/sheet';
 import {
-  LayoutDashboard,
   Home,
   FileText,
-  Users,
-  Settings,
   Menu,
-  Search,
   LogOut,
   Bell,
 } from 'lucide-react';
@@ -75,21 +70,22 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="flex flex-col">
-              <SheetTitle className="sr-only">Menu</SheetTitle>
-              <SheetDescription className="sr-only">Menu de navegação principal para a aplicação.</SheetDescription>
+              <SheetHeader>
+                <SheetTitle className="sr-only">Menu Principal</SheetTitle>
+              </SheetHeader>
               <nav className="grid gap-2 text-lg font-medium">
                 <Link
-                  href="#"
-                  className="flex items-center gap-2 text-lg font-semibold mb-4"
+                  href="/"
+                  className="flex items-center gap-3 text-lg font-semibold mb-4"
                 >
                   <Logo className="h-8 w-8" />
-                  <span className="sr-only">NetStudyAI</span>
+                  <span className="font-headline">NetStudyAI</span>
                 </Link>
                 {navItems.map(({ href, icon: Icon, label }) => (
                   <Link
                     key={label}
                     href={href}
-                    className={`mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 hover:text-foreground ${
+                    className={`-mx-2 flex items-center gap-4 rounded-xl px-3 py-2 text-base hover:text-foreground ${
                       pathname === href
                         ? 'bg-muted text-foreground'
                         : 'text-muted-foreground'
@@ -132,7 +128,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
             </DropdownMenuContent>
           </DropdownMenu>
         </header>
-        <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6 bg-background">
+        <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6 bg-background/50">
           {children}
         </main>
       </div>

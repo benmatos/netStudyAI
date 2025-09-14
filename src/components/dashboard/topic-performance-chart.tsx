@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { ChartContainer, ChartTooltipContent } from '@/components/ui/chart';
 import type { ClassValue } from 'clsx';
@@ -61,32 +61,37 @@ export default function TopicPerformanceChart({ className }: { className?: Class
       </CardHeader>
       <CardContent>
         {chartData.length > 0 ? (
-          <ChartContainer config={chartConfig} className="min-h-[250px] w-full">
-            <BarChart
-              accessibilityLayer
-              data={chartData}
-              margin={{
-                top: 5,
-                right: 10,
-                left: -20,
-                bottom: 5,
-              }}
-            >
-              <CartesianGrid vertical={false} />
-              <XAxis
-                dataKey="name"
-                tickLine={false}
-                tickMargin={10}
-                axisLine={false}
-                tickFormatter={(value) => value.slice(0, 15)}
-              />
-              <YAxis
-                tickFormatter={(value) => `${value}%`}
-                domain={[0, 100]}
-              />
-              <Tooltip cursor={false} content={<ChartTooltipContent />} />
-              <Bar dataKey="score" fill="var(--color-score)" radius={4} />
-            </BarChart>
+          <ChartContainer config={chartConfig} className="min-h-[250px] w-full h-[300px] sm:h-[350px]">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart
+                accessibilityLayer
+                data={chartData}
+                margin={{
+                  top: 5,
+                  right: 5,
+                  left: -25,
+                  bottom: 40,
+                }}
+              >
+                <CartesianGrid vertical={false} />
+                <XAxis
+                  dataKey="name"
+                  tickLine={false}
+                  tickMargin={10}
+                  axisLine={false}
+                  angle={-45}
+                  textAnchor="end"
+                  height={1}
+                  tickFormatter={(value) => value.length > 15 ? `${value.slice(0, 15)}...` : value}
+                />
+                <YAxis
+                  tickFormatter={(value) => `${value}%`}
+                  domain={[0, 100]}
+                />
+                <Tooltip cursor={false} content={<ChartTooltipContent />} />
+                <Bar dataKey="score" fill="var(--color-score)" radius={4} />
+              </BarChart>
+            </ResponsiveContainer>
           </ChartContainer>
         ) : (
           <div className="flex h-[250px] w-full items-center justify-center">

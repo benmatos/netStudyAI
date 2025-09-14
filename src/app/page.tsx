@@ -37,11 +37,11 @@ export default function DashboardPage() {
 
   return (
     <MainLayout key={isClient ? 'client-render' : 'server-render'}>
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between gap-2">
         <h1 className="text-lg font-semibold md:text-2xl font-headline">Painel</h1>
         <AlertDialog>
           <AlertDialogTrigger asChild>
-            <Button variant="outline" size="sm">
+            <Button variant="outline" size="sm" className="w-full sm:w-auto">
               <RefreshCw className="mr-2 h-4 w-4" />
               Reiniciar Painel
             </Button>
@@ -61,7 +61,7 @@ export default function DashboardPage() {
         </AlertDialog>
       </div>
       <div className="flex flex-1 rounded-lg">
-        <div className="grid w-full auto-rows-max gap-6">
+        <div className="grid w-full auto-rows-max gap-4 md:gap-6">
           <PerformanceOverview />
           <TopicPerformanceChart />
           <AdaptiveStudyPlan />
