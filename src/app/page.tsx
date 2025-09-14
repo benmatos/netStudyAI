@@ -9,15 +9,14 @@ import GamificationStats from '@/components/dashboard/gamification-stats';
 import AdaptiveStudyPlan from '@/components/dashboard/adaptive-study-plan';
 
 export default function DashboardPage() {
-  const [key, setKey] = useState(Date.now());
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    // Apenas para garantir a re-renderização no cliente
-    setKey(Date.now());
+    setIsClient(true);
   }, []);
 
   return (
-    <MainLayout key={key}>
+    <MainLayout key={isClient ? 'client-render' : 'server-render'}>
       <div className="flex items-center">
         <h1 className="text-lg font-semibold md:text-2xl font-headline">Painel</h1>
       </div>
