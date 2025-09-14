@@ -1,3 +1,10 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "login-hero",
+      "description": "A focused student studying network diagrams on a laptop in a modern, well-lit environment.",
+      "imageUrl": "https://picsum.photos/seed/netstudy/800/1200",
+      "imageHint": "student learning"
+    }
+  ]
 }
