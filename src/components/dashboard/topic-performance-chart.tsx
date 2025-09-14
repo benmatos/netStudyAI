@@ -61,7 +61,7 @@ export default function TopicPerformanceChart({ className }: { className?: Class
       </CardHeader>
       <CardContent>
         {chartData.length > 0 ? (
-          <ChartContainer config={chartConfig} className="min-h-[250px] h-[250px] sm:h-[350px] w-full">
+          <ChartContainer config={chartConfig} className="min-h-[250px] aspect-video w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
                 accessibilityLayer
