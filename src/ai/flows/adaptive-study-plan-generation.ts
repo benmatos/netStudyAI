@@ -25,7 +25,11 @@ const AdaptiveStudyPlanInputSchema = z.object({
 export type AdaptiveStudyPlanInput = z.infer<typeof AdaptiveStudyPlanInputSchema>;
 
 const AdaptiveStudyPlanOutputSchema = z.object({
-  studyPlan: z.string().describe('Um plano de estudo personalizado.'),
+  studyPlan: z
+    .string()
+    .describe(
+      'Um plano de estudo personalizado em formato de texto. Use markdown para formatar o plano, incluindo títulos para seções e listas de itens para recomendações. O plano deve ser acionável e claro.'
+    ),
 });
 export type AdaptiveStudyPlanOutput = z.infer<typeof AdaptiveStudyPlanOutputSchema>;
 
@@ -39,19 +43,21 @@ const adaptiveStudyPlanPrompt = ai.definePrompt({
   name: 'adaptiveStudyPlanPrompt',
   input: {schema: AdaptiveStudyPlanInputSchema},
   output: {schema: AdaptiveStudyPlanOutputSchema},
-  prompt: `Você é um gerador de planos de estudo de IA. Seu objetivo é gerar planos de estudo com base no desempenho do usuário em exames práticos.
+  prompt: `Você é um tutor de IA especialista em certificações de rede. Seu objetivo é gerar um plano de estudo detalhado e acionável com base no desempenho do usuário.
 
-Aqui está o desempenho do usuário em cada tópico (porcentagem de respostas corretas):
-
-{{#each (lookup topicPerformance)}}
-  {{@key}}: {{this}}%
+O desempenho do usuário em cada tópico (porcentagem de respostas corretas) é:
+{{#each topicPerformance}}
+- {{this.[0]}}: {{this.[1]}}%
 {{/each}}
 
-Com base nessas informações, crie um plano de estudo personalizado. Se a pontuação do usuário for inferior a 50% em um tópico, recomende focar na teoria e em exercícios extras. Se a pontuação estiver entre 50% e 80%, sugira revisão e prática. Se a pontuação for superior a 80%, recomende questões avançadas.
+Crie um plano de estudo personalizado com base nestas regras:
+- Se a pontuação for < 50%: Recomende focar nos conceitos teóricos fundamentais e fazer exercícios de fixação.
+- Se a pontuação estiver entre 50% e 80%: Sugira uma revisão dos pontos fracos e mais simulados práticos.
+- Se a pontuação for > 80%: Desafie o usuário com questões avançadas e cenários complexos.
 
-Certifique-se de que o plano de estudo seja adaptado às áreas fracas do usuário. Considere suas preferências, se houver: {{userPreferences}}.
+Considere as preferências do usuário: "{{userPreferences}}".
 
-Produza o plano de estudo como uma única string.
+Formate o plano de estudo usando markdown. Deve ser fácil de ler e seguir. Use títulos (###) para cada tópico e listas com marcadores (-) para as recomendações. Comece com um resumo geral e depois detalhe cada tópico.
 `,
 });
 
@@ -62,7 +68,14 @@ const adaptiveStudyPlanFlow = ai.defineFlow(
     outputSchema: AdaptiveStudyPlanOutputSchema,
   },
   async input => {
-    const {output} = await adaptiveStudyPlanPrompt(input);
+    // Convert object to array of tuples for Handlebars
+    const topicPerformanceArray = Object.entries(input.topicPerformance);
+
+    const {output} = await adaptiveStudyPlanPrompt({
+      ...input,
+      topicPerformance: topicPerformanceArray as any, // eslint-disable-line @typescript-eslint/no-explicit-any
+    });
+
     return output!;
   }
 );

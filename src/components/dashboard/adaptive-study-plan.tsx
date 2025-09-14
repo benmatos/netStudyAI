@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { BrainCircuit, Loader2 } from 'lucide-react';
 import { getStudyPlanAction } from '@/app/actions';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { topics } from '@/lib/data';
 
@@ -56,18 +56,39 @@ export default function AdaptiveStudyPlan() {
       
     setLoading(true);
     setPlan(null);
-    const result = await getStudyPlanAction(performanceData);
-    setLoading(false);
-    if (result.success) {
-      setPlan(result.plan);
-    } else {
-      toast({
-        variant: 'destructive',
-        title: 'Erro',
-        description: result.error,
-      });
+    try {
+      const result = await getStudyPlanAction(performanceData);
+      if (result.success) {
+        setPlan(result.plan);
+      } else {
+        toast({
+          variant: 'destructive',
+          title: 'Erro',
+          description: result.error,
+        });
+      }
+    } catch (error) {
+       toast({
+          variant: 'destructive',
+          title: 'Erro Inesperado',
+          description: 'Ocorreu um erro ao se comunicar com a IA. Tente novamente mais tarde.',
+        });
+    } finally {
+      setLoading(false);
     }
   };
+
+  const renderPlan = (planText: string) => {
+    return planText.split('\n').map((line, index) => {
+      if (line.startsWith('### ')) {
+        return <h4 key={index} className="text-md font-semibold mt-4 mb-2">{line.substring(4)}</h4>;
+      }
+      if (line.startsWith('- ')) {
+        return <li key={index} className="ml-4 list-disc">{line.substring(2)}</li>;
+      }
+      return <p key={index} className="my-2">{line}</p>;
+    });
+  }
 
   return (
     <Card>
@@ -76,7 +97,7 @@ export default function AdaptiveStudyPlan() {
             <div>
                 <CardTitle>Plano de Estudo Adaptativo</CardTitle>
                 <CardDescription>
-                    Deixe nossa IA gerar um plano de estudo personalizado com base em seu desempenho mais recente.
+                    Deixe nossa IA gerar um plano de estudo personalizado com base em seu desempenho.
                 </CardDescription>
             </div>
             <Button onClick={handleGeneratePlan} disabled={loading}>
@@ -95,13 +116,13 @@ export default function AdaptiveStudyPlan() {
             {loading && (
               <div className="flex items-center gap-2 text-muted-foreground">
                 <Loader2 className="h-4 w-4 animate-spin" />
-                <span>Gerando seu plano personalizado...</span>
+                <span>Analisando seu desempenho e gerando seu plano personalizado...</span>
               </div>
             )}
             {plan && (
               <div>
-                <h4 className="font-semibold text-foreground">Seu Plano Personalizado:</h4>
-                <p>{plan}</p>
+                <h3 className="font-bold text-lg mb-4 text-foreground">Seu Plano de Estudo Personalizado</h3>
+                {renderPlan(plan)}
               </div>
             )}
           </div>
