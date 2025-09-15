@@ -874,7 +874,167 @@ export const questions: Question[] = [
   },
   {
     id: 101,
-    topicId: "modelos-osi-tcpip",
+    topicId: 'modelos-osi-tcpip',
+    question: 'A PDU da camada de Transporte que utiliza o protocolo TCP é chamada de:',
+    options: ['Pacote', 'Quadro', 'Datagrama', 'Segmento'],
+    answer: 3,
+    explanation: 'No contexto do TCP, a Unidade de Dados de Protocolo (PDU) da camada de Transporte é chamada de Segmento.',
+  },
+  {
+    id: 102,
+    topicId: 'modelos-osi-tcpip',
+    question: 'Qual camada do modelo OSI lida com a sincronização, o diálogo e o gerenciamento de sessões entre aplicações?',
+    options: ['Camada de Sessão', 'Camada de Transporte', 'Camada de Apresentação', 'Camada de Aplicação'],
+    answer: 0,
+    explanation: 'A Camada de Sessão (Camada 5) é responsável por estabelecer, gerenciar e encerrar as sessões de comunicação entre os hosts.',
+  },
+  {
+    id: 103,
+    topicId: 'protocolos-essenciais',
+    question: 'Qual comando é usado em sistemas Windows para visualizar a tabela ARP?',
+    options: ['arp -a', 'show arp', 'netstat -r', 'ipconfig /displayarp'],
+    answer: 0,
+    explanation: 'O comando "arp -a" é usado tanto no Windows quanto em sistemas baseados em Unix/Linux para exibir as entradas da tabela ARP.',
+  },
+  {
+    id: 104,
+    topicId: 'conceitos-basicos',
+    question: 'A capacidade máxima de dados que um link de comunicação pode transmitir em um determinado período é conhecida como:',
+    options: ['Vazão (Throughput)', 'Latência (Latency)', 'Largura de Banda (Bandwidth)', 'Jitter'],
+    answer: 2,
+    explanation: 'Largura de Banda (Bandwidth) refere-se à capacidade teórica máxima de um link, enquanto a vazão (throughput) é a taxa real de transferência de dados.',
+  },
+  {
+    id: 105,
+    topicId: 'enderecamento-ip',
+    question: 'No endereço IP 192.168.10.50 com máscara 255.255.255.0, qual é o endereço de rede?',
+    options: ['192.168.10.0', '192.168.10.255', '192.168.0.0', '192.168.1.0'],
+    answer: 0,
+    explanation: 'Aplicando a máscara de sub-rede 255.255.255.0 ao endereço IP 192.168.10.50, a porção da rede é identificada como 192.168.10.0.',
+  },
+  {
+    id: 106,
+    topicId: 'seguranca-de-rede',
+    question: 'Um ataque onde o agressor envia uma grande quantidade de pacotes SYN para um servidor, sem completar o handshake, é conhecido como:',
+    options: ['Ataque de Phishing', 'Ataque de Força Bruta', 'Ataque SYN Flood', 'Ataque Man-in-the-Middle'],
+    answer: 2,
+    explanation: 'Um ataque SYN Flood explora o processo de handshake do TCP, deixando o servidor com um grande número de conexões semi-abertas, o que esgota seus recursos e o impede de aceitar novas conexões legítimas.',
+  },
+  {
+    id: 107,
+    topicId: 'protocolos-essenciais',
+    question: 'Qual tipo de registro DNS é usado para mapear um nome de domínio para um endereço IPv4?',
+    options: ['AAAA', 'CNAME', 'MX', 'A'],
+    answer: 3,
+    explanation: 'O registro "A" (Address) é o tipo de registro DNS fundamental que associa um nome de domínio a um endereço IPv4.',
+  },
+  {
+    id: 108,
+    topicId: 'conceitos-basicos',
+    question: 'Em uma topologia de anel, como os dados são transmitidos?',
+    options: ['Para um dispositivo central que os distribui', 'Em uma única direção, passando de um nó para o próximo até chegar ao destino', 'Para todos os dispositivos ao mesmo tempo', 'Por múltiplos caminhos redundantes'],
+    answer: 1,
+    explanation: 'Na topologia em anel, cada dispositivo está conectado a exatamente dois outros, e os dados circulam em uma única direção. Cada dispositivo atua como um repetidor.',
+  },
+  {
+    id: 109,
+    topicId: 'enderecamento-ip',
+    question: 'Quantos bits compõem um endereço MAC?',
+    options: ['32 bits', '64 bits', '128 bits', '48 bits'],
+    answer: 3,
+    explanation: 'Um endereço MAC (Media Access Control) é um identificador único de 48 bits, geralmente representado em formato hexadecimal (ex: 00-1A-2B-3C-4D-5E).',
+  },
+  {
+    id: 110,
+    topicId: 'seguranca-de-rede',
+    question: 'Qual o principal objetivo de um sistema de detecção de intrusão (IDS)?',
+    options: ['Bloquear ativamente o tráfego malicioso', 'Monitorar o tráfego da rede e gerar alertas sobre atividades suspeitas', 'Criptografar todos os dados da rede', 'Atribuir endereços IP'],
+    answer: 1,
+    explanation: 'A função primária de um IDS é a vigilância. Ele analisa o tráfego em busca de padrões de ataque conhecidos ou anomalias e alerta os administradores, mas não bloqueia o tráfego por si só.',
+  },
+  {
+    id: 111,
+    topicId: 'protocolos-essenciais',
+    question: 'Qual protocolo é usado para transferir páginas web de um servidor para um navegador?',
+    options: ['FTP', 'SMTP', 'HTTP', 'SNMP'],
+    answer: 2,
+    explanation: 'HTTP (Hypertext Transfer Protocol) é o protocolo fundamental usado para a comunicação entre servidores web e clientes (navegadores), permitindo a transferência de recursos como documentos HTML.',
+  },
+  {
+    id: 112,
+    topicId: 'modelos-osi-tcpip',
+    question: 'Qual é a PDU (Unidade de Dados de Protocolo) da camada Física?',
+    options: ['Bit', 'Quadro', 'Pacote', 'Segmento'],
+    answer: 0,
+    explanation: 'Na camada Física (Camada 1), a unidade de dados é o Bit, que representa o sinal elétrico, óptico ou de rádio sendo transmitido.',
+  },
+  {
+    id: 113,
+    topicId: 'enderecamento-ip',
+    question: 'Um endereço IP do tipo 172.20.15.10 pertence a qual classe de endereço privado?',
+    options: ['Classe A', 'Classe B', 'Classe C', 'Não é um endereço privado'],
+    answer: 1,
+    explanation: 'O intervalo de endereços privados da Classe B vai de 172.16.0.0 a 172.31.255.255. O endereço 172.20.15.10 está dentro deste intervalo.',
+  },
+  {
+    id: 114,
+    topicId: 'conceitos-basicos',
+    question: 'Qual equipamento é capaz de segmentar tanto domínios de colisão quanto domínios de broadcast?',
+    options: ['Hub', 'Switch', 'Roteador', 'Repetidor'],
+    answer: 2,
+    explanation: 'Um switch segmenta domínios de colisão (cada porta é um domínio). Um roteador segmenta domínios de broadcast, pois, por padrão, não encaminha pacotes de broadcast entre suas interfaces.',
+  },
+  {
+    id: 115,
+    topicId: 'seguranca-de-rede',
+    question: 'Qual protocolo foi o predecessor inseguro do WPA para segurança de redes sem fio?',
+    options: ['WEP', 'WPA2', '802.1X', 'TKIP'],
+    answer: 0,
+    explanation: 'WEP (Wired Equivalent Privacy) foi um dos primeiros protocolos de segurança para Wi-Fi e é notoriamente inseguro devido a falhas criptográficas que o tornam fácil de quebrar.',
+  },
+  {
+    id: 116,
+    topicId: 'protocolos-essenciais',
+    question: 'Qual é a porta padrão para o protocolo de acesso remoto seguro SSH?',
+    options: ['23', '22', '21', '25'],
+    answer: 1,
+    explanation: 'O protocolo SSH (Secure Shell) usa a porta TCP 22 por padrão para fornecer acesso remoto seguro a sistemas.',
+  },
+  {
+    id: 117,
+    topicId: 'modelos-osi-tcpip',
+    question: 'A camada de Enlace de Dados é dividida em duas subcamadas. Quais são elas?',
+    options: ['LLC e MAC', 'TCP e UDP', 'IP e ICMP', 'Física e Lógica'],
+    answer: 0,
+    explanation: 'A camada de Enlace de Dados (Layer 2) é dividida em LLC (Logical Link Control), que se comunica com a camada de rede, e MAC (Media Access Control), que interage com a camada física.',
+  },
+  {
+    id: 118,
+    topicId: 'enderecamento-ip',
+    question: 'Qual tipo de endereço IPv6 é usado para comunicação na Internet pública, sendo globalmente único e roteável?',
+    options: ['Link-Local', 'Unique Local', 'Global Unicast', 'Multicast'],
+    answer: 2,
+    explanation: 'Endereços Global Unicast são o equivalente IPv6 dos endereços IPv4 públicos. Eles são únicos globalmente e podem ser roteados através da Internet.',
+  },
+  {
+    id: 119,
+    topicId: 'seguranca-de-rede',
+    question: 'Um malware que se disfarça de software legítimo para enganar o usuário a instalá-lo é chamado de:',
+    options: ['Worm', 'Vírus', 'Spyware', 'Cavalo de Troia (Trojan Horse)'],
+    answer: 3,
+    explanation: 'Um Cavalo de Troia é um tipo de malware que se apresenta como um programa útil ou inofensivo, mas que na verdade executa funções maliciosas em segundo plano após a instalação.',
+  },
+  {
+    id: 120,
+    topicId: 'protocolos-essenciais',
+    question: 'Qual protocolo de roteamento usa a contagem de saltos (hop count) como sua principal métrica?',
+    options: ['OSPF', 'BGP', 'EIGRP', 'RIP'],
+    answer: 3,
+    explanation: 'RIP (Routing Information Protocol) é um protocolo de roteamento do tipo vetor de distância que usa o número de roteadores (saltos) como métrica para determinar o melhor caminho.',
+  },
+  {
+    id: 121,
+    topicId: "modelo-osi",
     question: "Qual camada do modelo OSI é responsável pela entrega fim-a-fim e controle de fluxo?",
     options: [
       "Camada de Aplicação",
@@ -886,8 +1046,8 @@ export const questions: Question[] = [
     explanation: "A camada de Transporte (usando protocolos como TCP/UDP) é responsável pela entrega fim-a-fim dos dados e pelo controle de fluxo."
   },
   {
-    id: 102,
-    topicId: "protocolos-essenciais",
+    id: 122,
+    topicId: "protocolos",
     question: "O que faz o protocolo ARP (Address Resolution Protocol)?",
     options: [
       "Resolve nomes DNS para endereços IP",
@@ -899,8 +1059,8 @@ export const questions: Question[] = [
     explanation: "O ARP resolve endereços IP para endereços MAC na mesma rede local, permitindo a comunicação entre dispositivos."
   },
   {
-    id: 103,
-    topicId: "protocolos-essenciais",
+    id: 123,
+    topicId: "protocolos",
     question: "O protocolo UDP oferece garantia de entrega dos pacotes. (Verdadeiro ou Falso)",
     options: [
       "Verdadeiro",
@@ -910,8 +1070,8 @@ export const questions: Question[] = [
     explanation: "Falso. O UDP é um protocolo não orientado à conexão e não oferece garantias de entrega, sendo mais rápido e utilizado para tráfego que tolera perdas, como streaming de vídeo."
   },
   {
-    id: 104,
-    topicId: "conceitos-basicos",
+    id: 124,
+    topicId: "dispositivos",
     question: "Uma rede LAN típica usa qual dos seguintes dispositivos para dividir domínios de colisão?",
     options: [
       "Hub",
@@ -923,8 +1083,8 @@ export const questions: Question[] = [
     explanation: "O switch segmenta domínios de colisão, já que ele encaminha o tráfego apenas para a porta de destino, ao contrário de um hub que envia para todas as portas."
   },
   {
-    id: 105,
-    topicId: "enderecamento-ip",
+    id: 125,
+    topicId: "ipv4-subnetting",
     question: "Qual máscara de sub-rede corresponde à /24 em notação decimal?",
     options: [
       "255.255.0.0",
@@ -936,8 +1096,8 @@ export const questions: Question[] = [
     explanation: "A notação /24 indica que os 24 primeiros bits do endereço são da rede, o que em decimal corresponde a 255.255.255.0."
   },
   {
-    id: 106,
-    topicId: "enderecamento-ip",
+    id: 126,
+    topicId: "ipv4",
     question: "Em uma rede IPv4, qual endereço é reservado para broadcast?",
     options: [
       "Endereço da rede +1",
@@ -949,8 +1109,8 @@ export const questions: Question[] = [
     explanation: "O endereço de broadcast é o último endereço de uma sub-rede, onde todos os bits da porção de host são '1'. Ele é usado para enviar dados a todos os hosts daquela rede."
   },
   {
-    id: 107,
-    topicId: "protocolos-essenciais",
+    id: 127,
+    topicId: "protocolos",
     question: "Qual dos seguintes protocolos é orientado à conexão?",
     options: [
       "UDP",
@@ -962,8 +1122,8 @@ export const questions: Question[] = [
     explanation: "TCP (Transmission Control Protocol) é um protocolo orientado à conexão que estabelece uma conexão confiável antes de enviar os dados."
   },
   {
-    id: 108,
-    topicId: "conceitos-basicos",
+    id: 128,
+    topicId: "dispositivos",
     question: "Em qual camada do modelo OSI opera o switch de camada 2?",
     options: [
       "Camada de Rede",
@@ -975,8 +1135,8 @@ export const questions: Question[] = [
     explanation: "Um switch de camada 2 opera na camada de Enlace de Dados, utilizando endereços MAC para tomar decisões de encaminhamento."
   },
   {
-    id: 109,
-    topicId: "protocolos-essenciais",
+    id: 129,
+    topicId: "servicos-de-rede",
     question: "Qual serviço converte nomes de domínio em endereços IP?",
     options: [
       "SMTP",
@@ -988,8 +1148,8 @@ export const questions: Question[] = [
     explanation: "O DNS (Domain Name System) é o serviço que traduz nomes de domínio legíveis por humanos (ex: www.google.com) para endereços IP numéricos."
   },
   {
-    id: 110,
-    topicId: "conceitos-basicos",
+    id: 130,
+    topicId: "topologias",
     question: "Qual topologia de rede consiste de todos os nós conectados a um único ponto central?",
     options: [
       "Barramento",
@@ -1001,8 +1161,8 @@ export const questions: Question[] = [
     explanation: "Na topologia em estrela, todos os dispositivos se conectam a um ponto central, como um switch ou hub."
   },
   {
-    id: 111,
-    topicId: "protocolos-essenciais",
+    id: 131,
+    topicId: "servicos-de-rede",
     question: "Qual o propósito do protocolo DHCP?",
     options: [
       "Atribuir dinamicamente endereços IP",
@@ -1014,8 +1174,8 @@ export const questions: Question[] = [
     explanation: "O DHCP (Dynamic Host Configuration Protocol) atribui automaticamente endereços IP e outras configurações de rede a dispositivos conectados."
   },
   {
-    id: 112,
-    topicId: "protocolos-essenciais",
+    id: 132,
+    topicId: "protocolos",
     question: "O que faz o protocolo ICMP?",
     options: [
       "Transporte de dados de aplicação",
@@ -1027,8 +1187,8 @@ export const questions: Question[] = [
     explanation: "O ICMP (Internet Control Message Protocol) é usado para enviar mensagens de erro e diagnóstico, como as usadas pelo comando 'ping'."
   },
   {
-    id: 113,
-    topicId: "seguranca-de-rede",
+    id: 133,
+    topicId: "nat-e-seguranca",
     question: "Qual é a função do NAT (Network Address Translation)?",
     options: [
       "Converter endereços MAC",
@@ -1040,8 +1200,8 @@ export const questions: Question[] = [
     explanation: "O NAT traduz endereços IP privados, usados em uma rede local, para um ou mais endereços IP públicos, permitindo que a rede interna acesse a Internet."
   },
   {
-    id: 114,
-    topicId: "protocolos-essenciais",
+    id: 134,
+    topicId: "protocolos",
     question: "Qual protocolo é normalmente usado para transferência segura de arquivos (com criptografia)?",
     options: [
       "FTP",
@@ -1053,8 +1213,8 @@ export const questions: Question[] = [
     explanation: "O SFTP (SSH File Transfer Protocol) é um protocolo seguro que transfere arquivos sobre uma conexão SSH, garantindo a criptografia dos dados."
   },
   {
-    id: 115,
-    topicId: "protocolos-essenciais",
+    id: 135,
+    topicId: "portas-e-servicos",
     question: "Qual porta TCP padrão é utilizada pelo HTTP sem TLS?",
     options: [
       "80",
@@ -1066,8 +1226,8 @@ export const questions: Question[] = [
     explanation: "O protocolo HTTP, que não usa criptografia, utiliza a porta TCP padrão 80."
   },
   {
-    id: 116,
-    topicId: "protocolos-essenciais",
+    id: 136,
+    topicId: "portas-e-servicos",
     question: "Qual porta TCP padrão é utilizada pelo HTTPS?",
     options: [
       "80",
@@ -1079,7 +1239,7 @@ export const questions: Question[] = [
     explanation: "O protocolo HTTPS, que é a versão segura (com TLS/SSL) do HTTP, utiliza a porta TCP padrão 443."
   },
   {
-    id: 117,
+    id: 137,
     topicId: "conceitos-basicos",
     question: "O que significa 'half-duplex' em comunicações de rede?",
     options: [
@@ -1092,8 +1252,8 @@ export const questions: Question[] = [
     explanation: "Half-duplex permite a comunicação em ambos os sentidos, mas um de cada vez. É como um walkie-talkie: ou você fala ou escuta."
   },
   {
-    id: 118,
-    topicId: "conceitos-basicos",
+    id: 138,
+    topicId: "dispositivos",
     question: "Qual dispositivo opera na camada 3 e escolhe caminhos entre redes?",
     options: [
       "Hub",
@@ -1105,8 +1265,8 @@ export const questions: Question[] = [
     explanation: "Um roteador opera na camada de Rede (camada 3) e utiliza endereços IP para determinar o melhor caminho para encaminhar os pacotes entre redes diferentes."
   },
   {
-    id: 119,
-    topicId: "conceitos-basicos",
+    id: 139,
+    topicId: "vlan-e-segmentacao",
     question: "O que é uma VLAN?",
     options: [
       "Uma sub-rede física separada",
@@ -1118,8 +1278,8 @@ export const questions: Question[] = [
     explanation: "VLANs (Virtual LANs) permitem segmentar uma única infraestrutura de rede física em múltiplas redes lógicas, isolando os domínios de broadcast."
   },
   {
-    id: 120,
-    topicId: "protocolos-essenciais",
+    id: 140,
+    topicId: "protocolos",
     question: "Qual é a finalidade do protocolo TCP three-way handshake?",
     options: [
       "Descoberta de caminho",
@@ -1131,8 +1291,8 @@ export const questions: Question[] = [
     explanation: "O three-way handshake (troca de pacotes SYN, SYN-ACK, ACK) é o processo pelo qual um cliente e um servidor estabelecem uma conexão TCP confiável antes de começar a troca de dados."
   },
   {
-    id: 121,
-    topicId: "enderecamento-ip",
+    id: 141,
+    topicId: "ipv4-cabecalho",
     question: "Qual campo do cabeçalho IP indica o protocolo de camada superior (TCP/UDP/ICMP)?",
     options: [
       "Source IP",
@@ -1144,8 +1304,8 @@ export const questions: Question[] = [
     explanation: "O campo 'Protocol' no cabeçalho IPv4 indica qual protocolo da camada de transporte (como TCP, UDP ou ICMP) está contido no payload do pacote IP."
   },
   {
-    id: 122,
-    topicId: "enderecamento-ip",
+    id: 142,
+    topicId: "ipv4-cabecalho",
     question: "O que significa TTL em cabeçalho IP?",
     options: [
       "Tipo de Transporte",
@@ -1157,8 +1317,8 @@ export const questions: Question[] = [
     explanation: "TTL (Time to Live) é um contador que garante que os pacotes não fiquem circulando indefinidamente na rede. Ele é decrementado a cada 'salto' (hop), e o pacote é descartado quando o TTL chega a zero."
   },
   {
-    id: 123,
-    topicId: "protocolos-essenciais",
+    id: 143,
+    topicId: "servicos-de-rede",
     question: "Qual protocolo é usado para sincronizar relógios entre hosts na internet?",
     options: [
       "NTP",
@@ -1170,8 +1330,8 @@ export const questions: Question[] = [
     explanation: "O NTP (Network Time Protocol) é usado para sincronizar os relógios de computadores em uma rede de dados com alta precisão."
   },
   {
-    id: 124,
-    topicId: "protocolos-essenciais",
+    id: 144,
+    topicId: "servicos-de-rede",
     question: "Qual é a função do protocolo SNMP?",
     options: [
       "Gerenciamento e monitoramento de dispositivos de rede",
@@ -1183,8 +1343,8 @@ export const questions: Question[] = [
     explanation: "O SNMP (Simple Network Management Protocol) é usado para gerenciar e monitorar dispositivos em uma rede IP."
   },
   {
-    id: 125,
-    topicId: "enderecamento-ip",
+    id: 145,
+    topicId: "ipv4-subnetting",
     question: "Qual mecanismo divide uma rede grande em sub-redes menores?",
     options: [
       "VLAN",
@@ -1196,8 +1356,8 @@ export const questions: Question[] = [
     explanation: "Subnetting é o processo de dividir um bloco de endereços IP em sub-redes menores, o que ajuda a otimizar o uso do espaço de endereços e a gerenciar melhor o tráfego de rede."
   },
   {
-    id: 126,
-    topicId: "enderecamento-ip",
+    id: 146,
+    topicId: "ipv4-especiais",
     question: "Qual endereço IPv4 é considerado 'loopback'?",
     options: [
       "0.0.0.0",
@@ -1209,8 +1369,8 @@ export const questions: Question[] = [
     explanation: "O endereço 127.0.0.1 é reservado para 'loopback', permitindo que um host envie pacotes para si mesmo para fins de teste e diagnóstico."
   },
   {
-    id: 127,
-    topicId: "protocolos-essenciais",
+    id: 147,
+    topicId: "protocolos",
     question: "O que faz o protocolo FTP?",
     options: [
       "Envia e-mails",
@@ -1222,8 +1382,8 @@ export const questions: Question[] = [
     explanation: "O FTP (File Transfer Protocol) é usado para transferir arquivos entre um cliente e um servidor. Por padrão, ele não usa criptografia."
   },
   {
-    id: 128,
-    topicId: "modelos-osi-tcpip",
+    id: 148,
+    topicId: "modelo-osi",
     question: "Qual camada do modelo TCP/IP corresponde aproximadamente à camada de sessão e apresentação do modelo OSI?",
     options: [
       "Aplicação",
@@ -1235,8 +1395,8 @@ export const questions: Question[] = [
     explanation: "No modelo simplificado TCP/IP, as funcionalidades das camadas de Sessão, Apresentação e Aplicação do modelo OSI são combinadas na única camada de Aplicação."
   },
   {
-    id: 129,
-    topicId: "enderecamento-ip",
+    id: 149,
+    topicId: "ipv4-privados",
     question: "Qual é o endereço IPv4 privado presente no bloco 10.0.0.0/8?",
     options: [
       "10.0.0.1",
@@ -1248,8 +1408,8 @@ export const questions: Question[] = [
     explanation: "Os endereços da classe A privada estão na faixa 10.0.0.0 a 10.255.255.255, ou seja, no bloco 10.0.0.0/8."
   },
   {
-    id: 130,
-    topicId: "enderecamento-ip",
+    id: 150,
+    topicId: "ipv4-privados",
     question: "Qual é a faixa de endereços IPv4 privados para 192.168.0.0/16?",
     options: [
       "192.168.0.0 - 192.168.255.255",
@@ -1261,8 +1421,8 @@ export const questions: Question[] = [
     explanation: "O bloco 192.168.0.0/16 engloba todos os endereços que começam com 192.168, desde 192.168.0.0 até 192.168.255.255."
   },
   {
-    id: 131,
-    topicId: "conceitos-basicos",
+    id: 151,
+    topicId: "redes-locais",
     question: "O que é 'broadcast domain'?",
     options: [
       "Área onde broadcasts são limitados ao mesmo segmento de rede",
@@ -1274,8 +1434,8 @@ export const questions: Question[] = [
     explanation: "Um 'broadcast domain' é uma área de uma rede onde um pacote de broadcast enviado por um dispositivo pode ser ouvido por todos os outros dispositivos. Roteadores e VLANs segmentam esses domínios."
   },
   {
-    id: 132,
-    topicId: "protocolos-essenciais",
+    id: 152,
+    topicId: "protocolos",
     question: "Qual protocolo permite descobrir o endereço MAC de um IP conhecido (IPv4) na mesma rede?",
     options: [
       "DNS",
@@ -1287,8 +1447,8 @@ export const questions: Question[] = [
     explanation: "O ARP (Address Resolution Protocol) é usado para encontrar o endereço de hardware (MAC) de um host quando apenas o endereço IP é conhecido, dentro de um mesmo segmento de rede."
   },
   {
-    id: 133,
-    topicId: "conceitos-basicos",
+    id: 153,
+    topicId: "redes-locais",
     question: "O que é 'collision domain' em redes Ethernet antigas?",
     options: [
       "Área onde switches isolam tráfego",
@@ -1300,8 +1460,8 @@ export const questions: Question[] = [
     explanation: "Um 'collision domain' é a parte de uma rede onde pacotes de dados podem 'colidir' uns com os outros, causando a perda de dados. Isso era comum em redes que usavam hubs e foi resolvido com o uso de switches."
   },
   {
-    id: 134,
-    topicId: "seguranca-de-rede",
+    id: 154,
+    topicId: "q-o-s",
     question: "Qual técnica divide o tráfego em diferentes prioridades (voz, dados) em uma rede?",
     options: [
       "NAT",
@@ -1313,8 +1473,8 @@ export const questions: Question[] = [
     explanation: "QoS (Quality of Service) é uma técnica usada para gerenciar o tráfego de rede e priorizar o tráfego mais importante (como voz e vídeo) em detrimento de outros, garantindo uma melhor experiência do usuário."
   },
   {
-    id: 135,
-    topicId: "protocolos-essenciais",
+    id: 155,
+    topicId: "roteamento",
     question: "O que faz o protocolo BGP?",
     options: [
       "Roteamento dentro de um AS (Interior)",
@@ -1326,8 +1486,8 @@ export const questions: Question[] = [
     explanation: "BGP (Border Gateway Protocol) é o principal protocolo de roteamento usado para trocar informações de roteamento entre diferentes Sistemas Autônomos (AS) na Internet."
   },
   {
-    id: 136,
-    topicId: "protocolos-essenciais",
+    id: 156,
+    topicId: "protocolos",
     question: "Qual protocolo é usado para envio de e-mail entre servidores?",
     options: [
       "IMAP",
@@ -1339,8 +1499,8 @@ export const questions: Question[] = [
     explanation: "O SMTP (Simple Mail Transfer Protocol) é o protocolo padrão para enviar e-mails de um servidor para outro e de um cliente de e-mail para um servidor de e-mail."
   },
   {
-    id: 137,
-    topicId: "protocolos-essenciais",
+    id: 157,
+    topicId: "servicos-de-rede",
     question: "Qual protocolo permite acessar e gerenciar remotamente um shell de forma segura?",
     options: [
       "Telnet",
@@ -1352,8 +1512,8 @@ export const questions: Question[] = [
     explanation: "O SSH (Secure Shell) é um protocolo que fornece uma conexão de shell segura e criptografada para acesso remoto a sistemas."
   },
   {
-    id: 138,
-    topicId: "conceitos-basicos",
+    id: 158,
+    topicId: "dispositivos-e-protocolos",
     question: "Qual técnica previne loops em redes com switches por meio de bloqueio de portas redundantes?",
     options: [
       "STP (Spanning Tree Protocol)",
@@ -1365,8 +1525,8 @@ export const questions: Question[] = [
     explanation: "O STP (Spanning Tree Protocol) é um protocolo que detecta e desativa caminhos redundantes em uma rede com switches, evitando a criação de loops de broadcast."
   },
   {
-    id: 139,
-    topicId: "protocolos-essenciais",
+    id: 159,
+    topicId: "roteamento",
     question: "Qual protocolo de roteamento é tipicamente usado em redes corporativas para roteamento interno (link-state)?",
     options: [
       "RIP",
@@ -1378,7 +1538,7 @@ export const questions: Question[] = [
     explanation: "O OSPF (Open Shortest Path First) é um protocolo de roteamento interno (IGP) do tipo link-state, muito utilizado em redes corporativas grandes e complexas."
   },
   {
-    id: 140,
+    id: 160,
     topicId: "conceitos-basicos",
     question: "Qual é a função do gateway padrão em uma estação de trabalho?",
     options: [
@@ -1391,7 +1551,7 @@ export const questions: Question[] = [
     explanation: "O gateway padrão é o endereço IP do roteador que o host usa para enviar pacotes para redes externas (ou seja, para fora de sua sub-rede local)."
   },
   {
-    id: 141,
+    id: 161,
     topicId: "conceitos-basicos",
     question: "O que é 'MTU' (Maximum Transmission Unit)?",
     options: [
@@ -1404,8 +1564,8 @@ export const questions: Question[] = [
     explanation: "MTU (Maximum Transmission Unit) é o maior tamanho de um pacote de dados, em bytes, que pode ser transmitido em uma rede sem ser fragmentado."
   },
   {
-    id: 142,
-    topicId: "protocolos-essenciais",
+    id: 162,
+    topicId: "protocolos",
     question: "Qual protocolo de transporte usa números de porta e oferece controle de congestionamento?",
     options: [
       "UDP",
@@ -1417,8 +1577,8 @@ export const questions: Question[] = [
     explanation: "O TCP usa números de porta para identificar aplicações e inclui mecanismos robustos para controle de fluxo e de congestionamento, garantindo a entrega confiável dos dados."
   },
   {
-    id: 143,
-    topicId: "enderecamento-ip",
+    id: 163,
+    topicId: "ipv4-cabecalho",
     question: "O que é 'fragmentação' em IPv4?",
     options: [
       "Divisão de pacotes grandes em pacotes menores para atravessar redes com MTU menor",
@@ -1430,8 +1590,8 @@ export const questions: Question[] = [
     explanation: "Fragmentação é o processo de dividir um pacote IP grande em pacotes menores quando ele precisa passar por uma rede que suporta um MTU menor do que o pacote original."
   },
   {
-    id: 144,
-    topicId: "conceitos-basicos",
+    id: 164,
+    topicId: "vlan-e-segmentacao",
     question: "Qual técnica permite múltiplos dispositivos compartilharem uma única interface física usando subinterfaces lógicas (ex: roteador)?",
     options: [
       "NAT",
@@ -1443,8 +1603,8 @@ export const questions: Question[] = [
     explanation: "Subinterfaces de roteador, combinadas com o padrão de encapsulamento 802.1Q (VLAN tagging), permitem que uma única porta física de roteador gerencie o tráfego de várias VLANs (redes lógicas)."
   },
   {
-    id: 145,
-    topicId: "conceitos-basicos",
+    id: 165,
+    topicId: "redes-locais",
     question: "O que é 'link aggregation' (LACP)?",
     options: [
       "Protocolo para balancear carga por múltiplos links físicos",
@@ -1456,8 +1616,8 @@ export const questions: Question[] = [
     explanation: "Link Aggregation, através de protocolos como o LACP, combina múltiplos links físicos entre dois dispositivos (como switches) para aumentar a largura de banda e fornecer redundância."
   },
   {
-    id: 146,
-    topicId: "enderecamento-ip",
+    id: 166,
+    topicId: "ipv6",
     question: "Qual tipo de endereço IPv6 representa múltiplos destinos (um para muitos)?",
     options: [
       "Unicast",
@@ -1469,8 +1629,8 @@ export const questions: Question[] = [
     explanation: "O endereço Multicast em IPv6 é usado para enviar pacotes de um único remetente para um grupo de destinatários, otimizando o envio de tráfego para múltiplos hosts."
   },
   {
-    id: 147,
-    topicId: "enderecamento-ip",
+    id: 167,
+    topicId: "ipv6-especiais",
     question: "O que é um endereço IPv6 'link-local' que começa com 'fe80::' usado para?",
     options: [
       "Roteamento na Internet",
@@ -1482,8 +1642,8 @@ export const questions: Question[] = [
     explanation: "Endereços link-local IPv6, que começam com fe80::, são usados para comunicação entre dispositivos no mesmo segmento de rede e não podem ser roteados para fora."
   },
   {
-    id: 148,
-    topicId: "enderecamento-ip",
+    id: 168,
+    topicId: "ipv6",
     question: "Qual é o propósito do IPv6 SLAAC (StateLess Address Auto-Configuration)?",
     options: [
       "Atribuir endereços IPv6 automaticamente sem DHCPv6",
@@ -1495,8 +1655,8 @@ export const questions: Question[] = [
     explanation: "SLAAC permite que dispositivos configurem seus próprios endereços IPv6 automaticamente, usando informações do roteador e seu próprio endereço MAC, sem a necessidade de um servidor DHCPv6."
   },
   {
-    id: 149,
-    topicId: "protocolos-essenciais",
+    id: 169,
+    topicId: "comandos-de-rede",
     question: "Qual comando é comumente usado para testar conectividade entre dois hosts (ICMP echo)?",
     options: [
       "traceroute",
@@ -1508,8 +1668,8 @@ export const questions: Question[] = [
     explanation: "O comando 'ping' envia pacotes ICMP 'echo request' para um host de destino e mede o tempo de resposta, sendo uma ferramenta básica para testar a conectividade."
   },
   {
-    id: 150,
-    topicId: "protocolos-essenciais",
+    id: 170,
+    topicId: "comandos-de-rede",
     question: "O que faz o comando traceroute (ou tracert)?",
     options: [
       "Mede velocidade da rede",
@@ -1521,8 +1681,8 @@ export const questions: Question[] = [
     explanation: "O comando 'traceroute' (ou 'tracert' no Windows) exibe o caminho que um pacote percorre na rede, listando cada roteador ('hop') por onde o pacote passa até chegar ao destino."
   },
   {
-    id: 151,
-    topicId: "seguranca-de-rede",
+    id: 171,
+    topicId: "nat-e-seguranca",
     question: "Qual é o propósito de um 'proxy' em rede?",
     options: [
       "Atribuir endereços",
@@ -1534,8 +1694,8 @@ export const questions: Question[] = [
     explanation: "Um servidor proxy atua como um intermediário entre um cliente e um servidor, podendo armazenar em cache páginas da web, filtrar conteúdo e fornecer anonimato."
   },
   {
-    id: 152,
-    topicId: "seguranca-de-rede",
+    id: 172,
+    topicId: "nat-e-seguranca",
     question: "O que é 'port forwarding' em NAT?",
     options: [
       "Converter endereços MAC",
@@ -1547,8 +1707,8 @@ export const questions: Question[] = [
     explanation: "Port forwarding é a técnica de redirecionar o tráfego que chega em uma porta pública do roteador para um host e porta específicos na rede interna."
   },
   {
-    id: 153,
-    topicId: "protocolos-essenciais",
+    id: 173,
+    topicId: "portas-e-servicos",
     question: "Qual protocolo usa portas 20 e 21 por padrão?",
     options: [
       "HTTPS",
@@ -1560,8 +1720,8 @@ export const questions: Question[] = [
     explanation: "O FTP (File Transfer Protocol) usa a porta 21 para o canal de controle e a porta 20 (em modo ativo) para o canal de dados."
   },
   {
-    id: 154,
-    topicId: "seguranca-de-rede",
+    id: 174,
+    topicId: "redes-locais",
     question: "O que significa 'sticky MAC' em switches?",
     options: [
       "MACs que não podem ser aprendidos",
@@ -1573,8 +1733,8 @@ export const questions: Question[] = [
     explanation: "'Sticky MAC' é um recurso de segurança de switches que permite associar dinamicamente os endereços MAC aprendidos a uma porta, evitando que outros dispositivos usem a mesma porta para se comunicar."
   },
   {
-    id: 155,
-    topicId: "protocolos-essenciais",
+    id: 175,
+    topicId: "protocolos",
     question: "Qual protocolo detecta topologia de rede e fornece informações a switches gerenciáveis (ex: LLDP)?",
     options: [
       "LLDP",
@@ -1586,8 +1746,8 @@ export const questions: Question[] = [
     explanation: "O LLDP (Link Layer Discovery Protocol) é um protocolo de camada de enlace que permite que dispositivos de rede anunciem sua identidade e capacidades para outros dispositivos conectados."
   },
   {
-    id: 156,
-    topicId: "seguranca-de-rede",
+    id: 176,
+    topicId: "nat-e-seguranca",
     question: "O que é 'masquerading' em NAT?",
     options: [
       "Uma forma de NAT onde múltiplos hosts compartilham um único endereço IP público, típicamente usando portas",
@@ -1599,8 +1759,8 @@ export const questions: Question[] = [
     explanation: "Masquerading é uma forma de NAT dinâmico onde vários hosts de uma rede privada compartilham um único endereço IP público, diferenciando-se pelas portas de origem."
   },
   {
-    id: 157,
-    topicId: "seguranca-de-rede",
+    id: 177,
+    topicId: "nat-e-seguranca",
     question: "Qual é a diferença principal entre 'stateful' e 'stateless' firewall?",
     options: [
       "Stateful analisa/ mantém estado das conexões; stateless apenas filtra pacotes individualmente",
@@ -1612,8 +1772,8 @@ export const questions: Question[] = [
     explanation: "Um firewall 'stateful' rastreia o estado das conexões e permite o tráfego de retorno automaticamente, enquanto um firewall 'stateless' filtra cada pacote individualmente, sem considerar o contexto da conexão."
   },
   {
-    id: 158,
-    topicId: "protocolos-essenciais",
+    id: 178,
+    topicId: "servicos-de-rede",
     question: "O que é 'SSDP' comumente usado em redes domésticas (UPnP)?",
     options: [
       "Protocolo de roteamento",
@@ -1625,8 +1785,8 @@ export const questions: Question[] = [
     explanation: "SSDP (Simple Service Discovery Protocol) é um protocolo usado em redes domésticas para que dispositivos possam se descobrir mutuamente e anunciar seus serviços (UPnP)."
   },
   {
-    id: 159,
-    topicId: "seguranca-de-rede",
+    id: 179,
+    topicId: "nat-e-seguranca",
     question: "Qual tecnologia é usada para criar redes privadas virtuais (VPN) em nível de IP que encapsulam pacotes?",
     options: [
       "EtherChannel",
@@ -1638,8 +1798,8 @@ export const questions: Question[] = [
     explanation: "IPsec (Internet Protocol Security) é um conjunto de protocolos que fornece segurança para a comunicação IP, sendo amplamente utilizado para criar túneis VPNs que encapsulam e criptografam o tráfego."
   },
   {
-    id: 160,
-    topicId: "protocolos-essenciais",
+    id: 180,
+    topicId: "roteamento",
     question: "O que é 'split-horizon' em protocolos de roteamento distance-vector como RIP?",
     options: [
       "Evitar que rotas sejam anunciadas de volta pela interface de origem para prevenir loops",
@@ -1651,8 +1811,8 @@ export const questions: Question[] = [
     explanation: "Split-horizon é uma regra de roteamento que impede que um roteador anuncie uma rota de volta pela mesma interface de onde a aprendeu, prevenindo loops de roteamento."
   },
   {
-    id: 161,
-    topicId: "protocolos-essenciais",
+    id: 181,
+    topicId: "protocolos",
     question: "Qual é a finalidade do protocolo RARP (Reverse ARP)?",
     options: [
       "Mapear IP para MAC",
@@ -1664,8 +1824,8 @@ export const questions: Question[] = [
     explanation: "O RARP (Reverse Address Resolution Protocol) era usado para permitir que um dispositivo descobrisse seu endereço IP a partir de seu endereço MAC. Ele foi amplamente substituído pelo DHCP."
   },
   {
-    id: 162,
-    topicId: "enderecamento-ip",
+    id: 182,
+    topicId: "ipv4-especiais",
     question: "Qual é a faixa de endereços APIPA/Link-local IPv4 usada quando DHCP falha (169.254.0.0)?",
     options: [
       "169.254.0.0 - 169.254.255.255",
@@ -1677,8 +1837,8 @@ export const questions: Question[] = [
     explanation: "O APIPA (Automatic Private IP Addressing) atribui endereços na faixa 169.254.0.0/16 a dispositivos quando eles não conseguem obter um endereço IP de um servidor DHCP."
   },
   {
-    id: 163,
-    topicId: "seguranca-de-rede",
+    id: 183,
+    topicId: "redes-locais",
     question: "O que é 'port security' em switches gerenciáveis?",
     options: [
       "Metodo para balancear portas",
@@ -1690,8 +1850,8 @@ export const questions: Question[] = [
     explanation: "'Port security' é um recurso de segurança de switch que permite associar um ou mais endereços MAC a uma porta específica, bloqueando o acesso de endereços não autorizados."
   },
   {
-    id: 164,
-    topicId: "protocolos-essenciais",
+    id: 184,
+    topicId: "protocolos",
     question: "Qual protocolo transporta e-mails recebidos de um servidor para um cliente (download)?",
     options: [
       "SMTP",
@@ -1703,8 +1863,8 @@ export const questions: Question[] = [
     explanation: "POP3 (Post Office Protocol version 3) e IMAP são protocolos usados para que os clientes de e-mail recuperem e-mails de um servidor."
   },
   {
-    id: 165,
-    topicId: "protocolos-essenciais",
+    id: 185,
+    topicId: "roteamento",
     question: "O que significa 'asymmetric routing'?",
     options: [
       "Roteamento com caminhos de ida e volta diferentes entre dois hosts",
@@ -1716,8 +1876,8 @@ export const questions: Question[] = [
     explanation: "Roteamento assimétrico ocorre quando o caminho que os pacotes de uma comunicação fazem para ir da origem ao destino é diferente do caminho que eles fazem para voltar."
   },
   {
-    id: 166,
-    topicId: "protocolos-essenciais",
+    id: 186,
+    topicId: "servicos-de-rede",
     question: "Qual é a função do protocolo 'mDNS' (multicast DNS)?",
     options: [
       "Resolução de nomes em redes locais sem servidor DNS central",
@@ -1729,8 +1889,8 @@ export const questions: Question[] = [
     explanation: "O mDNS (multicast DNS) permite a resolução de nomes de domínio para endereços IP em redes pequenas que não têm um servidor DNS central, facilitando a descoberta de serviços e dispositivos locais."
   },
   {
-    id: 167,
-    topicId: "modelos-osi-tcpip",
+    id: 187,
+    topicId: "modelo-osi",
     question: "Qual camada do modelo OSI é responsável pela representação de dados (por exemplo, compressão, encriptação)?",
     options: [
       "Camada de Sessão",
@@ -1742,8 +1902,8 @@ export const questions: Question[] = [
     explanation: "A Camada de Apresentação (camada 6) é responsável por garantir que os dados de uma camada de aplicação possam ser lidos por outra. Funções como formatação, compressão e criptografia são realizadas nela."
   },
   {
-    id: 168,
-    topicId: "protocolos-essenciais",
+    id: 188,
+    topicId: "servicos-de-rede",
     question: "Qual protocolo fornece tradução de nomes reversa (IP para nome) em DNS?",
     options: [
       "PTR records usados por DNS",
@@ -1755,7 +1915,7 @@ export const questions: Question[] = [
     explanation: "O DNS usa registros PTR (Pointer) para tradução de nomes reversa, permitindo que um endereço IP seja traduzido para um nome de domínio associado."
   },
   {
-    id: 169,
+    id: 189,
     topicId: "conceitos-basicos",
     question: "O que é 'carrier sense' no CSMA/CD?",
     options: [
@@ -1768,8 +1928,8 @@ export const questions: Question[] = [
     explanation: "'Carrier sense' é a capacidade de um dispositivo de ouvir o meio de transmissão (cabo) para verificar se ele está livre antes de tentar transmitir dados, parte do protocolo CSMA/CD usado em redes Ethernet."
   },
   {
-    id: 170,
-    topicId: "protocolos-essenciais",
+    id: 190,
+    topicId: "protocolos",
     question: "O que é 'flow control' em TCP?",
     options: [
       "Controle de rotas",
@@ -1781,8 +1941,8 @@ export const questions: Question[] = [
     explanation: "O controle de fluxo do TCP usa o conceito de 'janela de recebimento' para garantir que o remetente não envie dados mais rápido do que o receptor pode processá-los, evitando sobrecarga."
   },
   {
-    id: 171,
-    topicId: "protocolos-essenciais",
+    id: 191,
+    topicId: "comandos-de-rede",
     question: "Qual comando mostra a tabela de roteamento em sistemas Linux?",
     options: [
       "ifconfig",
@@ -1794,8 +1954,8 @@ export const questions: Question[] = [
     explanation: "Os comandos 'route -n' ou 'ip route' são usados em sistemas Linux para exibir a tabela de roteamento do kernel, que contém as rotas que os pacotes seguem."
   },
   {
-    id: 172,
-    topicId: "seguranca-de-rede",
+    id: 192,
+    topicId: "gerenciamento-de-rede",
     question: "Qual protocolo permite gerenciamento remoto via interface web de devices e usa SNMP para monitoramento?",
     options: [
       "HTTP/HTTPS com interface de gerenciamento; SNMP para dados",
@@ -1807,8 +1967,8 @@ export const questions: Question[] = [
     explanation: "Dispositivos de rede modernos (roteadores, switches) são gerenciados via interface web (HTTP/HTTPS) para configuração e usam SNMP para monitoramento de desempenho."
   },
   {
-    id: 173,
-    topicId: "seguranca-de-rede",
+    id: 193,
+    topicId: "gerenciamento-de-rede",
     question: "O que é 'heartbeat' em cluster de roteadores?",
     options: [
       "Mensagem periódica entre nós para verificar disponibilidade e sincronizar estado",
@@ -1820,8 +1980,8 @@ export const questions: Question[] = [
     explanation: "Um 'heartbeat' é uma mensagem periódica enviada entre dispositivos em um cluster para verificar se eles estão ativos e funcionando, permitindo detecção de falhas e failover rápido."
   },
   {
-    id: 174,
-    topicId: "enderecamento-ip",
+    id: 194,
+    topicId: "ipv6",
     question: "Qual é a principal vantagem do IPv6 sobre IPv4?",
     options: [
       "Menor cabeçalho",
@@ -1833,8 +1993,8 @@ export const questions: Question[] = [
     explanation: "A principal vantagem do IPv6 é o seu vasto espaço de endereçamento, resolvendo a escassez de IPs do IPv4. Ele também traz melhorias como autoconfiguração de endereços e maior eficiência no roteamento."
   },
   {
-    id: 175,
-    topicId: "enderecamento-ip",
+    id: 195,
+    topicId: "ipv6",
     question: "O que significa 'anycast' em IPv6?",
     options: [
       "Endereço entregue a todas as interfaces",
@@ -1846,8 +2006,8 @@ export const questions: Question[] = [
     explanation: "Anycast é um tipo de endereçamento onde um pacote enviado para um endereço anycast é entregue a apenas um dos hosts do grupo (o 'mais próximo'), o que é útil para serviços como o DNS."
   },
   {
-    id: 176,
-    topicId: "protocolos-essenciais",
+    id: 196,
+    topicId: "servicos-de-rede",
     question: "Qual é o papel do 'DNS root servers' na resolução de nomes?",
     options: [
       "Armazenar registros A de todos os domínios",
@@ -1859,8 +2019,8 @@ export const questions: Question[] = [
     explanation: "Os servidores raiz do DNS (root servers) são o ponto de partida na hierarquia do DNS. Eles não armazenam todos os registros, mas direcionam as consultas para os servidores de domínio de nível superior (TLD) apropriados."
   },
   {
-    id: 177,
-    topicId: "protocolos-essenciais",
+    id: 197,
+    topicId: "roteamento",
     question: "O que é 'route summarization' (agregação de rotas)?",
     options: [
       "Dividir uma rota em várias pequenas",
@@ -1872,8 +2032,8 @@ export const questions: Question[] = [
     explanation: "A agregação de rotas é uma técnica que agrupa múltiplas rotas de rede em uma única rota, reduzindo o tamanho das tabelas de roteamento e melhorando a eficiência."
   },
   {
-    id: 178,
-    topicId: "protocolos-essenciais",
+    id: 198,
+    topicId: "comandos-de-rede",
     question: "Qual comando permite verificar resolução DNS para um nome específico e servidor?",
     options: [
       "ping",
@@ -1885,8 +2045,8 @@ export const questions: Question[] = [
     explanation: "Os comandos 'nslookup' e 'dig' são ferramentas de linha de comando para consultar servidores DNS e obter informações sobre nomes de domínio."
   },
   {
-    id: 179,
-    topicId: "protocolos-essenciais",
+    id: 199,
+    topicId: "portas-e-servicos",
     question: "Qual é a porta padrão do protocolo SSH?",
     options: [
       "20",
@@ -1898,8 +2058,8 @@ export const questions: Question[] = [
     explanation: "A porta TCP padrão para o protocolo SSH (Secure Shell) é a porta 22."
   },
   {
-    id: 180,
-    topicId: "protocolos-essenciais",
+    id: 200,
+    topicId: "protocolos",
     question: "Qual é a função do protocolo TFTP em comparação ao FTP?",
     options: [
       "Transferência de arquivos simples sem autenticação",
@@ -1909,266 +2069,6 @@ export const questions: Question[] = [
     ],
     answer: 0,
     explanation: "O TFTP (Trivial File Transfer Protocol) é uma versão simplificada do FTP. Ele não exige autenticação e usa UDP, sendo adequado para transferências rápidas e simples, como boot de dispositivos de rede."
-  },
-  {
-    id: 181,
-    topicId: "conceitos-basicos",
-    question: "O que significa 'collision detection' em CSMA/CD?",
-    options: [
-      "Detectar colisões no meio e retransmitir após tempo aleatório",
-      "Evitar colisões com criptografia",
-      "Dividir colisões entre switches",
-      "Detectar colisões apenas em Wi-Fi"
-    ],
-    answer: 0,
-    explanation: "'Collision detection' (detecção de colisão) é a capacidade de uma estação de rede em um ambiente de CSMA/CD de detectar quando um pacote que ela está enviando colide com o de outra estação, exigindo que ambas parem e retransmitam em um tempo aleatório."
-  },
-  {
-    id: 182,
-    topicId: "conceitos-basicos",
-    question: "Qual tecnologia sem fio usa padrão 802.11?",
-    options: [
-      "Ethernet",
-      "Wi-Fi",
-      "Bluetooth",
-      "Zigbee"
-    ],
-    answer: 1,
-    explanation: "O padrão 802.11, definido pelo IEEE, é a base tecnológica para as redes sem fio Wi-Fi."
-  },
-  {
-    id: 183,
-    topicId: "conceitos-basicos",
-    question: "O que é 'roaming' em redes sem fio?",
-    options: [
-      "Conectar múltiplos APs ao mesmo switch",
-      "Movimentação do cliente entre APs mantendo sessão ativa",
-      "Uso de NAT em wireless",
-      "Encriptação de dados"
-    ],
-    answer: 1,
-    explanation: "O 'roaming' em redes sem fio permite que um dispositivo cliente se mova entre a área de cobertura de diferentes pontos de acesso (APs) sem perder a conexão de rede."
-  },
-  {
-    id: 184,
-    topicId: "conceitos-basicos",
-    question: "Qual padrão de cabo é comumente usado para backbone de alta velocidade em data centers (fibra)?",
-    options: [
-      "Cat3",
-      "Cat5e",
-      "Cat6",
-      "Fibras multimodo/monomodo (ex: OM4) e cabos de fibra óptica"
-    ],
-    answer: 3,
-    explanation: "Cabos de fibra óptica (multimodo e monomodo) são a escolha ideal para backbones em data centers e redes de longa distância devido à sua alta largura de banda e resistência à interferência eletromagnética."
-  },
-  {
-    id: 185,
-    topicId: "conceitos-basicos",
-    question: "O que é 'checksum' em cabeçalhos de protocolos como IP/TCP?",
-    options: [
-      "Mecanismo para criptografar dados",
-      "Valor para detecção de erros no cabeçalho ou dados",
-      "Número de porta",
-      "Tamanho do pacote"
-    ],
-    answer: 1,
-    explanation: "O 'checksum' é um valor calculado a partir do conteúdo de um cabeçalho ou dados para verificar a integridade da informação. Se o valor recebido não corresponder ao valor calculado, indica que houve um erro de transmissão."
-  },
-  {
-    id: 186,
-    topicId: "seguranca-de-rede",
-    question: "O que é 'broadcast storm' e como preveni-lo?",
-    options: [
-      "Evento onde transmissões broadcast ficam em loop causando sobrecarga; prevenido por STP e filtragem",
-      "Ataque DDoS na camada de aplicação",
-      "Tipo de NAT",
-      "Problema apenas em redes sem fio"
-    ],
-    answer: 0,
-    explanation: "Uma 'broadcast storm' é um evento onde uma grande quantidade de tráfego de broadcast satura a rede. É causado por loops físicos na camada de enlace e pode ser prevenido com o protocolo STP (Spanning Tree Protocol)."
-  },
-  {
-    id: 187,
-    topicId: "seguranca-de-rede",
-    question: "Qual é a diferença entre 'symmetric' e 'asymmetric' encryption?",
-    options: [
-      "Symmetric usa mesma chave para cifrar/decifrar; asymmetric usa par de chaves pública/privada",
-      "Symmetric é sempre mais lento",
-      "Asymmetric não existe em redes",
-      "Symmetric usa chaves maiores"
-    ],
-    answer: 0,
-    explanation: "A criptografia simétrica usa uma única chave secreta para criptografar e descriptografar os dados. Já a criptografia assimétrica usa um par de chaves (uma pública e uma privada) para realizar a mesma função."
-  },
-  {
-    id: 188,
-    topicId: "protocolos-essenciais",
-    question: "O que é 'DNS caching' e qual vantagem ele traz?",
-    options: [
-      "Guardar consultas para acelerar futuras resoluções e reduzir tráfego",
-      "Aumentar o tempo de resolução",
-      "Criptografar registros DNS",
-      "Substituir DHCP"
-    ],
-    answer: 0,
-    explanation: "O 'DNS caching' é o processo de armazenar temporariamente as respostas de consultas DNS para acelerar futuras solicitações para o mesmo domínio e reduzir o tráfego na rede."
-  },
-  {
-    id: 189,
-    topicId: "enderecamento-ip",
-    question: "Quantos hosts utilizáveis existem em uma sub-rede com máscara /27?",
-    options: [
-      "30",
-      "29",
-      "32",
-      "60"
-    ],
-    answer: 0,
-    explanation: "Uma máscara /27 deixa 5 bits para a porção de host ($2^5 = 32$ endereços). Excluindo o endereço da rede e o de broadcast, sobram $32-2=30$ hosts utilizáveis."
-  },
-  {
-    id: 190,
-    topicId: "enderecamento-ip",
-    question: "Quantos hosts utilizáveis existem em uma sub-rede com máscara /28?",
-    options: [
-      "14",
-      "13",
-      "16",
-      "28"
-    ],
-    answer: 0,
-    explanation: "Uma máscara /28 deixa 4 bits para a porção de host ($2^4 = 16$ endereços). Excluindo o endereço da rede e o de broadcast, sobram $16-2=14$ hosts utilizáveis."
-  },
-  {
-    id: 191,
-    topicId: "enderecamento-ip",
-    question: "Quantos hosts utilizáveis existem em uma sub-rede com máscara /24?",
-    options: [
-      "254",
-      "253",
-      "256",
-      "508"
-    ],
-    answer: 0,
-    explanation: "Uma máscara /24 deixa 8 bits para a porção de host ($2^8 = 256$ endereços). Excluindo o endereço da rede e o de broadcast, sobram $256-2=254$ hosts utilizáveis."
-  },
-  {
-    id: 192,
-    topicId: "enderecamento-ip",
-    question: "Quantos hosts utilizáveis existem em uma sub-rede com máscara /25?",
-    options: [
-      "126",
-      "125",
-      "128",
-      "252"
-    ],
-    answer: 0,
-    explanation: "Uma máscara /25 deixa 7 bits para a porção de host ($2^7 = 128$ endereços). Excluindo o endereço da rede e o de broadcast, sobram $128-2=126$ hosts utilizáveis."
-  },
-  {
-    id: 193,
-    topicId: "enderecamento-ip",
-    question: "Quantos hosts utilizáveis existem em uma sub-rede com máscara /26?",
-    options: [
-      "62",
-      "61",
-      "64",
-      "124"
-    ],
-    answer: 0,
-    explanation: "Uma máscara /26 deixa 6 bits para a porção de host ($2^6 = 64$ endereços). Excluindo o endereço da rede e o de broadcast, sobram $64-2=62$ hosts utilizáveis."
-  },
-  {
-    id: 194,
-    topicId: "enderecamento-ip",
-    question: "Quantos hosts utilizáveis existem em uma sub-rede com máscara /27?",
-    options: [
-      "30",
-      "29",
-      "32",
-      "60"
-    ],
-    answer: 0,
-    explanation: "Uma máscara /27 deixa 5 bits para a porção de host ($2^5 = 32$ endereços). Excluindo o endereço da rede e o de broadcast, sobram $32-2=30$ hosts utilizáveis."
-  },
-  {
-    id: 195,
-    topicId: "enderecamento-ip",
-    question: "Quantos hosts utilizáveis existem em uma sub-rede com máscara /28?",
-    options: [
-      "14",
-      "13",
-      "16",
-      "28"
-    ],
-    answer: 0,
-    explanation: "Uma máscara /28 deixa 4 bits para a porção de host ($2^4 = 16$ endereços). Excluindo o endereço da rede e o de broadcast, sobram $16-2=14$ hosts utilizáveis."
-  },
-  {
-    id: 196,
-    topicId: "enderecamento-ip",
-    question: "Quantos hosts utilizáveis existem em uma sub-rede com máscara /24?",
-    options: [
-      "254",
-      "253",
-      "256",
-      "508"
-    ],
-    answer: 0,
-    explanation: "Uma máscara /24 deixa 8 bits para a porção de host ($2^8 = 256$ endereços). Excluindo o endereço da rede e o de broadcast, sobram $256-2=254$ hosts utilizáveis."
-  },
-  {
-    id: 197,
-    topicId: "enderecamento-ip",
-    question: "Quantos hosts utilizáveis existem em uma sub-rede com máscara /25?",
-    options: [
-      "126",
-      "125",
-      "128",
-      "252"
-    ],
-    answer: 0,
-    explanation: "Uma máscara /25 deixa 7 bits para a porção de host ($2^7 = 128$ endereços). Excluindo o endereço da rede e o de broadcast, sobram $128-2=126$ hosts utilizáveis."
-  },
-  {
-    id: 198,
-    topicId: "enderecamento-ip",
-    question: "Quantos hosts utilizáveis existem em uma sub-rede com máscara /26?",
-    options: [
-      "62",
-      "61",
-      "64",
-      "124"
-    ],
-    answer: 0,
-    explanation: "Uma máscara /26 deixa 6 bits para a porção de host ($2^6 = 64$ endereços). Excluindo o endereço da rede e o de broadcast, sobram $64-2=62$ hosts utilizáveis."
-  },
-  {
-    id: 199,
-    topicId: "enderecamento-ip",
-    question: "Quantos hosts utilizáveis existem em uma sub-rede com máscara /27?",
-    options: [
-      "30",
-      "29",
-      "32",
-      "60"
-    ],
-    answer: 0,
-    explanation: "Uma máscara /27 deixa 5 bits para a porção de host ($2^5 = 32$ endereços). Excluindo o endereço da rede e o de broadcast, sobram $32-2=30$ hosts utilizáveis."
-  },
-  {
-    id: 200,
-    topicId: "enderecamento-ip",
-    question: "Quantos hosts utilizáveis existem em uma sub-rede com máscara /28?",
-    options: [
-      "14",
-      "13",
-      "16",
-      "28"
-    ],
-    answer: 0,
-    explanation: "Uma máscara /28 deixa 4 bits para a porção de host ($2^4 = 16$ endereços). Excluindo o endereço da rede e o de broadcast, sobram $16-2=14$ hosts utilizáveis."
   },
   {
     id: 201,
@@ -2244,3 +2144,5 @@ export const weeklyProgress = [
   { week: 'Semana 3', points: 180 },
   { week: 'Semana 4', points: 350 },
 ];
+
+    
