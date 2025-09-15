@@ -36,7 +36,7 @@ export default function UploadPage() {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
     if (selectedFile) {
-      if (selectedFile.type === 'application/json') {
+      if (selectedFile.name.endsWith('.json')) {
         setFile(selectedFile);
         const reader = new FileReader();
         reader.onload = (event) => {
