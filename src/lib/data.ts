@@ -8,6 +8,13 @@ export interface Topic {
   icon: ComponentType<{ className?: string }>;
 }
 
+// This type is safe to use on the client-side
+export interface ClientTopic {
+  id: string;
+  name: string;
+  description: string;
+}
+
 export const topics: Topic[] = [
   {
     id: 'conceitos-basicos',
@@ -50,16 +57,9 @@ export interface Question {
   explanation: string;
 }
 
-export interface ClientTopic {
-  id: string;
-  name:string;
-  description: string;
-}
-
-
 export function getIconForTopic(topicId: string): ComponentType<{ className?: string }> {
   const topic = topics.find(t => t.id === topicId);
-  return topic ? topic.icon : () => null;
+  return topic ? topic.icon : Network; // Return a default icon if not found
 }
 
 export const questions: Question[] = [
@@ -224,7 +224,251 @@ export const questions: Question[] = [
     answer: 3,
     explanation: 'Um Access Point (AP) funciona como uma ponte, conectando clientes de uma rede sem fio (WLAN) a uma rede com fio (LAN). Roteadores Wi-Fi domésticos geralmente têm um AP integrado.',
   },
-
+  {
+    id: 104,
+    topicId: 'conceitos-basicos',
+    question: 'A capacidade máxima de dados que um link de comunicação pode transmitir em um determinado período é conhecida como:',
+    options: ['Vazão (Throughput)', 'Latência (Latency)', 'Largura de Banda (Bandwidth)', 'Jitter'],
+    answer: 2,
+    explanation: 'Largura de Banda (Bandwidth) refere-se à capacidade teórica máxima de um link, enquanto a vazão (throughput) é a taxa real de transferência de dados.',
+  },
+  {
+    id: 108,
+    topicId: 'conceitos-basicos',
+    question: 'Em uma topologia de anel, como os dados são transmitidos?',
+    options: ['Para um dispositivo central que os distribui', 'Em uma única direção, passando de um nó para o próximo até chegar ao destino', 'Para todos os dispositivos ao mesmo tempo', 'Por múltiplos caminhos redundantes'],
+    answer: 1,
+    explanation: 'Na topologia em anel, cada dispositivo está conectado a exatamente dois outros, e os dados circulam em uma única direção. Cada dispositivo atua como um repetidor.',
+  },
+  {
+    id: 114,
+    topicId: 'conceitos-basicos',
+    question: 'Qual equipamento é capaz de segmentar tanto domínios de colisão quanto domínios de broadcast?',
+    options: ['Hub', 'Switch', 'Roteador', 'Repetidor'],
+    answer: 2,
+    explanation: 'Um switch segmenta domínios de colisão (cada porta é um domínio). Um roteador segmenta domínios de broadcast, pois, por padrão, não encaminha pacotes de broadcast entre suas interfaces.',
+  },
+  {
+    id: 130,
+    topicId: 'conceitos-basicos',
+    question: 'Qual topologia de rede consiste de todos os nós conectados a um único ponto central?',
+    options: [
+      'Barramento',
+      'Anel',
+      'Estrela',
+      'Malha'
+    ],
+    answer: 2,
+    explanation: 'Na topologia em estrela, todos os dispositivos se conectam a um ponto central, como um switch ou hub.'
+  },
+  {
+    id: 137,
+    topicId: 'conceitos-basicos',
+    question: 'O que significa "half-duplex" em comunicações de rede?',
+    options: [
+      'Comunicação em ambos sentidos simultaneamente',
+      'Comunicação apenas em um sentido',
+      'Comunicação em ambos sentidos, mas não simultaneamente',
+      'Comunicação por fibra óptica'
+    ],
+    answer: 2,
+    explanation: 'Half-duplex permite a comunicação em ambos os sentidos, mas um de cada vez. É como um walkie-talkie: ou você fala ou escuta.'
+  },
+  {
+    id: 138,
+    topicId: 'conceitos-basicos',
+    question: 'Qual dispositivo opera na camada 3 e escolhe caminhos entre redes?',
+    options: [
+      'Hub',
+      'Switch L2',
+      'Roteador',
+      'Repeater'
+    ],
+    answer: 2,
+    explanation: 'Um roteador opera na camada de Rede (camada 3) e utiliza endereços IP para determinar o melhor caminho para encaminhar os pacotes entre redes diferentes.'
+  },
+  {
+    id: 139,
+    topicId: 'conceitos-basicos',
+    question: 'O que é uma VLAN?',
+    options: [
+      'Uma sub-rede física separada',
+      'Uma rede virtual que segmenta domínios de broadcast',
+      'Um protocolo de roteamento',
+      'Uma técnica para aumentar largura de banda'
+    ],
+    answer: 1,
+    explanation: 'VLANs (Virtual LANs) permitem segmentar uma única infraestrutura de rede física em múltiplas redes lógicas, isolando os domínios de broadcast.'
+  },
+  {
+    id: 151,
+    topicId: 'conceitos-basicos',
+    question: 'O que é "broadcast domain"?',
+    options: [
+      'Área onde broadcasts são limitados ao mesmo segmento de rede',
+      'Área onde roteadores encaminham broadcasts',
+      'Uma técnica de segurança',
+      'Um protocolo de roteamento'
+    ],
+    answer: 0,
+    explanation: 'Um "broadcast domain" é uma área de uma rede onde um pacote de broadcast enviado por um dispositivo pode ser ouvido por todos os outros dispositivos. Roteadores e VLANs segmentam esses domínios.'
+  },
+  {
+    id: 153,
+    topicId: 'conceitos-basicos',
+    question: 'O que é "collision domain" em redes Ethernet antigas?',
+    options: [
+      'Área onde switches isolam tráfego',
+      'Área onde frames podem colidir quando usando hubs',
+      'Domínio gerenciado por roteador',
+      'Um tipo de VLAN'
+    ],
+    answer: 1,
+    explanation: 'Um "collision domain" é a parte de uma rede onde pacotes de dados podem "colidir" uns com os outros, causando a perda de dados. Isso era comum em redes que usavam hubs e foi resolvido com o uso de switches.'
+  },
+  {
+    id: 154,
+    topicId: 'conceitos-basicos',
+    question: 'Qual técnica divide o tráfego em diferentes prioridades (voz, dados) em uma rede?',
+    options: [
+      'NAT',
+      'QoS',
+      'ARP',
+      'STP'
+    ],
+    answer: 1,
+    explanation: 'QoS (Quality of Service) é uma técnica usada para gerenciar o tráfego de rede e priorizar o tráfego mais importante (como voz e vídeo) em detrimento de outros, garantindo uma melhor experiência do usuário.'
+  },
+  {
+    id: 158,
+    topicId: 'conceitos-basicos',
+    question: 'Qual técnica previne loops em redes com switches por meio de bloqueio de portas redundantes?',
+    options: [
+      'STP (Spanning Tree Protocol)',
+      'QoS',
+      'ARP',
+      'OSPF'
+    ],
+    answer: 0,
+    explanation: 'O STP (Spanning Tree Protocol) é um protocolo que detecta e desativa caminhos redundantes em uma rede com switches, evitando a criação de loops de broadcast.'
+  },
+  {
+    id: 160,
+    topicId: 'conceitos-basicos',
+    question: 'Qual é a função do gateway padrão em uma estação de trabalho?',
+    options: [
+      'Servir como nome do host',
+      'Encaminhar pacotes para fora da sub-rede local',
+      'Atribuir IPs dinâmicos',
+      'Resolver MACs'
+    ],
+    answer: 1,
+    explanation: 'O gateway padrão é o endereço IP do roteador que o host usa para enviar pacotes para redes externas (ou seja, para fora de sua sub-rede local).'
+  },
+  {
+    id: 161,
+    topicId: 'conceitos-basicos',
+    question: 'O que é "MTU" (Maximum Transmission Unit)?',
+    options: [
+      'Máxima taxa de transferência',
+      'Tamanho máximo de payload que pode ser transmitido em um único quadro',
+      'Tempo de vida do pacote',
+      'Número de saltos permitido'
+    ],
+    answer: 1,
+    explanation: 'MTU (Maximum Transmission Unit) é o maior tamanho de um pacote de dados, em bytes, que pode ser transmitido em uma rede sem ser fragmentado.'
+  },
+  {
+    id: 164,
+    topicId: 'conceitos-basicos',
+    question: 'Qual técnica permite múltiplos dispositivos compartilharem uma única interface física usando subinterfaces lógicas (ex: roteador)?',
+    options: [
+      'NAT',
+      'Subinterfaces e encapsulamentos (802.1Q)',
+      'ARP',
+      'DHCP'
+    ],
+    answer: 1,
+    explanation: 'Subinterfaces de roteador, combinadas com o padrão de encapsulamento 802.1Q (VLAN tagging), permitem que uma única porta física de roteador gerencie o tráfego de várias VLANs (redes lógicas).'
+  },
+  {
+    id: 165,
+    topicId: 'conceitos-basicos',
+    question: 'O que é "link aggregation" (LACP)?',
+    options: [
+      'Protocolo para balancear carga por múltiplos links físicos',
+      'Protocolo de roteamento',
+      'Técnica de encapsulamento',
+      'Uma forma de NAT'
+    ],
+    answer: 0,
+    explanation: 'Link Aggregation, através de protocolos como o LACP, combina múltiplos links físicos entre dois dispositivos (como switches) para aumentar a largura de banda e fornecer redundância.'
+  },
+  {
+    id: 189,
+    topicId: 'conceitos-basicos',
+    question: 'O que é "carrier sense" no CSMA/CD?',
+    options: [
+      'Mecanismo para detectar se o meio está ocupado antes de transmitir',
+      'Protocolo para configuração de VLANs',
+      'Método de criptografia',
+      'Uma topologia de rede'
+    ],
+    answer: 0,
+    explanation: '"Carrier sense" é a capacidade de um dispositivo de ouvir o meio de transmissão (cabo) para verificar se ele está livre antes de tentar transmitir dados, parte do protocolo CSMA/CD usado em redes Ethernet.'
+  },
+  {
+    id: 193,
+    topicId: 'conceitos-basicos',
+    question: 'O que é "heartbeat" em cluster de roteadores?',
+    options: [
+      'Mensagem periódica entre nós para verificar disponibilidade e sincronizar estado',
+      'Comando para reiniciar switch',
+      'Protocolo de roteamento',
+      'Tipo de NAT'
+    ],
+    answer: 0,
+    explanation: 'Um "heartbeat" é uma mensagem periódica enviada entre dispositivos em um cluster para verificar se eles estão ativos e funcionando, permitindo detecção de falhas e failover rápido.'
+  },
+  {
+    id: 205,
+    topicId: 'conceitos-basicos',
+    question: 'Na topologia em estrela, os dispositivos são conectados a:',
+    options: [
+      'Um cabo central',
+      'Um nó intermediário',
+      'Um hub ou switch central',
+      'Cada dispositivo diretamente ao outro'
+    ],
+    answer: 2,
+    explanation: 'Na topologia em estrela, todos os dispositivos são conectados a um hub ou switch central.'
+  },
+  {
+    id: 401,
+    topicId: 'conceitos-basicos',
+    question: 'Na comutação de circuitos, a comunicação entre origem e destino é estabelecida em um procedimento de quantas fases?',
+    options: [
+      'Uma fase',
+      'Duas fases',
+      'Três fases',
+      'Nenhuma das anteriores'
+    ],
+    answer: 2,
+    explanation: 'A comutação de circuitos estabelece uma conexão dedicada através de três fases: estabelecimento da conexão, transferência de dados e desconexão.'
+  },
+  {
+    id: 404,
+    topicId: 'conceitos-basicos',
+    question: 'Sobre as colisões em redes de computadores, pode-se afirmar que:',
+    options: [
+      'Não são tratadas em redes sem fio.',
+      'Não afetam o desempenho dos protocolos.',
+      'Ocorrem apenas quando o meio físico é o par trançado.',
+      'São previstas nos protocolos baseados em contenção.'
+    ],
+    answer: 3,
+    explanation: 'Protocolos baseados em contenção, como o CSMA/CD usado em redes Ethernet, são projetados especificamente para gerenciar colisões, que são uma parte esperada da comunicação em um meio compartilhado.'
+  },
   // Modelo OSI e TCP/IP - 20 questions
   {
     id: 21,
@@ -385,6 +629,200 @@ export const questions: Question[] = [
     options: ['Encapsulamento', 'Multiplexação', 'Desencapsulamento', 'Rearranjo'],
     answer: 2,
     explanation: 'Desencapsulamento é o processo inverso do encapsulamento. Cada camada remove seu respectivo cabeçalho, interpreta as informações e passa os dados para a camada superior.',
+  },
+  {
+    id: 101,
+    topicId: 'modelos-osi-tcpip',
+    question: 'A PDU da camada de Transporte que utiliza o protocolo TCP é chamada de:',
+    options: ['Pacote', 'Quadro', 'Datagrama', 'Segmento'],
+    answer: 3,
+    explanation: 'No contexto do TCP, a Unidade de Dados de Protocolo (PDU) da camada de Transporte é chamada de Segmento.',
+  },
+  {
+    id: 102,
+    topicId: 'modelos-osi-tcpip',
+    question: 'Qual camada do modelo OSI lida com a sincronização, o diálogo e o gerenciamento de sessões entre aplicações?',
+    options: ['Camada de Sessão', 'Camada de Transporte', 'Camada de Apresentação', 'Camada de Aplicação'],
+    answer: 0,
+    explanation: 'A Camada de Sessão (Camada 5) é responsável por estabelecer, gerenciar e encerrar as sessões de comunicação entre os hosts.',
+  },
+  {
+    id: 112,
+    topicId: 'modelos-osi-tcpip',
+    question: 'Qual é a PDU (Unidade de Dados de Protocolo) da camada Física?',
+    options: ['Bit', 'Quadro', 'Pacote', 'Segmento'],
+    answer: 0,
+    explanation: 'Na camada Física (Camada 1), a unidade de dados é o Bit, que representa o sinal elétrico, óptico ou de rádio sendo transmitido.',
+  },
+  {
+    id: 117,
+    topicId: 'modelos-osi-tcpip',
+    question: 'A camada de Enlace de Dados é dividida em duas subcamadas. Quais são elas?',
+    options: ['LLC e MAC', 'TCP e UDP', 'IP e ICMP', 'Física e Lógica'],
+    answer: 0,
+    explanation: 'A camada de Enlace de Dados (Layer 2) é dividida em LLC (Logical Link Control), que se comunica com a camada de rede, e MAC (Media Access Control), que interage com a camada física.',
+  },
+  {
+    id: 121,
+    topicId: 'modelos-osi-tcpip',
+    question: 'Qual camada do modelo OSI é responsável pela entrega fim-a-fim e controle de fluxo?',
+    options: [
+      'Camada de Aplicação',
+      'Camada de Transporte',
+      'Camada de Rede',
+      'Camada de Enlace'
+    ],
+    answer: 1,
+    explanation: 'A camada de Transporte (usando protocolos como TCP/UDP) é responsável pela entrega fim-a-fim dos dados e pelo controle de fluxo.'
+  },
+  {
+    id: 128,
+    topicId: 'modelos-osi-tcpip',
+    question: 'Em qual camada do modelo OSI opera o switch de camada 2?',
+    options: [
+      'Camada de Rede',
+      'Camada Física',
+      'Camada de Enlace',
+      'Camada Física + Enlace'
+    ],
+    answer: 2,
+    explanation: 'Um switch de camada 2 opera na camada de Enlace de Dados, utilizando endereços MAC para tomar decisões de encaminhamento.'
+  },
+  {
+    id: 148,
+    topicId: 'modelos-osi-tcpip',
+    question: 'Qual camada do modelo TCP/IP corresponde aproximadamente à camada de sessão e apresentação do modelo OSI?',
+    options: [
+      'Aplicação',
+      'Transporte',
+      'Internet',
+      'Link'
+    ],
+    answer: 0,
+    explanation: 'No modelo simplificado TCP/IP, as funcionalidades das camadas de Sessão, Apresentação e Aplicação do modelo OSI são combinadas na única camada de Aplicação.'
+  },
+  {
+    id: 187,
+    topicId: 'modelos-osi-tcpip',
+    question: 'Qual camada do modelo OSI é responsável pela representação de dados (por exemplo, compressão, encriptação)?',
+    options: [
+      'Camada de Sessão',
+      'Camada de Apresentação',
+      'Camada de Enlace',
+      'Camada Física'
+    ],
+    answer: 1,
+    explanation: 'A Camada de Apresentação (camada 6) é responsável por garantir que os dados de uma camada de aplicação possam ser lidos por outra. Funções como formatação, compressão e criptografia são realizadas nela.'
+  },
+  {
+    id: 202,
+    topicId: 'modelos-osi-tcpip',
+    question: 'Qual camada do modelo OSI é responsável pelo roteamento de pacotes?',
+    options: [
+      'Camada de Enlace',
+      'Camada de Transporte',
+      'Camada de Rede',
+      'Camada de Sessão'
+    ],
+    answer: 2,
+    explanation: 'A camada de rede é responsável pelo roteamento de pacotes entre redes diferentes.'
+  },
+  {
+    "id": 447,
+    "topicId": "modelos-osi-tcpip",
+    "question": "Qual é a unidade de Dados de Protocolo, ou PDU (Protocol Data Unit), da camada de aplicação?",
+    "options": [
+      "Quadro",
+      "Célula",
+      "Mensagem",
+      "Segmento",
+      "Pacote"
+    ],
+    "answer": 2,
+    "explanation": "Na camada de Aplicação, a PDU é geralmente chamada de Mensagem ou simplesmente Dados."
+  },
+  {
+    "id": 448,
+    "topicId": "modelos-osi-tcpip",
+    "question": "Um sistema de comunicação é um conjunto de entidades (ou partes) coordenadas, que concorrem para a transferência de dados. Ocorre entre duas partes, sendo que em uma há um emissor e na outra um receptor. A tarefa de cada camada de comunicação é adicionar um cabeçalho ou um trailer para um envelope de dados. Este processo é conhecido como:",
+    "options": [
+      "Unidade de processamento",
+      "Unidade de receptores",
+      "Fluxo de Dados",
+      "Encapsulamento",
+      "Elementos desconexos"
+    ],
+    "answer": 3,
+    "explanation": "O processo de adicionar cabeçalhos (e trailers) aos dados à medida que eles descem pelas camadas do modelo de rede é chamado de Encapsulamento."
+  },
+  {
+    "id": 453,
+    "topicId": "modelos-osi-tcpip",
+    "question": "De sete camadas do modelo de referência OSI são: de aplicação, de apresentação, de sessão, de transporte, de rede, de enlace e de física. O protocolo de rede trabalha com os endereços de origem e destino, e ele tem a seguinte função: 'Determinar o roteamento da mensagem entre a origem até o destino'. A qual camada corresponde essa função?",
+    "options": [
+      "Física",
+      "Transporte",
+      "Rede",
+      "Aplicação",
+      "Sessão"
+    ],
+    "answer": 2,
+    "explanation": "A camada de Rede (Camada 3) é responsável pelo endereçamento lógico (IP) e pelo roteamento de pacotes através da rede para determinar o melhor caminho da origem ao destino."
+  },
+  {
+    "id": 454,
+    "topicId": "modelos-osi-tcpip",
+    "question": "Em cada camada, uma Unidade de Dados de Protocolo, ou PDU (Protocol Data Unit), possui campos de cabeçalho. Em qual camada e protocolo o PDU (Protocol Data Unit) possui um cabeçalho chamado 'pacote'?",
+    "options": [
+      "Quadro",
+      "Mensagem",
+      "Segmento",
+      "Datagrama",
+      "Rede (IP)"
+    ],
+    "answer": 4,
+    "explanation": "A PDU da camada de Rede (Camada 3) é o Pacote (Packet). O termo 'datagrama' também é frequentemente usado, especialmente no contexto do IP."
+  },
+  {
+    "id": 455,
+    "topicId": "modelos-osi-tcpip",
+    "question": "Em cada camada, uma Unidade de Dados de Protocolo, ou PDU (Protocol Data Unit), possui campos de cabeçalho. Em qual camada e protocolo o PDU possui um cabeçalho chamado 'segmento'?",
+    "options": [
+      "Quadro",
+      "Célula",
+      "Mensagem",
+      "Pacote",
+      "Transporte (TCP)"
+    ],
+    "answer": 4,
+    "explanation": "A PDU da camada de Transporte (Camada 4) quando se usa o protocolo TCP é chamada de Segmento."
+  },
+  {
+    "id": 457,
+    "topicId": "modelos-osi-tcpip",
+    "question": "São as atividades ou funções que envolvem um pacote quando ele chega ao seu destino, por exemplo, o encapsulamento, o fluxo de dados, o endereçamento, etc. Quando o pacote é transmitido para um ou mais destinos, as atividades ou funções envolvidas incluem o encapsulamento. A transmissão de um pacote de dados para um ou mais destinos é um processo que envolve a criação de um pacote de dados, a seleção de um ou mais destinos, a transmissão do pacote e a confirmação de recebimento do pacote. Qual é o nome das ações realizadas na transmissão e/ou no recebimento de uma mensagem que inclui um pacote?",
+    "options": [
+      "Encapsulamento",
+      "Serviços",
+      "Fluxo",
+      "Protocolo",
+      "Link"
+    ],
+    "answer": 3,
+    "explanation": "Um protocolo é um conjunto de regras e convenções que governam como os dados são formatados, transmitidos e recebidos. Isso inclui todas as ações mencionadas, como encapsulamento, endereçamento e controle de fluxo."
+  },
+  {
+    "id": 403,
+    "topicId": "modelos-osi-tcpip",
+    "question": "Quanto ao surgimento da Internet, é possível afirmar que:",
+    "options": [
+      "Foi resultado da substituição do protocolo TCP pelo protocolo IP.",
+      "Foi decorrência do crescimento da ARPANET, financiada pelo governo norte-americano.",
+      "Foi possível após o desenvolvimento das LAN.",
+      "Surgiu na Inglaterra."
+    ],
+    "answer": 1,
+    "explanation": "A Internet evoluiu diretamente da ARPANET, uma rede de pesquisa e desenvolvimento financiada pela Agência de Projetos de Pesquisa Avançada (ARPA) do Departamento de Defesa dos EUA."
   },
 
   // Endereçamento IP e Sub-redes - 20 questions
@@ -548,7 +986,207 @@ export const questions: Question[] = [
     answer: 1,
     explanation: 'O crescimento exponencial da Internet levou ao esgotamento do espaço de endereçamento do IPv4. O IPv6, com seus 128 bits, foi criado para resolver esse problema.',
   },
-
+  {
+    id: 105,
+    topicId: 'enderecamento-ip',
+    question: 'No endereço IP 192.168.10.50 com máscara 255.255.255.0, qual é o endereço de rede?',
+    options: ['192.168.10.0', '192.168.10.255', '192.168.0.0', '192.168.1.0'],
+    answer: 0,
+    explanation: 'Aplicando a máscara de sub-rede 255.255.255.0 ao endereço IP 192.168.10.50, a porção da rede é identificada como 192.168.10.0.',
+  },
+  {
+    id: 109,
+    topicId: 'enderecamento-ip',
+    question: 'Quantos bits compõem um endereço MAC?',
+    options: ['32 bits', '64 bits', '128 bits', '48 bits'],
+    answer: 3,
+    explanation: 'Um endereço MAC (Media Access Control) é um identificador único de 48 bits, geralmente representado em formato hexadecimal (ex: 00-1A-2B-3C-4D-5E).',
+  },
+  {
+    id: 113,
+    topicId: 'enderecamento-ip',
+    question: 'Um endereço IP do tipo 172.20.15.10 pertence a qual classe de endereço privado?',
+    options: ['Classe A', 'Classe B', 'Classe C', 'Não é um endereço privado'],
+    answer: 1,
+    explanation: 'O intervalo de endereços privados da Classe B vai de 172.16.0.0 a 172.31.255.255. O endereço 172.20.15.10 está dentro deste intervalo.',
+  },
+  {
+    id: 118,
+    topicId: 'enderecamento-ip',
+    question: 'Qual tipo de endereço IPv6 é usado para comunicação na Internet pública, sendo globalmente único e roteável?',
+    options: ['Link-Local', 'Unique Local', 'Global Unicast', 'Multicast'],
+    answer: 2,
+    explanation: 'Endereços Global Unicast são o equivalente IPv6 dos endereços IPv4 públicos. Eles são únicos globalmente e podem ser roteados através da Internet.',
+  },
+  {
+    id: 141,
+    topicId: 'enderecamento-ip',
+    question: 'Qual campo do cabeçalho IP indica o protocolo de camada superior (TCP/UDP/ICMP)?',
+    options: [
+      'Source IP',
+      'Destination IP',
+      'Protocol',
+      'TTL'
+    ],
+    answer: 2,
+    explanation: 'O campo "Protocol" no cabeçalho IPv4 indica qual protocolo da camada de transporte (como TCP, UDP ou ICMP) está contido no payload do pacote IP.'
+  },
+  {
+    id: 142,
+    topicId: 'enderecamento-ip',
+    question: 'O que significa TTL em cabeçalho IP?',
+    options: [
+      'Tipo de Transporte',
+      'Time To Live (tempo de vida)',
+      'Tamanho do pacote',
+      'Token de segurança'
+    ],
+    answer: 1,
+    explanation: 'TTL (Time to Live) é um contador que garante que os pacotes não fiquem circulando indefinidamente na rede. Ele é decrementado a cada "salto" (hop), e o pacote é descartado quando o TTL chega a zero.'
+  },
+  {
+    id: 145,
+    topicId: 'enderecamento-ip',
+    question: 'Qual mecanismo divide uma rede grande em sub-redes menores?',
+    options: [
+      'VLAN',
+      'Subnetting',
+      'NAT',
+      'ARP'
+    ],
+    answer: 1,
+    explanation: 'Subnetting é o processo de dividir um bloco de endereços IP em sub-redes menores, o que ajuda a otimizar o uso do espaço de endereços e a gerenciar melhor o tráfego de rede.'
+  },
+  {
+    id: 146,
+    topicId: 'enderecamento-ip',
+    question: 'Qual endereço IPv4 é considerado "loopback"?',
+    options: [
+      '0.0.0.0',
+      '127.0.0.1',
+      '255.255.255.255',
+      '192.168.0.1'
+    ],
+    answer: 1,
+    explanation: 'O endereço 127.0.0.1 é reservado para "loopback", permitindo que um host envie pacotes para si mesmo para fins de teste e diagnóstico.'
+  },
+  {
+    id: 149,
+    topicId: 'enderecamento-ip',
+    question: 'Qual é o endereço IPv4 privado presente no bloco 10.0.0.0/8?',
+    options: [
+      '10.0.0.1',
+      '172.16.0.1',
+      '192.168.1.1',
+      '169.254.0.1'
+    ],
+    answer: 0,
+    explanation: 'Os endereços da classe A privada estão na faixa 10.0.0.0 a 10.255.255.255, ou seja, no bloco 10.0.0.0/8.'
+  },
+  {
+    id: 163,
+    topicId: 'enderecamento-ip',
+    question: 'O que é "fragmentação" em IPv4?',
+    options: [
+      'Divisão de pacotes grandes em pacotes menores para atravessar redes com MTU menor',
+      'Criptografia de pacotes',
+      'Conversão de IPv4 para IPv6',
+      'Segmentação por VLAN'
+    ],
+    answer: 0,
+    explanation: 'Fragmentação é o processo de dividir um pacote IP grande em pacotes menores quando ele precisa passar por uma rede que suporta um MTU menor do que o pacote original.'
+  },
+  {
+    id: 166,
+    topicId: 'enderecamento-ip',
+    question: 'Qual tipo de endereço IPv6 representa múltiplos destinos (um para muitos)?',
+    options: [
+      'Unicast',
+      'Multicast',
+      'Anycast',
+      'Broadcast'
+    ],
+    answer: 1,
+    explanation: 'O endereço Multicast em IPv6 é usado para enviar pacotes de um único remetente para um grupo de destinatários, otimizando o envio de tráfego para múltiplos hosts.'
+  },
+  {
+    id: 167,
+    topicId: 'enderecamento-ip',
+    question: 'O que é um endereço IPv6 "link-local" que começa com "fe80::" usado para?',
+    options: [
+      'Roteamento na Internet',
+      'Comunicação apenas no segmento local',
+      'Broadcast global',
+      'Endereçamento privado para VPNs'
+    ],
+    answer: 1,
+    explanation: 'Endereços link-local IPv6, que começam com fe80::, são usados para comunicação entre dispositivos no mesmo segmento de rede e não podem ser roteados para fora.'
+  },
+  {
+    id: 168,
+    topicId: 'enderecamento-ip',
+    question: 'Qual é o propósito do IPv6 SLAAC (StateLess Address Auto-Configuration)?',
+    options: [
+      'Atribuir endereços IPv6 automaticamente sem DHCPv6',
+      'Substituir DNS',
+      'Criptografar pacotes',
+      'Converter MACs'
+    ],
+    answer: 0,
+    explanation: 'SLAAC permite que dispositivos configurem seus próprios endereços IPv6 automaticamente, usando informações do roteador e seu próprio endereço MAC, sem a necessidade de um servidor DHCPv6.'
+  },
+  {
+    id: 182,
+    topicId: 'enderecamento-ip',
+    question: 'Qual é a faixa de endereços APIPA/Link-local IPv4 usada quando DHCP falha (169.254.0.0)?',
+    options: [
+      '169.254.0.0 - 169.254.255.255',
+      '192.168.0.0 - 192.168.255.255',
+      '10.0.0.0 - 10.255.255.255',
+      '127.0.0.0 - 127.255.255.255'
+    ],
+    answer: 0,
+    explanation: 'O APIPA (Automatic Private IP Addressing) atribui endereços na faixa 169.254.0.0/16 a dispositivos quando eles não conseguem obter um endereço IP de um servidor DHCP.'
+  },
+  {
+    id: 194,
+    topicId: 'enderecamento-ip',
+    question: 'Qual é a principal vantagem do IPv6 sobre IPv4?',
+    options: [
+      'Menor cabeçalho',
+      'Espaço de endereçamento muito maior e outras melhorias (autoconfig, eliminação de NAT obrigatório)',
+      'Uso de TCP por padrão',
+      'Menor segurança'
+    ],
+    answer: 1,
+    explanation: 'A principal vantagem do IPv6 é o seu vasto espaço de endereçamento, resolvendo a escassez de IPs do IPv4. Ele também traz melhorias como autoconfiguração de endereços e maior eficiência no roteamento.'
+  },
+  {
+    id: 195,
+    topicId: 'enderecamento-ip',
+    question: 'O que significa "anycast" em IPv6?',
+    options: [
+      'Endereço entregue a todas as interfaces',
+      'Endereço entregue ao host mais próximo de um grupo de interfaces que o anunciam',
+      'Endereço broadcast',
+      'Endereço multicast'
+    ],
+    answer: 1,
+    explanation: 'Anycast é um tipo de endereçamento onde um pacote enviado para um endereço anycast é entregue a apenas um dos hosts do grupo (o "mais próximo"), o que é útil para serviços como o DNS.'
+  },
+  {
+    id: 204,
+    topicId: 'enderecamento-ip',
+    question: 'Qual das alternativas representa um endereço IP válido na versão IPv4?',
+    options: [
+      '192.168.1.256',
+      '192.168.1.1',
+      '192.168.1',
+      '192.168.1.1.1'
+    ],
+    answer: 1,
+    explanation: 'O endereço 192.168.1.1 é um endereço IPv4 válido. Os demais estão fora do padrão.'
+  },
   // Protocolos Essenciais - 20 questions
   {
     id: 61,
@@ -710,7 +1348,569 @@ export const questions: Question[] = [
     answer: 1,
     explanation: 'O comportamento padrão do POP3 é conectar-se ao servidor, baixar todas as mensagens para o cliente local e, em seguida, excluí-las do servidor. É um modelo "offline".',
   },
-
+  {
+    id: 103,
+    topicId: 'protocolos-essenciais',
+    question: 'Qual comando é usado em sistemas Windows para visualizar a tabela ARP?',
+    options: ['arp -a', 'show arp', 'netstat -r', 'ipconfig /displayarp'],
+    answer: 0,
+    explanation: 'O comando "arp -a" é usado tanto no Windows quanto em sistemas baseados em Unix/Linux para exibir as entradas da tabela ARP.',
+  },
+  {
+    id: 107,
+    topicId: 'protocolos-essenciais',
+    question: 'Qual tipo de registro DNS é usado para mapear um nome de domínio para um endereço IPv4?',
+    options: ['AAAA', 'CNAME', 'MX', 'A'],
+    answer: 3,
+    explanation: 'O registro "A" (Address) é o tipo de registro DNS fundamental que associa um nome de domínio a um endereço IPv4.',
+  },
+  {
+    id: 111,
+    topicId: 'protocolos-essenciais',
+    question: 'Qual protocolo é usado para transferir páginas web de um servidor para um navegador?',
+    options: ['FTP', 'SMTP', 'HTTP', 'SNMP'],
+    answer: 2,
+    explanation: 'HTTP (Hypertext Transfer Protocol) é o protocolo fundamental usado para a comunicação entre servidores web e clientes (navegadores), permitindo a transferência de recursos como documentos HTML.',
+  },
+  {
+    id: 116,
+    topicId: 'protocolos-essenciais',
+    question: 'Qual é a porta padrão para o protocolo de acesso remoto seguro SSH?',
+    options: ['23', '22', '21', '25'],
+    answer: 1,
+    explanation: 'O protocolo SSH (Secure Shell) usa a porta TCP 22 por padrão para fornecer acesso remoto seguro a sistemas.',
+  },
+  {
+    id: 120,
+    topicId: 'protocolos-essenciais',
+    question: 'Qual protocolo de roteamento usa a contagem de saltos (hop count) como sua principal métrica?',
+    options: ['OSPF', 'BGP', 'EIGRP', 'RIP'],
+    answer: 3,
+    explanation: 'RIP (Routing Information Protocol) é um protocolo de roteamento do tipo vetor de distância que usa o número de roteadores (saltos) como métrica para determinar o melhor caminho.',
+  },
+  {
+    id: 122,
+    topicId: 'protocolos-essenciais',
+    question: 'O que faz o protocolo ARP (Address Resolution Protocol)?',
+    options: [
+      'Resolve nomes DNS para endereços IP',
+      'Define rotas entre redes diferentes',
+      'Traduz endereços IP para endereços de enlace (MAC)',
+      'Criptografa pacotes na camada de rede'
+    ],
+    answer: 2,
+    explanation: 'O ARP resolve endereços IP para endereços MAC na mesma rede local, permitindo a comunicação entre dispositivos.'
+  },
+  {
+    id: 127,
+    topicId: 'protocolos-essenciais',
+    question: 'Qual dos seguintes protocolos é orientado à conexão?',
+    options: [
+      'UDP',
+      'ICMP',
+      'TCP',
+      'IP'
+    ],
+    answer: 2,
+    explanation: 'TCP (Transmission Control Protocol) é um protocolo orientado à conexão que estabelece uma conexão confiável antes de enviar os dados.'
+  },
+  {
+    id: 129,
+    topicId: 'protocolos-essenciais',
+    question: 'Qual serviço converte nomes de domínio em endereços IP?',
+    options: [
+      'SMTP',
+      'DNS',
+      'FTP',
+      'DHCP'
+    ],
+    answer: 1,
+    explanation: 'O DNS (Domain Name System) é o serviço que traduz nomes de domínio legíveis por humanos (ex: www.google.com) para endereços IP numéricos.'
+  },
+  {
+    id: 131,
+    topicId: 'protocolos-essenciais',
+    question: 'Qual o propósito do protocolo DHCP?',
+    options: [
+      'Atribuir dinamicamente endereços IP',
+      'Converter nomes para IP',
+      'Fornecer serviço de e-mail',
+      'Sincronizar relógios'
+    ],
+    answer: 0,
+    explanation: 'O DHCP (Dynamic Host Configuration Protocol) atribui automaticamente endereços IP e outras configurações de rede a dispositivos conectados.'
+  },
+  {
+    id: 132,
+    topicId: 'protocolos-essenciais',
+    question: 'O que faz o protocolo ICMP?',
+    options: [
+      'Transporte de dados de aplicação',
+      'Diagnóstico e mensagens de controle (ex: ping)',
+      'Roteamento entre AS',
+      'Criptografia de tráfego'
+    ],
+    answer: 1,
+    explanation: 'O ICMP (Internet Control Message Protocol) é usado para enviar mensagens de erro e diagnóstico, como as usadas pelo comando "ping".'
+  },
+  {
+    id: 134,
+    topicId: 'protocolos-essenciais',
+    question: 'Qual protocolo é normalmente usado para transferência segura de arquivos (com criptografia)?',
+    options: [
+      'FTP',
+      'TFTP',
+      'SFTP',
+      'HTTP'
+    ],
+    answer: 2,
+    explanation: 'O SFTP (SSH File Transfer Protocol) é um protocolo seguro que transfere arquivos sobre uma conexão SSH, garantindo a criptografia dos dados.'
+  },
+  {
+    id: 135,
+    topicId: 'protocolos-essenciais',
+    question: 'Qual porta TCP padrão é utilizada pelo HTTP sem TLS?',
+    options: [
+      '80',
+      '443',
+      '21',
+      '25'
+    ],
+    answer: 0,
+    explanation: 'O protocolo HTTP, que não usa criptografia, utiliza a porta TCP padrão 80.'
+  },
+  {
+    id: 136,
+    topicId: 'protocolos-essenciais',
+    question: 'Qual porta TCP padrão é utilizada pelo HTTPS?',
+    options: [
+      '80',
+      '443',
+      '22',
+      '110'
+    ],
+    answer: 1,
+    explanation: 'O protocolo HTTPS, que é a versão segura (com TLS/SSL) do HTTP, utiliza a porta TCP padrão 443.'
+  },
+  {
+    id: 140,
+    topicId: 'protocolos-essenciais',
+    question: 'Qual é a finalidade do protocolo TCP three-way handshake?',
+    options: [
+      'Descoberta de caminho',
+      'Estabelecer conexão confiável entre cliente e servidor',
+      'Encryptar dados',
+      'Resolver endereços MAC'
+    ],
+    answer: 1,
+    explanation: 'O three-way handshake (troca de pacotes SYN, SYN-ACK, ACK) é o processo pelo qual um cliente e um servidor estabelecem uma conexão TCP confiável antes de começar a troca de dados.'
+  },
+  {
+    id: 143,
+    topicId: 'protocolos-essenciais',
+    question: 'Qual protocolo é usado para sincronizar relógios entre hosts na internet?',
+    options: [
+      'NTP',
+      'SNMP',
+      'DNS',
+      'DHCP'
+    ],
+    answer: 0,
+    explanation: 'O NTP (Network Time Protocol) é usado para sincronizar os relógios de computadores em uma rede de dados com alta precisão.'
+  },
+  {
+    id: 144,
+    topicId: 'protocolos-essenciais',
+    question: 'Qual é a função do protocolo SNMP?',
+    options: [
+      'Gerenciamento e monitoramento de dispositivos de rede',
+      'Transferência de arquivos',
+      'Resolução de nomes',
+      'Estabelecer sessões TCP'
+    ],
+    answer: 0,
+    explanation: 'O SNMP (Simple Network Management Protocol) é usado para gerenciar e monitorar dispositivos em uma rede IP.'
+  },
+  {
+    id: 147,
+    topicId: 'protocolos-essenciais',
+    question: 'O que faz o protocolo FTP?',
+    options: [
+      'Envia e-mails',
+      'Transferência de arquivos sem criptografia',
+      'Resolução de nomes',
+      'Gerenciamento de rede'
+    ],
+    answer: 1,
+    explanation: 'O FTP (File Transfer Protocol) é usado para transferir arquivos entre um cliente e um servidor. Por padrão, ele não usa criptografia.'
+  },
+  {
+    id: 152,
+    topicId: 'protocolos-essenciais',
+    question: 'Qual protocolo permite descobrir o endereço MAC de um IP conhecido (IPv4) na mesma rede?',
+    options: [
+      'DNS',
+      'ARP',
+      'DHCP',
+      'ICMP'
+    ],
+    answer: 1,
+    explanation: 'O ARP (Address Resolution Protocol) é usado para encontrar o endereço de hardware (MAC) de um host quando apenas o endereço IP é conhecido, dentro de um mesmo segmento de rede.'
+  },
+  {
+    id: 155,
+    topicId: 'protocolos-essenciais',
+    question: 'O que faz o protocolo BGP?',
+    options: [
+      'Roteamento dentro de um AS (Interior)',
+      'Roteamento entre sistemas autônomos (Exterior)',
+      'Resolving ARP',
+      'Gerenciar switches'
+    ],
+    answer: 1,
+    explanation: 'BGP (Border Gateway Protocol) é o principal protocolo de roteamento usado para trocar informações de roteamento entre diferentes Sistemas Autônomos (AS) na Internet.'
+  },
+  {
+    id: 156,
+    topicId: 'protocolos-essenciais',
+    question: 'Qual protocolo é usado para envio de e-mail entre servidores?',
+    options: [
+      'IMAP',
+      'POP3',
+      'SMTP',
+      'FTP'
+    ],
+    answer: 2,
+    explanation: 'O SMTP (Simple Mail Transfer Protocol) é o protocolo padrão para enviar e-mails de um servidor para outro e de um cliente de e-mail para um servidor de e-mail.'
+  },
+  {
+    id: 157,
+    topicId: 'protocolos-essenciais',
+    question: 'Qual protocolo permite acessar e gerenciar remotamente um shell de forma segura?',
+    options: [
+      'Telnet',
+      'FTP',
+      'SSH',
+      'RDP'
+    ],
+    answer: 2,
+    explanation: 'O SSH (Secure Shell) é um protocolo que fornece uma conexão de shell segura e criptografada para acesso remoto a sistemas.'
+  },
+  {
+    id: 159,
+    topicId: 'protocolos-essenciais',
+    question: 'Qual protocolo de roteamento é tipicamente usado em redes corporativas para roteamento interno (link-state)?',
+    options: [
+      'RIP',
+      'OSPF',
+      'BGP',
+      'EIGRP'
+    ],
+    answer: 1,
+    explanation: 'O OSPF (Open Shortest Path First) é um protocolo de roteamento interno (IGP) do tipo link-state, muito utilizado em redes corporativas grandes e complexas.'
+  },
+  {
+    id: 162,
+    topicId: 'protocolos-essenciais',
+    question: 'Qual protocolo de transporte usa números de porta e oferece controle de congestionamento?',
+    options: [
+      'UDP',
+      'ICMP',
+      'TCP',
+      'ARP'
+    ],
+    answer: 2,
+    explanation: 'O TCP usa números de porta para identificar aplicações e inclui mecanismos robustos para controle de fluxo e de congestionamento, garantindo a entrega confiável dos dados.'
+  },
+  {
+    id: 169,
+    topicId: 'protocolos-essenciais',
+    question: 'Qual comando é comumente usado para testar conectividade entre dois hosts (ICMP echo)?',
+    options: [
+      'traceroute',
+      'telnet',
+      'ping',
+      'nslookup'
+    ],
+    answer: 2,
+    explanation: 'O comando "ping" envia pacotes ICMP "echo request" para um host de destino e mede o tempo de resposta, sendo uma ferramenta básica para testar a conectividade.'
+  },
+  {
+    id: 170,
+    topicId: 'protocolos-essenciais',
+    question: 'O que faz o comando traceroute (ou tracert)?',
+    options: [
+      'Mede velocidade da rede',
+      'Mostra rota e saltos entre origem e destino',
+      'Resolve nomes DNS',
+      'Atribui IPs'
+    ],
+    answer: 1,
+    explanation: 'O comando "traceroute" (ou "tracert" no Windows) exibe o caminho que um pacote percorre na rede, listando cada roteador ("hop") por onde o pacote passa até chegar ao destino.'
+  },
+  {
+    id: 173,
+    topicId: 'protocolos-essenciais',
+    question: 'Qual protocolo usa portas 20 e 21 por padrão?',
+    options: [
+      'HTTPS',
+      'FTP',
+      'SSH',
+      'SMTP'
+    ],
+    answer: 1,
+    explanation: 'O FTP (File Transfer Protocol) usa a porta 21 para o canal de controle e a porta 20 (em modo ativo) para o canal de dados.'
+  },
+  {
+    id: 175,
+    topicId: 'protocolos-essenciais',
+    question: 'Qual protocolo detecta topologia de rede e fornece informações a switches gerenciáveis (ex: LLDP)?',
+    options: [
+      'LLDP',
+      'OSPF',
+      'BGP',
+      'ARP'
+    ],
+    answer: 0,
+    explanation: 'O LLDP (Link Layer Discovery Protocol) é um protocolo de camada de enlace que permite que dispositivos de rede anunciem sua identidade e capacidades para outros dispositivos conectados.'
+  },
+  {
+    id: 178,
+    topicId: 'protocolos-essenciais',
+    question: 'O que é "SSDP" comumente usado em redes domésticas (UPnP)?',
+    options: [
+      'Protocolo de roteamento',
+      'Simple Service Discovery Protocol para descoberta de serviços UPnP',
+      'Substituição de DHCP',
+      'Criptografia de dados'
+    ],
+    answer: 1,
+    explanation: 'SSDP (Simple Service Discovery Protocol) é um protocolo usado em redes domésticas para que dispositivos possam se descobrir mutuamente e anunciar seus serviços (UPnP).'
+  },
+  {
+    id: 180,
+    topicId: 'protocolos-essenciais',
+    question: 'O que é "split-horizon" em protocolos de roteamento distance-vector como RIP?',
+    options: [
+      'Evitar que rotas sejam anunciadas de volta pela interface de origem para prevenir loops',
+      'Aumentar banda',
+      'Criptografar atualizações',
+      'Usar diferentes caminhos para tráfego de saída'
+    ],
+    answer: 0,
+    explanation: 'Split-horizon é uma regra de roteamento que impede que um roteador anuncie uma rota de volta pela mesma interface de onde a aprendeu, prevenindo loops de roteamento.'
+  },
+  {
+    id: 181,
+    topicId: 'protocolos-essenciais',
+    question: 'Qual é a finalidade do protocolo RARP (Reverse ARP)?',
+    options: [
+      'Mapear IP para MAC',
+      'Mapear MAC para IP (originalmente usado por discos sem memória)',
+      'Sincronizar tempo',
+      'Resolver nomes'
+    ],
+    answer: 1,
+    explanation: 'O RARP (Reverse Address Resolution Protocol) era usado para permitir que um dispositivo descobrisse seu endereço IP a partir de seu endereço MAC. Ele foi amplamente substituído pelo DHCP.'
+  },
+  {
+    id: 184,
+    topicId: 'protocolos-essenciais',
+    question: 'Qual protocolo transporta e-mails recebidos de um servidor para um cliente (download)?',
+    options: [
+      'SMTP',
+      'POP3',
+      'BGP',
+      'DNS'
+    ],
+    answer: 1,
+    explanation: 'POP3 (Post Office Protocol version 3) e IMAP são protocolos usados para que os clientes de e-mail recuperem e-mails de um servidor.'
+  },
+  {
+    id: 186,
+    topicId: 'protocolos-essenciais',
+    question: 'Qual é a função do protocolo "mDNS" (multicast DNS)?',
+    options: [
+      'Resolução de nomes em redes locais sem servidor DNS central',
+      'Roteamento de multicast global',
+      'Sincronização de tempo',
+      'Criptografia de nomes'
+    ],
+    answer: 0,
+    explanation: 'O mDNS (multicast DNS) permite a resolução de nomes de domínio para endereços IP em redes pequenas que não têm um servidor DNS central, facilitando a descoberta de serviços e dispositivos locais.'
+  },
+  {
+    id: 188,
+    topicId: 'protocolos-essenciais',
+    question: 'Qual protocolo fornece tradução de nomes reversa (IP para nome) em DNS?',
+    options: [
+      'PTR records usados por DNS',
+      'A record',
+      'CNAME',
+      'MX'
+    ],
+    answer: 0,
+    explanation: 'O DNS usa registros PTR (Pointer) para tradução de nomes reversa, permitindo que um endereço IP seja traduzido para um nome de domínio associado.'
+  },
+  {
+    id: 190,
+    topicId: 'protocolos-essenciais',
+    question: 'O que é "flow control" em TCP?',
+    options: [
+      'Controle de rotas',
+      'Mecanismo para evitar que receptor seja sobrecarregado (janela TCP)',
+      'Filtro de pacotes',
+      'Mapeamento de portas'
+    ],
+    answer: 1,
+    explanation: 'O controle de fluxo do TCP usa o conceito de "janela de recebimento" para garantir que o remetente não envie dados mais rápido do que o receptor pode processá-los, evitando sobrecarga.'
+  },
+  {
+    id: 191,
+    topicId: 'protocolos-essenciais',
+    question: 'Qual comando mostra a tabela de roteamento em sistemas Linux?',
+    options: [
+      'ifconfig',
+      'route -n ou ip route',
+      'nslookup',
+      'netstat -a'
+    ],
+    answer: 1,
+    explanation: 'Os comandos "route -n" ou "ip route" são usados em sistemas Linux para exibir a tabela de roteamento do kernel, que contém as rotas que os pacotes seguem.'
+  },
+  {
+    id: 196,
+    topicId: 'protocolos-essenciais',
+    question: 'Qual é o papel do "DNS root servers" na resolução de nomes?',
+    options: [
+      'Armazenar registros A de todos os domínios',
+      'Fornecer referência para TLDs, iniciando a resolução recursiva',
+      'Substituir DHCP',
+      'Gerenciar certificados TLS'
+    ],
+    answer: 1,
+    explanation: 'Os servidores raiz do DNS (root servers) são o ponto de partida na hierarquia do DNS. Eles não armazenam todos os registros, mas direcionam as consultas para os servidores de domínio de nível superior (TLD) apropriados.'
+  },
+  {
+    id: 197,
+    topicId: 'protocolos-essenciais',
+    question: 'O que é "route summarization" (agregação de rotas)?',
+    options: [
+      'Dividir uma rota em várias pequenas',
+      'Combinar várias rotas em uma rota agregada para reduzir tamanho de tabelas de roteamento',
+      'Técnica de encriptação de rotas',
+      'Balancear carga entre rotas'
+    ],
+    answer: 1,
+    explanation: 'A agregação de rotas é uma técnica que agrupa múltiplas rotas de rede em uma única rota, reduzindo o tamanho das tabelas de roteamento e melhorando a eficiência.'
+  },
+  {
+    id: 198,
+    topicId: 'protocolos-essenciais',
+    question: 'Qual comando permite verificar resolução DNS para um nome específico e servidor?',
+    options: [
+      'ping',
+      'nslookup ou dig',
+      'ifconfig',
+      'route'
+    ],
+    answer: 1,
+    explanation: 'Os comandos "nslookup" e "dig" são ferramentas de linha de comando para consultar servidores DNS e obter informações sobre nomes de domínio.'
+  },
+  {
+    id: 199,
+    topicId: 'protocolos-essenciais',
+    question: 'Qual é a porta padrão do protocolo SSH?',
+    options: [
+      '20',
+      '21',
+      '22',
+      '23'
+    ],
+    answer: 2,
+    explanation: 'A porta TCP padrão para o protocolo SSH (Secure Shell) é a porta 22.'
+  },
+  {
+    id: 200,
+    topicId: 'protocolos-essenciais',
+    question: 'Qual é a função do protocolo TFTP em comparação ao FTP?',
+    options: [
+      'Transferência de arquivos simples sem autenticação',
+      'Transferência com criptografia',
+      'Gerenciamento de rede',
+      'Resolução de nomes'
+    ],
+    answer: 0,
+    explanation: 'O TFTP (Trivial File Transfer Protocol) é uma versão simplificada do FTP. Ele não exige autenticação e usa UDP, sendo adequado para transferências rápidas e simples, como boot de dispositivos de rede.'
+  },
+  {
+    id: 201,
+    topicId: 'protocolos-essenciais',
+    question: 'Qual protocolo é responsável por atribuir dinamicamente endereços IP aos dispositivos em uma rede?',
+    options: [
+      'DNS',
+      'DHCP',
+      'HTTP',
+      'FTP'
+    ],
+    answer: 1,
+    explanation: 'O DHCP (Dynamic Host Configuration Protocol) é responsável por atribuir endereços IP automaticamente aos dispositivos.'
+  },
+  {
+    "id": 449,
+    "topicId": "protocolos-essenciais",
+    "question": "A camada de transporte, padrão geralmente da camada de aplicação entre os lados do cliente e servidor de uma aplicação na Internet, lida com a conexão na Internet. TCP e UDP são os dois principais protocolos da TCP. Marque a alternativa que possui todos os serviços corretos:",
+    "options": [
+      "I. II.",
+      "I. II. III",
+      "II.",
+      "I",
+      "II. I."
+    ],
+    "answer": 1,
+    "explanation": "TCP oferece transferência confiável de dados (I), controle de fluxo (II), e controle de congestionamento. Embora não faça correção de erros diretamente, a retransmissão de segmentos perdidos contribui para a integridade dos dados, tornando a opção que inclui todos os serviços a mais completa."
+  },
+  {
+    "id": 451,
+    "topicId": "protocolos-essenciais",
+    "question": "O conteúdo sistema_edu, .gov, .com, .mil, .org, .net e .int para nomear sites é mais fácil de lembrar do que a sintaxe de números 192.168.1.5 para um computador. O protocolo da camada de aplicação que permite que os usuários se conectem a sites de pesquisa por meio de nomes em vez de números, por exemplo, é:",
+    "options": [
+      "FTP",
+      "HTTP",
+      "Telnet",
+      "DNS",
+      "SSH"
+    ],
+    "answer": 3,
+    "explanation": "O DNS (Domain Name System) é o protocolo responsável por traduzir nomes de domínio legíveis por humanos (como www.exemplo.com) em endereços IP numéricos (como 192.168.1.5)."
+  },
+  {
+    "id": 456,
+    "topicId": "protocolos-essenciais",
+    "question": "A camada de transporte carrega mensagens da camada de aplicação entre os lados do cliente e servidor de uma aplicação na Internet. TCP e UDP são os dois principais protocolos da camada de transporte. Marque a alternativa que possui todos os serviços corretos: I. Transferência de dados confiável. II. Controle de fluxo. III. Correção de erros.",
+    "options": [
+      "I. II.",
+      "I. II. III.",
+      "II.",
+      "I.",
+      "II. I."
+    ],
+    "answer": 1,
+    "explanation": "O protocolo TCP fornece transferência de dados confiável (I) e controle de fluxo (II). A correção de erros (III) é mais uma função da camada de enlace, embora o TCP detecte erros com checksum e retransmita pacotes perdidos para garantir a confiabilidade."
+  },
+  {
+    "id": 402,
+    "topicId": "protocolos-essenciais",
+    "question": "Sendo TCP e UDP os principais protocolos da camada de transporte, qual das afirmações é verdadeira?",
+    "options": [
+      "O protocolo TCP é adequado para aplicações que podem perder dados e requerem baixo atraso.",
+      "O protocolo UDP permite que os dados sejam entregues para o processo de destino, sem garantir a confiabilidade.",
+      "O protocolo UDP é adequado para aplicações que requerem confiabilidade e alto atraso.",
+      "O protocolo TCP utiliza o endereço lógico para realizar a identificação do processo de destino."
+    ],
+    "answer": 1,
+    "explanation": "A principal característica do UDP (User Datagram Protocol) é sua simplicidade e rapidez, pois ele não estabelece conexão e não garante a entrega dos pacotes, sendo ideal para aplicações que toleram perdas, como streaming de vídeo e jogos online."
+  },
   // Segurança de Rede - 20 questions
   {
     id: 81,
@@ -873,76 +2073,12 @@ export const questions: Question[] = [
     explanation: 'Na criptografia assimétrica, uma chave pública é usada para criptografar os dados, e apenas a chave privada correspondente pode descriptografá-los, o que permite a comunicação segura sem o compartilhamento prévio de um segredo.',
   },
   {
-    id: 101,
-    topicId: 'modelos-osi-tcpip',
-    question: 'A PDU da camada de Transporte que utiliza o protocolo TCP é chamada de:',
-    options: ['Pacote', 'Quadro', 'Datagrama', 'Segmento'],
-    answer: 3,
-    explanation: 'No contexto do TCP, a Unidade de Dados de Protocolo (PDU) da camada de Transporte é chamada de Segmento.',
-  },
-  {
-    id: 102,
-    topicId: 'modelos-osi-tcpip',
-    question: 'Qual camada do modelo OSI lida com a sincronização, o diálogo e o gerenciamento de sessões entre aplicações?',
-    options: ['Camada de Sessão', 'Camada de Transporte', 'Camada de Apresentação', 'Camada de Aplicação'],
-    answer: 0,
-    explanation: 'A Camada de Sessão (Camada 5) é responsável por estabelecer, gerenciar e encerrar as sessões de comunicação entre os hosts.',
-  },
-  {
-    id: 103,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual comando é usado em sistemas Windows para visualizar a tabela ARP?',
-    options: ['arp -a', 'show arp', 'netstat -r', 'ipconfig /displayarp'],
-    answer: 0,
-    explanation: 'O comando "arp -a" é usado tanto no Windows quanto em sistemas baseados em Unix/Linux para exibir as entradas da tabela ARP.',
-  },
-  {
-    id: 104,
-    topicId: 'conceitos-basicos',
-    question: 'A capacidade máxima de dados que um link de comunicação pode transmitir em um determinado período é conhecida como:',
-    options: ['Vazão (Throughput)', 'Latência (Latency)', 'Largura de Banda (Bandwidth)', 'Jitter'],
-    answer: 2,
-    explanation: 'Largura de Banda (Bandwidth) refere-se à capacidade teórica máxima de um link, enquanto a vazão (throughput) é a taxa real de transferência de dados.',
-  },
-  {
-    id: 105,
-    topicId: 'enderecamento-ip',
-    question: 'No endereço IP 192.168.10.50 com máscara 255.255.255.0, qual é o endereço de rede?',
-    options: ['192.168.10.0', '192.168.10.255', '192.168.0.0', '192.168.1.0'],
-    answer: 0,
-    explanation: 'Aplicando a máscara de sub-rede 255.255.255.0 ao endereço IP 192.168.10.50, a porção da rede é identificada como 192.168.10.0.',
-  },
-  {
     id: 106,
     topicId: 'seguranca-de-rede',
     question: 'Um ataque onde o agressor envia uma grande quantidade de pacotes SYN para um servidor, sem completar o handshake, é conhecido como:',
     options: ['Ataque de Phishing', 'Ataque de Força Bruta', 'Ataque SYN Flood', 'Ataque Man-in-the-Middle'],
     answer: 2,
     explanation: 'Um ataque SYN Flood explora o processo de handshake do TCP, deixando o servidor com um grande número de conexões semi-abertas, o que esgota seus recursos e o impede de aceitar novas conexões legítimas.',
-  },
-  {
-    id: 107,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual tipo de registro DNS é usado para mapear um nome de domínio para um endereço IPv4?',
-    options: ['AAAA', 'CNAME', 'MX', 'A'],
-    answer: 3,
-    explanation: 'O registro "A" (Address) é o tipo de registro DNS fundamental que associa um nome de domínio a um endereço IPv4.',
-  },
-  {
-    id: 108,
-    topicId: 'conceitos-basicos',
-    question: 'Em uma topologia de anel, como os dados são transmitidos?',
-    options: ['Para um dispositivo central que os distribui', 'Em uma única direção, passando de um nó para o próximo até chegar ao destino', 'Para todos os dispositivos ao mesmo tempo', 'Por múltiplos caminhos redundantes'],
-    answer: 1,
-    explanation: 'Na topologia em anel, cada dispositivo está conectado a exatamente dois outros, e os dados circulam em uma única direção. Cada dispositivo atua como um repetidor.',
-  },
-  {
-    id: 109,
-    topicId: 'enderecamento-ip',
-    question: 'Quantos bits compõem um endereço MAC?',
-    options: ['32 bits', '64 bits', '128 bits', '48 bits'],
-    answer: 3,
-    explanation: 'Um endereço MAC (Media Access Control) é um identificador único de 48 bits, geralmente representado em formato hexadecimal (ex: 00-1A-2B-3C-4D-5E).',
   },
   {
     id: 110,
@@ -953,38 +2089,6 @@ export const questions: Question[] = [
     explanation: 'A função primária de um IDS é a vigilância. Ele analisa o tráfego em busca de padrões de ataque conhecidos ou anomalias e alerta os administradores, mas não bloqueia o tráfego por si só.',
   },
   {
-    id: 111,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual protocolo é usado para transferir páginas web de um servidor para um navegador?',
-    options: ['FTP', 'SMTP', 'HTTP', 'SNMP'],
-    answer: 2,
-    explanation: 'HTTP (Hypertext Transfer Protocol) é o protocolo fundamental usado para a comunicação entre servidores web e clientes (navegadores), permitindo a transferência de recursos como documentos HTML.',
-  },
-  {
-    id: 112,
-    topicId: 'modelos-osi-tcpip',
-    question: 'Qual é a PDU (Unidade de Dados de Protocolo) da camada Física?',
-    options: ['Bit', 'Quadro', 'Pacote', 'Segmento'],
-    answer: 0,
-    explanation: 'Na camada Física (Camada 1), a unidade de dados é o Bit, que representa o sinal elétrico, óptico ou de rádio sendo transmitido.',
-  },
-  {
-    id: 113,
-    topicId: 'enderecamento-ip',
-    question: 'Um endereço IP do tipo 172.20.15.10 pertence a qual classe de endereço privado?',
-    options: ['Classe A', 'Classe B', 'Classe C', 'Não é um endereço privado'],
-    answer: 1,
-    explanation: 'O intervalo de endereços privados da Classe B vai de 172.16.0.0 a 172.31.255.255. O endereço 172.20.15.10 está dentro deste intervalo.',
-  },
-  {
-    id: 114,
-    topicId: 'conceitos-basicos',
-    question: 'Qual equipamento é capaz de segmentar tanto domínios de colisão quanto domínios de broadcast?',
-    options: ['Hub', 'Switch', 'Roteador', 'Repetidor'],
-    answer: 2,
-    explanation: 'Um switch segmenta domínios de colisão (cada porta é um domínio). Um roteador segmenta domínios de broadcast, pois, por padrão, não encaminha pacotes de broadcast entre suas interfaces.',
-  },
-  {
     id: 115,
     topicId: 'seguranca-de-rede',
     question: 'Qual protocolo foi o predecessor inseguro do WPA para segurança de redes sem fio?',
@@ -993,198 +2097,12 @@ export const questions: Question[] = [
     explanation: 'WEP (Wired Equivalent Privacy) foi um dos primeiros protocolos de segurança para Wi-Fi e é notoriamente inseguro devido a falhas criptográficas que o tornam fácil de quebrar.',
   },
   {
-    id: 116,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual é a porta padrão para o protocolo de acesso remoto seguro SSH?',
-    options: ['23', '22', '21', '25'],
-    answer: 1,
-    explanation: 'O protocolo SSH (Secure Shell) usa a porta TCP 22 por padrão para fornecer acesso remoto seguro a sistemas.',
-  },
-  {
-    id: 117,
-    topicId: 'modelos-osi-tcpip',
-    question: 'A camada de Enlace de Dados é dividida em duas subcamadas. Quais são elas?',
-    options: ['LLC e MAC', 'TCP e UDP', 'IP e ICMP', 'Física e Lógica'],
-    answer: 0,
-    explanation: 'A camada de Enlace de Dados (Layer 2) é dividida em LLC (Logical Link Control), que se comunica com a camada de rede, e MAC (Media Access Control), que interage com a camada física.',
-  },
-  {
-    id: 118,
-    topicId: 'enderecamento-ip',
-    question: 'Qual tipo de endereço IPv6 é usado para comunicação na Internet pública, sendo globalmente único e roteável?',
-    options: ['Link-Local', 'Unique Local', 'Global Unicast', 'Multicast'],
-    answer: 2,
-    explanation: 'Endereços Global Unicast são o equivalente IPv6 dos endereços IPv4 públicos. Eles são únicos globalmente e podem ser roteados através da Internet.',
-  },
-  {
     id: 119,
     topicId: 'seguranca-de-rede',
     question: 'Um malware que se disfarça de software legítimo para enganar o usuário a instalá-lo é chamado de:',
     options: ['Worm', 'Vírus', 'Spyware', 'Cavalo de Troia (Trojan Horse)'],
     answer: 3,
     explanation: 'Um Cavalo de Troia é um tipo de malware que se apresenta como um programa útil ou inofensivo, mas que na verdade executa funções maliciosas em segundo plano após a instalação.',
-  },
-  {
-    id: 120,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual protocolo de roteamento usa a contagem de saltos (hop count) como sua principal métrica?',
-    options: ['OSPF', 'BGP', 'EIGRP', 'RIP'],
-    answer: 3,
-    explanation: 'RIP (Routing Information Protocol) é um protocolo de roteamento do tipo vetor de distância que usa o número de roteadores (saltos) como métrica para determinar o melhor caminho.',
-  },
-  {
-    id: 121,
-    topicId: 'modelos-osi-tcpip',
-    question: 'Qual camada do modelo OSI é responsável pela entrega fim-a-fim e controle de fluxo?',
-    options: [
-      'Camada de Aplicação',
-      'Camada de Transporte',
-      'Camada de Rede',
-      'Camada de Enlace'
-    ],
-    answer: 1,
-    explanation: 'A camada de Transporte (usando protocolos como TCP/UDP) é responsável pela entrega fim-a-fim dos dados e pelo controle de fluxo.'
-  },
-  {
-    id: 122,
-    topicId: 'protocolos-essenciais',
-    question: 'O que faz o protocolo ARP (Address Resolution Protocol)?',
-    options: [
-      'Resolve nomes DNS para endereços IP',
-      'Define rotas entre redes diferentes',
-      'Traduz endereços IP para endereços de enlace (MAC)',
-      'Criptografa pacotes na camada de rede'
-    ],
-    answer: 2,
-    explanation: 'O ARP resolve endereços IP para endereços MAC na mesma rede local, permitindo a comunicação entre dispositivos.'
-  },
-  {
-    id: 123,
-    topicId: 'protocolos-essenciais',
-    question: 'O protocolo UDP oferece garantia de entrega dos pacotes. (Verdadeiro ou Falso)',
-    options: [
-      'Verdadeiro',
-      'Falso'
-    ],
-    answer: 1,
-    explanation: 'Falso. O UDP é um protocolo não orientado à conexão e não oferece garantias de entrega, sendo mais rápido e utilizado para tráfego que tolera perdas, como streaming de vídeo.'
-  },
-  {
-    id: 124,
-    topicId: 'conceitos-basicos',
-    question: 'Uma rede LAN típica usa qual dos seguintes dispositivos para dividir domínios de colisão?',
-    options: [
-      'Hub',
-      'Switch',
-      'Roteador',
-      'Repeater'
-    ],
-    answer: 1,
-    explanation: 'O switch segmenta domínios de colisão, já que ele encaminha o tráfego apenas para a porta de destino, ao contrário de um hub que envia para todas as portas.'
-  },
-  {
-    id: 125,
-    topicId: 'enderecamento-ip',
-    question: 'Qual máscara de sub-rede corresponde à /24 em notação decimal?',
-    options: [
-      '255.255.0.0',
-      '255.255.255.0',
-      '255.255.255.128',
-      '255.255.255.255'
-    ],
-    answer: 1,
-    explanation: 'A notação /24 indica que os 24 primeiros bits do endereço são da rede, o que em decimal corresponde a 255.255.255.0.'
-  },
-  {
-    id: 126,
-    topicId: 'enderecamento-ip',
-    question: 'Em uma rede IPv4, qual endereço é reservado para broadcast?',
-    options: [
-      'Endereço da rede +1',
-      'Endereço do gateway',
-      'O maior endereço da sub-rede',
-      'O menor endereço da sub-rede'
-    ],
-    answer: 2,
-    explanation: 'O endereço de broadcast é o último endereço de uma sub-rede, onde todos os bits da porção de host são "1". Ele é usado para enviar dados a todos os hosts daquela rede.'
-  },
-  {
-    id: 127,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual dos seguintes protocolos é orientado à conexão?',
-    options: [
-      'UDP',
-      'ICMP',
-      'TCP',
-      'IP'
-    ],
-    answer: 2,
-    explanation: 'TCP (Transmission Control Protocol) é um protocolo orientado à conexão que estabelece uma conexão confiável antes de enviar os dados.'
-  },
-  {
-    id: 128,
-    topicId: 'modelos-osi-tcpip',
-    question: 'Em qual camada do modelo OSI opera o switch de camada 2?',
-    options: [
-      'Camada de Rede',
-      'Camada Física',
-      'Camada de Enlace',
-      'Camada Física + Enlace'
-    ],
-    answer: 2,
-    explanation: 'Um switch de camada 2 opera na camada de Enlace de Dados, utilizando endereços MAC para tomar decisões de encaminhamento.'
-  },
-  {
-    id: 129,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual serviço converte nomes de domínio em endereços IP?',
-    options: [
-      'SMTP',
-      'DNS',
-      'FTP',
-      'DHCP'
-    ],
-    answer: 1,
-    explanation: 'O DNS (Domain Name System) é o serviço que traduz nomes de domínio legíveis por humanos (ex: www.google.com) para endereços IP numéricos.'
-  },
-  {
-    id: 130,
-    topicId: 'conceitos-basicos',
-    question: 'Qual topologia de rede consiste de todos os nós conectados a um único ponto central?',
-    options: [
-      'Barramento',
-      'Anel',
-      'Estrela',
-      'Malha'
-    ],
-    answer: 2,
-    explanation: 'Na topologia em estrela, todos os dispositivos se conectam a um ponto central, como um switch ou hub.'
-  },
-  {
-    id: 131,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual o propósito do protocolo DHCP?',
-    options: [
-      'Atribuir dinamicamente endereços IP',
-      'Converter nomes para IP',
-      'Fornecer serviço de e-mail',
-      'Sincronizar relógios'
-    ],
-    answer: 0,
-    explanation: 'O DHCP (Dynamic Host Configuration Protocol) atribui automaticamente endereços IP e outras configurações de rede a dispositivos conectados.'
-  },
-  {
-    id: 132,
-    topicId: 'protocolos-essenciais',
-    question: 'O que faz o protocolo ICMP?',
-    options: [
-      'Transporte de dados de aplicação',
-      'Diagnóstico e mensagens de controle (ex: ping)',
-      'Roteamento entre AS',
-      'Criptografia de tráfego'
-    ],
-    answer: 1,
-    explanation: 'O ICMP (Internet Control Message Protocol) é usado para enviar mensagens de erro e diagnóstico, como as usadas pelo comando "ping".'
   },
   {
     id: 133,
@@ -1198,487 +2116,6 @@ export const questions: Question[] = [
     ],
     answer: 1,
     explanation: 'O NAT traduz endereços IP privados, usados em uma rede local, para um ou mais endereços IP públicos, permitindo que a rede interna acesse a Internet.'
-  },
-  {
-    id: 134,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual protocolo é normalmente usado para transferência segura de arquivos (com criptografia)?',
-    options: [
-      'FTP',
-      'TFTP',
-      'SFTP',
-      'HTTP'
-    ],
-    answer: 2,
-    explanation: 'O SFTP (SSH File Transfer Protocol) é um protocolo seguro que transfere arquivos sobre uma conexão SSH, garantindo a criptografia dos dados.'
-  },
-  {
-    id: 135,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual porta TCP padrão é utilizada pelo HTTP sem TLS?',
-    options: [
-      '80',
-      '443',
-      '21',
-      '25'
-    ],
-    answer: 0,
-    explanation: 'O protocolo HTTP, que não usa criptografia, utiliza a porta TCP padrão 80.'
-  },
-  {
-    id: 136,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual porta TCP padrão é utilizada pelo HTTPS?',
-    options: [
-      '80',
-      '443',
-      '22',
-      '110'
-    ],
-    answer: 1,
-    explanation: 'O protocolo HTTPS, que é a versão segura (com TLS/SSL) do HTTP, utiliza a porta TCP padrão 443.'
-  },
-  {
-    id: 137,
-    topicId: 'conceitos-basicos',
-    question: 'O que significa "half-duplex" em comunicações de rede?',
-    options: [
-      'Comunicação em ambos sentidos simultaneamente',
-      'Comunicação apenas em um sentido',
-      'Comunicação em ambos sentidos, mas não simultaneamente',
-      'Comunicação por fibra óptica'
-    ],
-    answer: 2,
-    explanation: 'Half-duplex permite a comunicação em ambos os sentidos, mas um de cada vez. É como um walkie-talkie: ou você fala ou escuta.'
-  },
-  {
-    id: 138,
-    topicId: 'conceitos-basicos',
-    question: 'Qual dispositivo opera na camada 3 e escolhe caminhos entre redes?',
-    options: [
-      'Hub',
-      'Switch L2',
-      'Roteador',
-      'Repeater'
-    ],
-    answer: 2,
-    explanation: 'Um roteador opera na camada de Rede (camada 3) e utiliza endereços IP para determinar o melhor caminho para encaminhar os pacotes entre redes diferentes.'
-  },
-  {
-    id: 139,
-    topicId: 'conceitos-basicos',
-    question: 'O que é uma VLAN?',
-    options: [
-      'Uma sub-rede física separada',
-      'Uma rede virtual que segmenta domínios de broadcast',
-      'Um protocolo de roteamento',
-      'Uma técnica para aumentar largura de banda'
-    ],
-    answer: 1,
-    explanation: 'VLANs (Virtual LANs) permitem segmentar uma única infraestrutura de rede física em múltiplas redes lógicas, isolando os domínios de broadcast.'
-  },
-  {
-    id: 140,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual é a finalidade do protocolo TCP three-way handshake?',
-    options: [
-      'Descoberta de caminho',
-      'Estabelecer conexão confiável entre cliente e servidor',
-      'Encryptar dados',
-      'Resolver endereços MAC'
-    ],
-    answer: 1,
-    explanation: 'O three-way handshake (troca de pacotes SYN, SYN-ACK, ACK) é o processo pelo qual um cliente e um servidor estabelecem uma conexão TCP confiável antes de começar a troca de dados.'
-  },
-  {
-    id: 141,
-    topicId: 'enderecamento-ip',
-    question: 'Qual campo do cabeçalho IP indica o protocolo de camada superior (TCP/UDP/ICMP)?',
-    options: [
-      'Source IP',
-      'Destination IP',
-      'Protocol',
-      'TTL'
-    ],
-    answer: 2,
-    explanation: 'O campo "Protocol" no cabeçalho IPv4 indica qual protocolo da camada de transporte (como TCP, UDP ou ICMP) está contido no payload do pacote IP.'
-  },
-  {
-    id: 142,
-    topicId: 'enderecamento-ip',
-    question: 'O que significa TTL em cabeçalho IP?',
-    options: [
-      'Tipo de Transporte',
-      'Time To Live (tempo de vida)',
-      'Tamanho do pacote',
-      'Token de segurança'
-    ],
-    answer: 1,
-    explanation: 'TTL (Time to Live) é um contador que garante que os pacotes não fiquem circulando indefinidamente na rede. Ele é decrementado a cada "salto" (hop), e o pacote é descartado quando o TTL chega a zero.'
-  },
-  {
-    id: 143,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual protocolo é usado para sincronizar relógios entre hosts na internet?',
-    options: [
-      'NTP',
-      'SNMP',
-      'DNS',
-      'DHCP'
-    ],
-    answer: 0,
-    explanation: 'O NTP (Network Time Protocol) é usado para sincronizar os relógios de computadores em uma rede de dados com alta precisão.'
-  },
-  {
-    id: 144,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual é a função do protocolo SNMP?',
-    options: [
-      'Gerenciamento e monitoramento de dispositivos de rede',
-      'Transferência de arquivos',
-      'Resolução de nomes',
-      'Estabelecer sessões TCP'
-    ],
-    answer: 0,
-    explanation: 'O SNMP (Simple Network Management Protocol) é usado para gerenciar e monitorar dispositivos em uma rede IP.'
-  },
-  {
-    id: 145,
-    topicId: 'enderecamento-ip',
-    question: 'Qual mecanismo divide uma rede grande em sub-redes menores?',
-    options: [
-      'VLAN',
-      'Subnetting',
-      'NAT',
-      'ARP'
-    ],
-    answer: 1,
-    explanation: 'Subnetting é o processo de dividir um bloco de endereços IP em sub-redes menores, o que ajuda a otimizar o uso do espaço de endereços e a gerenciar melhor o tráfego de rede.'
-  },
-  {
-    id: 146,
-    topicId: 'enderecamento-ip',
-    question: 'Qual endereço IPv4 é considerado "loopback"?',
-    options: [
-      '0.0.0.0',
-      '127.0.0.1',
-      '255.255.255.255',
-      '192.168.0.1'
-    ],
-    answer: 1,
-    explanation: 'O endereço 127.0.0.1 é reservado para "loopback", permitindo que um host envie pacotes para si mesmo para fins de teste e diagnóstico.'
-  },
-  {
-    id: 147,
-    topicId: 'protocolos-essenciais',
-    question: 'O que faz o protocolo FTP?',
-    options: [
-      'Envia e-mails',
-      'Transferência de arquivos sem criptografia',
-      'Resolução de nomes',
-      'Gerenciamento de rede'
-    ],
-    answer: 1,
-    explanation: 'O FTP (File Transfer Protocol) é usado para transferir arquivos entre um cliente e um servidor. Por padrão, ele não usa criptografia.'
-  },
-  {
-    id: 148,
-    topicId: 'modelos-osi-tcpip',
-    question: 'Qual camada do modelo TCP/IP corresponde aproximadamente à camada de sessão e apresentação do modelo OSI?',
-    options: [
-      'Aplicação',
-      'Transporte',
-      'Internet',
-      'Link'
-    ],
-    answer: 0,
-    explanation: 'No modelo simplificado TCP/IP, as funcionalidades das camadas de Sessão, Apresentação e Aplicação do modelo OSI são combinadas na única camada de Aplicação.'
-  },
-  {
-    id: 149,
-    topicId: 'enderecamento-ip',
-    question: 'Qual é o endereço IPv4 privado presente no bloco 10.0.0.0/8?',
-    options: [
-      '10.0.0.1',
-      '172.16.0.1',
-      '192.168.1.1',
-      '169.254.0.1'
-    ],
-    answer: 0,
-    explanation: 'Os endereços da classe A privada estão na faixa 10.0.0.0 a 10.255.255.255, ou seja, no bloco 10.0.0.0/8.'
-  },
-  {
-    id: 150,
-    topicId: 'enderecamento-ip',
-    question: 'Qual é a faixa de endereços IPv4 privados para 192.168.0.0/16?',
-    options: [
-      '192.168.0.0 - 192.168.255.255',
-      '192.168.0.0 - 192.168.0.255',
-      '192.0.0.0 - 192.168.255.255',
-      '192.168.1.0 - 192.168.1.255'
-    ],
-    answer: 0,
-    explanation: 'O bloco 192.168.0.0/16 engloba todos os endereços que começam com 192.168, desde 192.168.0.0 até 192.168.255.255.'
-  },
-  {
-    id: 151,
-    topicId: 'conceitos-basicos',
-    question: 'O que é "broadcast domain"?',
-    options: [
-      'Área onde broadcasts são limitados ao mesmo segmento de rede',
-      'Área onde roteadores encaminham broadcasts',
-      'Uma técnica de segurança',
-      'Um protocolo de roteamento'
-    ],
-    answer: 0,
-    explanation: 'Um "broadcast domain" é uma área de uma rede onde um pacote de broadcast enviado por um dispositivo pode ser ouvido por todos os outros dispositivos. Roteadores e VLANs segmentam esses domínios.'
-  },
-  {
-    id: 152,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual protocolo permite descobrir o endereço MAC de um IP conhecido (IPv4) na mesma rede?',
-    options: [
-      'DNS',
-      'ARP',
-      'DHCP',
-      'ICMP'
-    ],
-    answer: 1,
-    explanation: 'O ARP (Address Resolution Protocol) é usado para encontrar o endereço de hardware (MAC) de um host quando apenas o endereço IP é conhecido, dentro de um mesmo segmento de rede.'
-  },
-  {
-    id: 153,
-    topicId: 'conceitos-basicos',
-    question: 'O que é "collision domain" em redes Ethernet antigas?',
-    options: [
-      'Área onde switches isolam tráfego',
-      'Área onde frames podem colidir quando usando hubs',
-      'Domínio gerenciado por roteador',
-      'Um tipo de VLAN'
-    ],
-    answer: 1,
-    explanation: 'Um "collision domain" é a parte de uma rede onde pacotes de dados podem "colidir" uns com os outros, causando a perda de dados. Isso era comum em redes que usavam hubs e foi resolvido com o uso de switches.'
-  },
-  {
-    id: 154,
-    topicId: 'conceitos-basicos',
-    question: 'Qual técnica divide o tráfego em diferentes prioridades (voz, dados) em uma rede?',
-    options: [
-      'NAT',
-      'QoS',
-      'ARP',
-      'STP'
-    ],
-    answer: 1,
-    explanation: 'QoS (Quality of Service) é uma técnica usada para gerenciar o tráfego de rede e priorizar o tráfego mais importante (como voz e vídeo) em detrimento de outros, garantindo uma melhor experiência do usuário.'
-  },
-  {
-    id: 155,
-    topicId: 'protocolos-essenciais',
-    question: 'O que faz o protocolo BGP?',
-    options: [
-      'Roteamento dentro de um AS (Interior)',
-      'Roteamento entre sistemas autônomos (Exterior)',
-      'Resolving ARP',
-      'Gerenciar switches'
-    ],
-    answer: 1,
-    explanation: 'BGP (Border Gateway Protocol) é o principal protocolo de roteamento usado para trocar informações de roteamento entre diferentes Sistemas Autônomos (AS) na Internet.'
-  },
-  {
-    id: 156,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual protocolo é usado para envio de e-mail entre servidores?',
-    options: [
-      'IMAP',
-      'POP3',
-      'SMTP',
-      'FTP'
-    ],
-    answer: 2,
-    explanation: 'O SMTP (Simple Mail Transfer Protocol) é o protocolo padrão para enviar e-mails de um servidor para outro e de um cliente de e-mail para um servidor de e-mail.'
-  },
-  {
-    id: 157,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual protocolo permite acessar e gerenciar remotamente um shell de forma segura?',
-    options: [
-      'Telnet',
-      'FTP',
-      'SSH',
-      'RDP'
-    ],
-    answer: 2,
-    explanation: 'O SSH (Secure Shell) é um protocolo que fornece uma conexão de shell segura e criptografada para acesso remoto a sistemas.'
-  },
-  {
-    id: 158,
-    topicId: 'conceitos-basicos',
-    question: 'Qual técnica previne loops em redes com switches por meio de bloqueio de portas redundantes?',
-    options: [
-      'STP (Spanning Tree Protocol)',
-      'QoS',
-      'ARP',
-      'OSPF'
-    ],
-    answer: 0,
-    explanation: 'O STP (Spanning Tree Protocol) é um protocolo que detecta e desativa caminhos redundantes em uma rede com switches, evitando a criação de loops de broadcast.'
-  },
-  {
-    id: 159,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual protocolo de roteamento é tipicamente usado em redes corporativas para roteamento interno (link-state)?',
-    options: [
-      'RIP',
-      'OSPF',
-      'BGP',
-      'EIGRP'
-    ],
-    answer: 1,
-    explanation: 'O OSPF (Open Shortest Path First) é um protocolo de roteamento interno (IGP) do tipo link-state, muito utilizado em redes corporativas grandes e complexas.'
-  },
-  {
-    id: 160,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função do gateway padrão em uma estação de trabalho?',
-    options: [
-      'Servir como nome do host',
-      'Encaminhar pacotes para fora da sub-rede local',
-      'Atribuir IPs dinâmicos',
-      'Resolver MACs'
-    ],
-    answer: 1,
-    explanation: 'O gateway padrão é o endereço IP do roteador que o host usa para enviar pacotes para redes externas (ou seja, para fora de sua sub-rede local).'
-  },
-  {
-    id: 161,
-    topicId: 'conceitos-basicos',
-    question: 'O que é "MTU" (Maximum Transmission Unit)?',
-    options: [
-      'Máxima taxa de transferência',
-      'Tamanho máximo de payload que pode ser transmitido em um único quadro',
-      'Tempo de vida do pacote',
-      'Número de saltos permitido'
-    ],
-    answer: 1,
-    explanation: 'MTU (Maximum Transmission Unit) é o maior tamanho de um pacote de dados, em bytes, que pode ser transmitido em uma rede sem ser fragmentado.'
-  },
-  {
-    id: 162,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual protocolo de transporte usa números de porta e oferece controle de congestionamento?',
-    options: [
-      'UDP',
-      'ICMP',
-      'TCP',
-      'ARP'
-    ],
-    answer: 2,
-    explanation: 'O TCP usa números de porta para identificar aplicações e inclui mecanismos robustos para controle de fluxo e de congestionamento, garantindo a entrega confiável dos dados.'
-  },
-  {
-    id: 163,
-    topicId: 'enderecamento-ip',
-    question: 'O que é "fragmentação" em IPv4?',
-    options: [
-      'Divisão de pacotes grandes em pacotes menores para atravessar redes com MTU menor',
-      'Criptografia de pacotes',
-      'Conversão de IPv4 para IPv6',
-      'Segmentação por VLAN'
-    ],
-    answer: 0,
-    explanation: 'Fragmentação é o processo de dividir um pacote IP grande em pacotes menores quando ele precisa passar por uma rede que suporta um MTU menor do que o pacote original.'
-  },
-  {
-    id: 164,
-    topicId: 'conceitos-basicos',
-    question: 'Qual técnica permite múltiplos dispositivos compartilharem uma única interface física usando subinterfaces lógicas (ex: roteador)?',
-    options: [
-      'NAT',
-      'Subinterfaces e encapsulamentos (802.1Q)',
-      'ARP',
-      'DHCP'
-    ],
-    answer: 1,
-    explanation: 'Subinterfaces de roteador, combinadas com o padrão de encapsulamento 802.1Q (VLAN tagging), permitem que uma única porta física de roteador gerencie o tráfego de várias VLANs (redes lógicas).'
-  },
-  {
-    id: 165,
-    topicId: 'conceitos-basicos',
-    question: 'O que é "link aggregation" (LACP)?',
-    options: [
-      'Protocolo para balancear carga por múltiplos links físicos',
-      'Protocolo de roteamento',
-      'Técnica de encapsulamento',
-      'Uma forma de NAT'
-    ],
-    answer: 0,
-    explanation: 'Link Aggregation, através de protocolos como o LACP, combina múltiplos links físicos entre dois dispositivos (como switches) para aumentar a largura de banda e fornecer redundância.'
-  },
-  {
-    id: 166,
-    topicId: 'enderecamento-ip',
-    question: 'Qual tipo de endereço IPv6 representa múltiplos destinos (um para muitos)?',
-    options: [
-      'Unicast',
-      'Multicast',
-      'Anycast',
-      'Broadcast'
-    ],
-    answer: 1,
-    explanation: 'O endereço Multicast em IPv6 é usado para enviar pacotes de um único remetente para um grupo de destinatários, otimizando o envio de tráfego para múltiplos hosts.'
-  },
-  {
-    id: 167,
-    topicId: 'enderecamento-ip',
-    question: 'O que é um endereço IPv6 "link-local" que começa com "fe80::" usado para?',
-    options: [
-      'Roteamento na Internet',
-      'Comunicação apenas no segmento local',
-      'Broadcast global',
-      'Endereçamento privado para VPNs'
-    ],
-    answer: 1,
-    explanation: 'Endereços link-local IPv6, que começam com fe80::, são usados para comunicação entre dispositivos no mesmo segmento de rede e não podem ser roteados para fora.'
-  },
-  {
-    id: 168,
-    topicId: 'enderecamento-ip',
-    question: 'Qual é o propósito do IPv6 SLAAC (StateLess Address Auto-Configuration)?',
-    options: [
-      'Atribuir endereços IPv6 automaticamente sem DHCPv6',
-      'Substituir DNS',
-      'Criptografar pacotes',
-      'Converter MACs'
-    ],
-    answer: 0,
-    explanation: 'SLAAC permite que dispositivos configurem seus próprios endereços IPv6 automaticamente, usando informações do roteador e seu próprio endereço MAC, sem a necessidade de um servidor DHCPv6.'
-  },
-  {
-    id: 169,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual comando é comumente usado para testar conectividade entre dois hosts (ICMP echo)?',
-    options: [
-      'traceroute',
-      'telnet',
-      'ping',
-      'nslookup'
-    ],
-    answer: 2,
-    explanation: 'O comando "ping" envia pacotes ICMP "echo request" para um host de destino e mede o tempo de resposta, sendo uma ferramenta básica para testar a conectividade.'
-  },
-  {
-    id: 170,
-    topicId: 'protocolos-essenciais',
-    question: 'O que faz o comando traceroute (ou tracert)?',
-    options: [
-      'Mede velocidade da rede',
-      'Mostra rota e saltos entre origem e destino',
-      'Resolve nomes DNS',
-      'Atribui IPs'
-    ],
-    answer: 1,
-    explanation: 'O comando "traceroute" (ou "tracert" no Windows) exibe o caminho que um pacote percorre na rede, listando cada roteador ("hop") por onde o pacote passa até chegar ao destino.'
   },
   {
     id: 171,
@@ -1707,19 +2144,6 @@ export const questions: Question[] = [
     explanation: 'Port forwarding é a técnica de redirecionar o tráfego que chega em uma porta pública do roteador para um host e porta específicos na rede interna.'
   },
   {
-    id: 173,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual protocolo usa portas 20 e 21 por padrão?',
-    options: [
-      'HTTPS',
-      'FTP',
-      'SSH',
-      'SMTP'
-    ],
-    answer: 1,
-    explanation: 'O FTP (File Transfer Protocol) usa a porta 21 para o canal de controle e a porta 20 (em modo ativo) para o canal de dados.'
-  },
-  {
     id: 174,
     topicId: 'seguranca-de-rede',
     question: 'O que significa "sticky MAC" em switches?',
@@ -1731,19 +2155,6 @@ export const questions: Question[] = [
     ],
     answer: 1,
     explanation: '"Sticky MAC" é um recurso de segurança de switches que permite associar dinamicamente os endereços MAC aprendidos a uma porta, evitando que outros dispositivos usem a mesma porta para se comunicar.'
-  },
-  {
-    id: 175,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual protocolo detecta topologia de rede e fornece informações a switches gerenciáveis (ex: LLDP)?',
-    options: [
-      'LLDP',
-      'OSPF',
-      'BGP',
-      'ARP'
-    ],
-    answer: 0,
-    explanation: 'O LLDP (Link Layer Discovery Protocol) é um protocolo de camada de enlace que permite que dispositivos de rede anunciem sua identidade e capacidades para outros dispositivos conectados.'
   },
   {
     id: 176,
@@ -1772,19 +2183,6 @@ export const questions: Question[] = [
     explanation: 'Um firewall "stateful" rastreia o estado das conexões e permite o tráfego de retorno automaticamente, enquanto um firewall "stateless" filtra cada pacote individualmente, sem considerar o contexto da conexão.'
   },
   {
-    id: 178,
-    topicId: 'protocolos-essenciais',
-    question: 'O que é "SSDP" comumente usado em redes domésticas (UPnP)?',
-    options: [
-      'Protocolo de roteamento',
-      'Simple Service Discovery Protocol para descoberta de serviços UPnP',
-      'Substituição de DHCP',
-      'Criptografia de dados'
-    ],
-    answer: 1,
-    explanation: 'SSDP (Simple Service Discovery Protocol) é um protocolo usado em redes domésticas para que dispositivos possam se descobrir mutuamente e anunciar seus serviços (UPnP).'
-  },
-  {
     id: 179,
     topicId: 'seguranca-de-rede',
     question: 'Qual tecnologia é usada para criar redes privadas virtuais (VPN) em nível de IP que encapsulam pacotes?',
@@ -1796,45 +2194,6 @@ export const questions: Question[] = [
     ],
     answer: 1,
     explanation: 'IPsec (Internet Protocol Security) é um conjunto de protocolos que fornece segurança para a comunicação IP, sendo amplamente utilizado para criar túneis VPNs que encapsulam e criptografam o tráfego.'
-  },
-  {
-    id: 180,
-    topicId: 'protocolos-essenciais',
-    question: 'O que é "split-horizon" em protocolos de roteamento distance-vector como RIP?',
-    options: [
-      'Evitar que rotas sejam anunciadas de volta pela interface de origem para prevenir loops',
-      'Aumentar banda',
-      'Criptografar atualizações',
-      'Usar diferentes caminhos para tráfego de saída'
-    ],
-    answer: 0,
-    explanation: 'Split-horizon é uma regra de roteamento que impede que um roteador anuncie uma rota de volta pela mesma interface de onde a aprendeu, prevenindo loops de roteamento.'
-  },
-  {
-    id: 181,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual é a finalidade do protocolo RARP (Reverse ARP)?',
-    options: [
-      'Mapear IP para MAC',
-      'Mapear MAC para IP (originalmente usado por discos sem memória)',
-      'Sincronizar tempo',
-      'Resolver nomes'
-    ],
-    answer: 1,
-    explanation: 'O RARP (Reverse Address Resolution Protocol) era usado para permitir que um dispositivo descobrisse seu endereço IP a partir de seu endereço MAC. Ele foi amplamente substituído pelo DHCP.'
-  },
-  {
-    id: 182,
-    topicId: 'enderecamento-ip',
-    question: 'Qual é a faixa de endereços APIPA/Link-local IPv4 usada quando DHCP falha (169.254.0.0)?',
-    options: [
-      '169.254.0.0 - 169.254.255.255',
-      '192.168.0.0 - 192.168.255.255',
-      '10.0.0.0 - 10.255.255.255',
-      '127.0.0.0 - 127.255.255.255'
-    ],
-    answer: 0,
-    explanation: 'O APIPA (Automatic Private IP Addressing) atribui endereços na faixa 169.254.0.0/16 a dispositivos quando eles não conseguem obter um endereço IP de um servidor DHCP.'
   },
   {
     id: 183,
@@ -1850,110 +2209,6 @@ export const questions: Question[] = [
     explanation: '"Port security" é um recurso de segurança de switch que permite associar um ou mais endereços MAC a uma porta específica, bloqueando o acesso de endereços não autorizados.'
   },
   {
-    id: 184,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual protocolo transporta e-mails recebidos de um servidor para um cliente (download)?',
-    options: [
-      'SMTP',
-      'POP3',
-      'BGP',
-      'DNS'
-    ],
-    answer: 1,
-    explanation: 'POP3 (Post Office Protocol version 3) e IMAP são protocolos usados para que os clientes de e-mail recuperem e-mails de um servidor.'
-  },
-  {
-    id: 185,
-    topicId: 'protocolos-essenciais',
-    question: 'O que significa "asymmetric routing"?',
-    options: [
-      'Roteamento com caminhos de ida e volta diferentes entre dois hosts',
-      'Uso de switches em rede',
-      'Roteamento apenas com BGP',
-      'Roteamento sem gateways'
-    ],
-    answer: 0,
-    explanation: 'Roteamento assimétrico ocorre quando o caminho que os pacotes de uma comunicação fazem para ir da origem ao destino é diferente do caminho que eles fazem para voltar.'
-  },
-  {
-    id: 186,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual é a função do protocolo "mDNS" (multicast DNS)?',
-    options: [
-      'Resolução de nomes em redes locais sem servidor DNS central',
-      'Roteamento de multicast global',
-      'Sincronização de tempo',
-      'Criptografia de nomes'
-    ],
-    answer: 0,
-    explanation: 'O mDNS (multicast DNS) permite a resolução de nomes de domínio para endereços IP em redes pequenas que não têm um servidor DNS central, facilitando a descoberta de serviços e dispositivos locais.'
-  },
-  {
-    id: 187,
-    topicId: 'modelos-osi-tcpip',
-    question: 'Qual camada do modelo OSI é responsável pela representação de dados (por exemplo, compressão, encriptação)?',
-    options: [
-      'Camada de Sessão',
-      'Camada de Apresentação',
-      'Camada de Enlace',
-      'Camada Física'
-    ],
-    answer: 1,
-    explanation: 'A Camada de Apresentação (camada 6) é responsável por garantir que os dados de uma camada de aplicação possam ser lidos por outra. Funções como formatação, compressão e criptografia são realizadas nela.'
-  },
-  {
-    id: 188,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual protocolo fornece tradução de nomes reversa (IP para nome) em DNS?',
-    options: [
-      'PTR records usados por DNS',
-      'A record',
-      'CNAME',
-      'MX'
-    ],
-    answer: 0,
-    explanation: 'O DNS usa registros PTR (Pointer) para tradução de nomes reversa, permitindo que um endereço IP seja traduzido para um nome de domínio associado.'
-  },
-  {
-    id: 189,
-    topicId: 'conceitos-basicos',
-    question: 'O que é "carrier sense" no CSMA/CD?',
-    options: [
-      'Mecanismo para detectar se o meio está ocupado antes de transmitir',
-      'Protocolo para configuração de VLANs',
-      'Método de criptografia',
-      'Uma topologia de rede'
-    ],
-    answer: 0,
-    explanation: '"Carrier sense" é a capacidade de um dispositivo de ouvir o meio de transmissão (cabo) para verificar se ele está livre antes de tentar transmitir dados, parte do protocolo CSMA/CD usado em redes Ethernet.'
-  },
-  {
-    id: 190,
-    topicId: 'protocolos-essenciais',
-    question: 'O que é "flow control" em TCP?',
-    options: [
-      'Controle de rotas',
-      'Mecanismo para evitar que receptor seja sobrecarregado (janela TCP)',
-      'Filtro de pacotes',
-      'Mapeamento de portas'
-    ],
-    answer: 1,
-    explanation: 'O controle de fluxo do TCP usa o conceito de "janela de recebimento" para garantir que o remetente não envie dados mais rápido do que o receptor pode processá-los, evitando sobrecarga.'
-  },
-  {
-    id: 191,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual comando mostra a tabela de roteamento em sistemas Linux?',
-    options: [
-      'ifconfig',
-      'route -n ou ip route',
-      'nslookup',
-      'netstat -a'
-    ],
-    answer: 1,
-    explanation: 'Os comandos "route -n" ou "ip route" são usados em sistemas Linux para exibir a tabela de roteamento do kernel, que contém as rotas que os pacotes seguem.'
-  },
-  {
     id: 192,
     topicId: 'seguranca-de-rede',
     question: 'Qual protocolo permite gerenciamento remoto via interface web de devices e usa SNMP para monitoramento?',
@@ -1965,136 +2220,6 @@ export const questions: Question[] = [
     ],
     answer: 0,
     explanation: 'Dispositivos de rede modernos (roteadores, switches) são gerenciados via interface web (HTTP/HTTPS) para configuração e usam SNMP para monitoramento de desempenho.'
-  },
-  {
-    id: 193,
-    topicId: 'conceitos-basicos',
-    question: 'O que é "heartbeat" em cluster de roteadores?',
-    options: [
-      'Mensagem periódica entre nós para verificar disponibilidade e sincronizar estado',
-      'Comando para reiniciar switch',
-      'Protocolo de roteamento',
-      'Tipo de NAT'
-    ],
-    answer: 0,
-    explanation: 'Um "heartbeat" é uma mensagem periódica enviada entre dispositivos em um cluster para verificar se eles estão ativos e funcionando, permitindo detecção de falhas e failover rápido.'
-  },
-  {
-    id: 194,
-    topicId: 'enderecamento-ip',
-    question: 'Qual é a principal vantagem do IPv6 sobre IPv4?',
-    options: [
-      'Menor cabeçalho',
-      'Espaço de endereçamento muito maior e outras melhorias (autoconfig, eliminação de NAT obrigatório)',
-      'Uso de TCP por padrão',
-      'Menor segurança'
-    ],
-    answer: 1,
-    explanation: 'A principal vantagem do IPv6 é o seu vasto espaço de endereçamento, resolvendo a escassez de IPs do IPv4. Ele também traz melhorias como autoconfiguração de endereços e maior eficiência no roteamento.'
-  },
-  {
-    id: 195,
-    topicId: 'enderecamento-ip',
-    question: 'O que significa "anycast" em IPv6?',
-    options: [
-      'Endereço entregue a todas as interfaces',
-      'Endereço entregue ao host mais próximo de um grupo de interfaces que o anunciam',
-      'Endereço broadcast',
-      'Endereço multicast'
-    ],
-    answer: 1,
-    explanation: 'Anycast é um tipo de endereçamento onde um pacote enviado para um endereço anycast é entregue a apenas um dos hosts do grupo (o "mais próximo"), o que é útil para serviços como o DNS.'
-  },
-  {
-    id: 196,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual é o papel do "DNS root servers" na resolução de nomes?',
-    options: [
-      'Armazenar registros A de todos os domínios',
-      'Fornecer referência para TLDs, iniciando a resolução recursiva',
-      'Substituir DHCP',
-      'Gerenciar certificados TLS'
-    ],
-    answer: 1,
-    explanation: 'Os servidores raiz do DNS (root servers) são o ponto de partida na hierarquia do DNS. Eles não armazenam todos os registros, mas direcionam as consultas para os servidores de domínio de nível superior (TLD) apropriados.'
-  },
-  {
-    id: 197,
-    topicId: 'protocolos-essenciais',
-    question: 'O que é "route summarization" (agregação de rotas)?',
-    options: [
-      'Dividir uma rota em várias pequenas',
-      'Combinar várias rotas em uma rota agregada para reduzir tamanho de tabelas de roteamento',
-      'Técnica de encriptação de rotas',
-      'Balancear carga entre rotas'
-    ],
-    answer: 1,
-    explanation: 'A agregação de rotas é uma técnica que agrupa múltiplas rotas de rede em uma única rota, reduzindo o tamanho das tabelas de roteamento e melhorando a eficiência.'
-  },
-  {
-    id: 198,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual comando permite verificar resolução DNS para um nome específico e servidor?',
-    options: [
-      'ping',
-      'nslookup ou dig',
-      'ifconfig',
-      'route'
-    ],
-    answer: 1,
-    explanation: 'Os comandos "nslookup" e "dig" são ferramentas de linha de comando para consultar servidores DNS e obter informações sobre nomes de domínio.'
-  },
-  {
-    id: 199,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual é a porta padrão do protocolo SSH?',
-    options: [
-      '20',
-      '21',
-      '22',
-      '23'
-    ],
-    answer: 2,
-    explanation: 'A porta TCP padrão para o protocolo SSH (Secure Shell) é a porta 22.'
-  },
-  {
-    id: 200,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual é a função do protocolo TFTP em comparação ao FTP?',
-    options: [
-      'Transferência de arquivos simples sem autenticação',
-      'Transferência com criptografia',
-      'Gerenciamento de rede',
-      'Resolução de nomes'
-    ],
-    answer: 0,
-    explanation: 'O TFTP (Trivial File Transfer Protocol) é uma versão simplificada do FTP. Ele não exige autenticação e usa UDP, sendo adequado para transferências rápidas e simples, como boot de dispositivos de rede.'
-  },
-  {
-    id: 201,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual protocolo é responsável por atribuir dinamicamente endereços IP aos dispositivos em uma rede?',
-    options: [
-      'DNS',
-      'DHCP',
-      'HTTP',
-      'FTP'
-    ],
-    answer: 1,
-    explanation: 'O DHCP (Dynamic Host Configuration Protocol) é responsável por atribuir endereços IP automaticamente aos dispositivos.'
-  },
-  {
-    id: 202,
-    topicId: 'modelos-osi-tcpip',
-    question: 'Qual camada do modelo OSI é responsável pelo roteamento de pacotes?',
-    options: [
-      'Camada de Enlace',
-      'Camada de Transporte',
-      'Camada de Rede',
-      'Camada de Sessão'
-    ],
-    answer: 2,
-    explanation: 'A camada de rede é responsável pelo roteamento de pacotes entre redes diferentes.'
   },
   {
     id: 203,
@@ -2110,2028 +2235,31 @@ export const questions: Question[] = [
     explanation: 'A criptografia é usada para proteger os dados contra acesso não autorizado, garantindo a confidencialidade.'
   },
   {
-    id: 204,
-    topicId: 'enderecamento-ip',
-    question: 'Qual das alternativas representa um endereço IP válido na versão IPv4?',
-    options: [
-      '192.168.1.256',
-      '192.168.1.1',
-      '192.168.1',
-      '192.168.1.1.1'
-    ],
-    answer: 1,
-    explanation: 'O endereço 192.168.1.1 é um endereço IPv4 válido. Os demais estão fora do padrão.'
-  },
-  {
-    id: 205,
-    topicId: 'conceitos-basicos',
-    question: 'Na topologia em estrela, os dispositivos são conectados a:',
-    options: [
-      'Um cabo central',
-      'Um nó intermediário',
-      'Um hub ou switch central',
-      'Cada dispositivo diretamente ao outro'
-    ],
-    answer: 2,
-    explanation: 'Na topologia em estrela, todos os dispositivos são conectados a um hub ou switch central.'
-  },
-  {
-    id: 206,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função principal do protocolo número 1 na arquitetura TCP/IP?',
-    options: [
-      'Gerenciar conexões físicas entre dispositivos',
-      'Controlar o roteamento de pacotes na rede',
-      'Garantir a entrega confiável de dados',
-      'Fornecer serviços de aplicação como e-mail e web'
-    ],
-    answer: 2,
-    explanation: 'O protocolo mencionado é responsável por garantir a entrega confiável de dados, característica da camada de transporte na arquitetura TCP/IP.'
-  },
-  {
-    id: 207,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função principal do protocolo número 2 na arquitetura TCP/IP?',
-    options: [
-      'Gerenciar conexões físicas entre dispositivos',
-      'Controlar o roteamento de pacotes na rede',
-      'Garantir a entrega confiável de dados',
-      'Fornecer serviços de aplicação como e-mail e web'
-    ],
-    answer: 2,
-    explanation: 'O protocolo mencionado é responsável por garantir a entrega confiável de dados, característica da camada de transporte na arquitetura TCP/IP.'
-  },
-  {
-    id: 208,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função principal do protocolo número 3 na arquitetura TCP/IP?',
-    options: [
-      'Gerenciar conexões físicas entre dispositivos',
-      'Controlar o roteamento de pacotes na rede',
-      'Garantir a entrega confiável de dados',
-      'Fornecer serviços de aplicação como e-mail e web'
-    ],
-    answer: 2,
-    explanation: 'O protocolo mencionado é responsável por garantir a entrega confiável de dados, característica da camada de transporte na arquitetura TCP/IP.'
-  },
-  {
-    id: 209,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função principal do protocolo número 4 na arquitetura TCP/IP?',
-    options: [
-      'Gerenciar conexões físicas entre dispositivos',
-      'Controlar o roteamento de pacotes na rede',
-      'Garantir a entrega confiável de dados',
-      'Fornecer serviços de aplicação como e-mail e web'
-    ],
-    answer: 2,
-    explanation: 'O protocolo mencionado é responsável por garantir a entrega confiável de dados, característica da camada de transporte na arquitetura TCP/IP.'
-  },
-  {
-    id: 210,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função principal do protocolo número 5 na arquitetura TCP/IP?',
-    options: [
-      'Gerenciar conexões físicas entre dispositivos',
-      'Controlar o roteamento de pacotes na rede',
-      'Garantir a entrega confiável de dados',
-      'Fornecer serviços de aplicação como e-mail e web'
-    ],
-    answer: 2,
-    explanation: 'O protocolo mencionado é responsável por garantir a entrega confiável de dados, característica da camada de transporte na arquitetura TCP/IP.'
-  },
-  {
-    id: 211,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função principal do protocolo número 6 na arquitetura TCP/IP?',
-    options: [
-      'Gerenciar conexões físicas entre dispositivos',
-      'Controlar o roteamento de pacotes na rede',
-      'Garantir a entrega confiável de dados',
-      'Fornecer serviços de aplicação como e-mail e web'
-    ],
-    answer: 2,
-    explanation: 'O protocolo mencionado é responsável por garantir a entrega confiável de dados, característica da camada de transporte na arquitetura TCP/IP.'
-  },
-  {
-    id: 212,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função principal do protocolo número 7 na arquitetura TCP/IP?',
-    options: [
-      'Gerenciar conexões físicas entre dispositivos',
-      'Controlar o roteamento de pacotes na rede',
-      'Garantir a entrega confiável de dados',
-      'Fornecer serviços de aplicação como e-mail e web'
-    ],
-    answer: 2,
-    explanation: 'O protocolo mencionado é responsável por garantir a entrega confiável de dados, característica da camada de transporte na arquitetura TCP/IP.'
-  },
-  {
-    id: 213,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função principal do protocolo número 8 na arquitetura TCP/IP?',
-    options: [
-      'Gerenciar conexões físicas entre dispositivos',
-      'Controlar o roteamento de pacotes na rede',
-      'Garantir a entrega confiável de dados',
-      'Fornecer serviços de aplicação como e-mail e web'
-    ],
-    answer: 2,
-    explanation: 'O protocolo mencionado é responsável por garantir a entrega confiável de dados, característica da camada de transporte na arquitetura TCP/IP.'
-  },
-  {
-    id: 214,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função principal do protocolo número 9 na arquitetura TCP/IP?',
-    options: [
-      'Gerenciar conexões físicas entre dispositivos',
-      'Controlar o roteamento de pacotes na rede',
-      'Garantir a entrega confiável de dados',
-      'Fornecer serviços de aplicação como e-mail e web'
-    ],
-    answer: 2,
-    explanation: 'O protocolo mencionado é responsável por garantir a entrega confiável de dados, característica da camada de transporte na arquitetura TCP/IP.'
-  },
-  {
-    id: 215,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função principal do protocolo número 10 na arquitetura TCP/IP?',
-    options: [
-      'Gerenciar conexões físicas entre dispositivos',
-      'Controlar o roteamento de pacotes na rede',
-      'Garantir a entrega confiável de dados',
-      'Fornecer serviços de aplicação como e-mail e web'
-    ],
-    answer: 2,
-    explanation: 'O protocolo mencionado é responsável por garantir a entrega confiável de dados, característica da camada de transporte na arquitetura TCP/IP.'
-  },
-  {
-    id: 216,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função principal do protocolo número 11 na arquitetura TCP/IP?',
-    options: [
-      'Gerenciar conexões físicas entre dispositivos',
-      'Controlar o roteamento de pacotes na rede',
-      'Garantir a entrega confiável de dados',
-      'Fornecer serviços de aplicação como e-mail e web'
-    ],
-    answer: 2,
-    explanation: 'O protocolo mencionado é responsável por garantir a entrega confiável de dados, característica da camada de transporte na arquitetura TCP/IP.'
-  },
-  {
-    id: 217,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função principal do protocolo número 12 na arquitetura TCP/IP?',
-    options: [
-      'Gerenciar conexões físicas entre dispositivos',
-      'Controlar o roteamento de pacotes na rede',
-      'Garantir a entrega confiável de dados',
-      'Fornecer serviços de aplicação como e-mail e web'
-    ],
-    answer: 2,
-    explanation: 'O protocolo mencionado é responsável por garantir a entrega confiável de dados, característica da camada de transporte na arquitetura TCP/IP.'
-  },
-  {
-    id: 218,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função principal do protocolo número 13 na arquitetura TCP/IP?',
-    options: [
-      'Gerenciar conexões físicas entre dispositivos',
-      'Controlar o roteamento de pacotes na rede',
-      'Garantir a entrega confiável de dados',
-      'Fornecer serviços de aplicação como e-mail e web'
-    ],
-    answer: 2,
-    explanation: 'O protocolo mencionado é responsável por garantir a entrega confiável de dados, característica da camada de transporte na arquitetura TCP/IP.'
-  },
-  {
-    id: 219,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função principal do protocolo número 14 na arquitetura TCP/IP?',
-    options: [
-      'Gerenciar conexões físicas entre dispositivos',
-      'Controlar o roteamento de pacotes na rede',
-      'Garantir a entrega confiável de dados',
-      'Fornecer serviços de aplicação como e-mail e web'
-    ],
-    answer: 2,
-    explanation: 'O protocolo mencionado é responsável por garantir a entrega confiável de dados, característica da camada de transporte na arquitetura TCP/IP.'
-  },
-  {
-    id: 220,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função principal do protocolo número 15 na arquitetura TCP/IP?',
-    options: [
-      'Gerenciar conexões físicas entre dispositivos',
-      'Controlar o roteamento de pacotes na rede',
-      'Garantir a entrega confiável de dados',
-      'Fornecer serviços de aplicação como e-mail e web'
-    ],
-    answer: 2,
-    explanation: 'O protocolo mencionado é responsável por garantir a entrega confiável de dados, característica da camada de transporte na arquitetura TCP/IP.'
-  },
-  {
-    id: 221,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função principal do protocolo número 16 na arquitetura TCP/IP?',
-    options: [
-      'Gerenciar conexões físicas entre dispositivos',
-      'Controlar o roteamento de pacotes na rede',
-      'Garantir a entrega confiável de dados',
-      'Fornecer serviços de aplicação como e-mail e web'
-    ],
-    answer: 2,
-    explanation: 'O protocolo mencionado é responsável por garantir a entrega confiável de dados, característica da camada de transporte na arquitetura TCP/IP.'
-  },
-  {
-    id: 222,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função principal do protocolo número 17 na arquitetura TCP/IP?',
-    options: [
-      'Gerenciar conexões físicas entre dispositivos',
-      'Controlar o roteamento de pacotes na rede',
-      'Garantir a entrega confiável de dados',
-      'Fornecer serviços de aplicação como e-mail e web'
-    ],
-    answer: 2,
-    explanation: 'O protocolo mencionado é responsável por garantir a entrega confiável de dados, característica da camada de transporte na arquitetura TCP/IP.'
-  },
-  {
-    id: 223,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função principal do protocolo número 18 na arquitetura TCP/IP?',
-    options: [
-      'Gerenciar conexões físicas entre dispositivos',
-      'Controlar o roteamento de pacotes na rede',
-      'Garantir a entrega confiável de dados',
-      'Fornecer serviços de aplicação como e-mail e web'
-    ],
-    answer: 2,
-    explanation: 'O protocolo mencionado é responsável por garantir a entrega confiável de dados, característica da camada de transporte na arquitetura TCP/IP.'
-  },
-  {
-    id: 224,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função principal do protocolo número 19 na arquitetura TCP/IP?',
-    options: [
-      'Gerenciar conexões físicas entre dispositivos',
-      'Controlar o roteamento de pacotes na rede',
-      'Garantir a entrega confiável de dados',
-      'Fornecer serviços de aplicação como e-mail e web'
-    ],
-    answer: 2,
-    explanation: 'O protocolo mencionado é responsável por garantir a entrega confiável de dados, característica da camada de transporte na arquitetura TCP/IP.'
-  },
-  {
-    id: 225,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função principal do protocolo número 20 na arquitetura TCP/IP?',
-    options: [
-      'Gerenciar conexões físicas entre dispositivos',
-      'Controlar o roteamento de pacotes na rede',
-      'Garantir a entrega confiável de dados',
-      'Fornecer serviços de aplicação como e-mail e web'
-    ],
-    answer: 2,
-    explanation: 'O protocolo mencionado é responsável por garantir a entrega confiável de dados, característica da camada de transporte na arquitetura TCP/IP.'
-  },
-  {
-    id: 226,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função principal do protocolo número 21 na arquitetura TCP/IP?',
-    options: [
-      'Gerenciar conexões físicas entre dispositivos',
-      'Controlar o roteamento de pacotes na rede',
-      'Garantir a entrega confiável de dados',
-      'Fornecer serviços de aplicação como e-mail e web'
-    ],
-    answer: 2,
-    explanation: 'O protocolo mencionado é responsável por garantir a entrega confiável de dados, característica da camada de transporte na arquitetura TCP/IP.'
-  },
-  {
-    id: 227,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função principal do protocolo número 22 na arquitetura TCP/IP?',
-    options: [
-      'Gerenciar conexões físicas entre dispositivos',
-      'Controlar o roteamento de pacotes na rede',
-      'Garantir a entrega confiável de dados',
-      'Fornecer serviços de aplicação como e-mail e web'
-    ],
-    answer: 2,
-    explanation: 'O protocolo mencionado é responsável por garantir a entrega confiável de dados, característica da camada de transporte na arquitetura TCP/IP.'
-  },
-  {
-    id: 228,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função principal do protocolo número 23 na arquitetura TCP/IP?',
-    options: [
-      'Gerenciar conexões físicas entre dispositivos',
-      'Controlar o roteamento de pacotes na rede',
-      'Garantir a entrega confiável de dados',
-      'Fornecer serviços de aplicação como e-mail e web'
-    ],
-    answer: 2,
-    explanation: 'O protocolo mencionado é responsável por garantir a entrega confiável de dados, característica da camada de transporte na arquitetura TCP/IP.'
-  },
-  {
-    id: 229,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função principal do protocolo número 24 na arquitetura TCP/IP?',
-    options: [
-      'Gerenciar conexões físicas entre dispositivos',
-      'Controlar o roteamento de pacotes na rede',
-      'Garantir a entrega confiável de dados',
-      'Fornecer serviços de aplicação como e-mail e web'
-    ],
-    answer: 2,
-    explanation: 'O protocolo mencionado é responsável por garantir a entrega confiável de dados, característica da camada de transporte na arquitetura TCP/IP.'
-  },
-  {
-    id: 230,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função principal do protocolo número 25 na arquitetura TCP/IP?',
-    options: [
-      'Gerenciar conexões físicas entre dispositivos',
-      'Controlar o roteamento de pacotes na rede',
-      'Garantir a entrega confiável de dados',
-      'Fornecer serviços de aplicação como e-mail e web'
-    ],
-    answer: 2,
-    explanation: 'O protocolo mencionado é responsável por garantir a entrega confiável de dados, característica da camada de transporte na arquitetura TCP/IP.'
-  },
-  {
-    id: 231,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função principal do protocolo número 26 na arquitetura TCP/IP?',
-    options: [
-      'Gerenciar conexões físicas entre dispositivos',
-      'Controlar o roteamento de pacotes na rede',
-      'Garantir a entrega confiável de dados',
-      'Fornecer serviços de aplicação como e-mail e web'
-    ],
-    answer: 2,
-    explanation: 'O protocolo mencionado é responsável por garantir a entrega confiável de dados, característica da camada de transporte na arquitetura TCP/IP.'
-  },
-  {
-    id: 232,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função principal do protocolo número 27 na arquitetura TCP/IP?',
-    options: [
-      'Gerenciar conexões físicas entre dispositivos',
-      'Controlar o roteamento de pacotes na rede',
-      'Garantir a entrega confiável de dados',
-      'Fornecer serviços de aplicação como e-mail e web'
-    ],
-    answer: 2,
-    explanation: 'O protocolo mencionado é responsável por garantir a entrega confiável de dados, característica da camada de transporte na arquitetura TCP/IP.'
-  },
-  {
-    id: 233,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função principal do protocolo número 28 na arquitetura TCP/IP?',
-    options: [
-      'Gerenciar conexões físicas entre dispositivos',
-      'Controlar o roteamento de pacotes na rede',
-      'Garantir a entrega confiável de dados',
-      'Fornecer serviços de aplicação como e-mail e web'
-    ],
-    answer: 2,
-    explanation: 'O protocolo mencionado é responsável por garantir a entrega confiável de dados, característica da camada de transporte na arquitetura TCP/IP.'
-  },
-  {
-    id: 234,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função principal do protocolo número 29 na arquitetura TCP/IP?',
-    options: [
-      'Gerenciar conexões físicas entre dispositivos',
-      'Controlar o roteamento de pacotes na rede',
-      'Garantir a entrega confiável de dados',
-      'Fornecer serviços de aplicação como e-mail e web'
-    ],
-    answer: 2,
-    explanation: 'O protocolo mencionado é responsável por garantir a entrega confiável de dados, característica da camada de transporte na arquitetura TCP/IP.'
-  },
-  {
-    id: 235,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função principal do protocolo número 30 na arquitetura TCP/IP?',
-    options: [
-      'Gerenciar conexões físicas entre dispositivos',
-      'Controlar o roteamento de pacotes na rede',
-      'Garantir a entrega confiável de dados',
-      'Fornecer serviços de aplicação como e-mail e web'
-    ],
-    answer: 2,
-    explanation: 'O protocolo mencionado é responsável por garantir a entrega confiável de dados, característica da camada de transporte na arquitetura TCP/IP.'
-  },
-  {
-    id: 236,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função principal do protocolo número 31 na arquitetura TCP/IP?',
-    options: [
-      'Gerenciar conexões físicas entre dispositivos',
-      'Controlar o roteamento de pacotes na rede',
-      'Garantir a entrega confiável de dados',
-      'Fornecer serviços de aplicação como e-mail e web'
-    ],
-    answer: 2,
-    explanation: 'O protocolo mencionado é responsável por garantir a entrega confiável de dados, característica da camada de transporte na arquitetura TCP/IP.'
-  },
-  {
-    id: 237,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função principal do protocolo número 32 na arquitetura TCP/IP?',
-    options: [
-      'Gerenciar conexões físicas entre dispositivos',
-      'Controlar o roteamento de pacotes na rede',
-      'Garantir a entrega confiável de dados',
-      'Fornecer serviços de aplicação como e-mail e web'
-    ],
-    answer: 2,
-    explanation: 'O protocolo mencionado é responsável por garantir a entrega confiável de dados, característica da camada de transporte na arquitetura TCP/IP.'
-  },
-  {
-    id: 238,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função principal do protocolo número 33 na arquitetura TCP/IP?',
-    options: [
-      'Gerenciar conexões físicas entre dispositivos',
-      'Controlar o roteamento de pacotes na rede',
-      'Garantir a entrega confiável de dados',
-      'Fornecer serviços de aplicação como e-mail e web'
-    ],
-    answer: 2,
-    explanation: 'O protocolo mencionado é responsável por garantir a entrega confiável de dados, característica da camada de transporte na arquitetura TCP/IP.'
-  },
-  {
-    id: 239,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função principal do protocolo número 34 na arquitetura TCP/IP?',
-    options: [
-      'Gerenciar conexões físicas entre dispositivos',
-      'Controlar o roteamento de pacotes na rede',
-      'Garantir a entrega confiável de dados',
-      'Fornecer serviços de aplicação como e-mail e web'
-    ],
-    answer: 2,
-    explanation: 'O protocolo mencionado é responsável por garantir a entrega confiável de dados, característica da camada de transporte na arquitetura TCP/IP.'
-  },
-  {
-    id: 240,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função principal do protocolo número 35 na arquitetura TCP/IP?',
-    options: [
-      'Gerenciar conexões físicas entre dispositivos',
-      'Controlar o roteamento de pacotes na rede',
-      'Garantir a entrega confiável de dados',
-      'Fornecer serviços de aplicação como e-mail e web'
-    ],
-    answer: 2,
-    explanation: 'O protocolo mencionado é responsável por garantir a entrega confiável de dados, característica da camada de transporte na arquitetura TCP/IP.'
-  },
-  {
-    id: 241,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função principal do protocolo número 36 na arquitetura TCP/IP?',
-    options: [
-      'Gerenciar conexões físicas entre dispositivos',
-      'Controlar o roteamento de pacotes na rede',
-      'Garantir a entrega confiável de dados',
-      'Fornecer serviços de aplicação como e-mail e web'
-    ],
-    answer: 2,
-    explanation: 'O protocolo mencionado é responsável por garantir a entrega confiável de dados, característica da camada de transporte na arquitetura TCP/IP.'
-  },
-  {
-    id: 242,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função principal do protocolo número 37 na arquitetura TCP/IP?',
-    options: [
-      'Gerenciar conexões físicas entre dispositivos',
-      'Controlar o roteamento de pacotes na rede',
-      'Garantir a entrega confiável de dados',
-      'Fornecer serviços de aplicação como e-mail e web'
-    ],
-    answer: 2,
-    explanation: 'O protocolo mencionado é responsável por garantir a entrega confiável de dados, característica da camada de transporte na arquitetura TCP/IP.'
-  },
-  {
-    id: 243,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função principal do protocolo número 38 na arquitetura TCP/IP?',
-    options: [
-      'Gerenciar conexões físicas entre dispositivos',
-      'Controlar o roteamento de pacotes na rede',
-      'Garantir a entrega confiável de dados',
-      'Fornecer serviços de aplicação como e-mail e web'
-    ],
-    answer: 2,
-    explanation: 'O protocolo mencionado é responsável por garantir a entrega confiável de dados, característica da camada de transporte na arquitetura TCP/IP.'
-  },
-  {
-    id: 244,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função principal do protocolo número 39 na arquitetura TCP/IP?',
-    options: [
-      'Gerenciar conexões físicas entre dispositivos',
-      'Controlar o roteamento de pacotes na rede',
-      'Garantir a entrega confiável de dados',
-      'Fornecer serviços de aplicação como e-mail e web'
-    ],
-    answer: 2,
-    explanation: 'O protocolo mencionado é responsável por garantir a entrega confiável de dados, característica da camada de transporte na arquitetura TCP/IP.'
-  },
-  {
-    id: 245,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função principal do protocolo número 40 na arquitetura TCP/IP?',
-    options: [
-      'Gerenciar conexões físicas entre dispositivos',
-      'Controlar o roteamento de pacotes na rede',
-      'Garantir a entrega confiável de dados',
-      'Fornecer serviços de aplicação como e-mail e web'
-    ],
-    answer: 2,
-    explanation: 'O protocolo mencionado é responsável por garantir a entrega confiável de dados, característica da camada de transporte na arquitetura TCP/IP.'
-  },
-  {
-    id: 246,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função principal do protocolo número 41 na arquitetura TCP/IP?',
-    options: [
-      'Gerenciar conexões físicas entre dispositivos',
-      'Controlar o roteamento de pacotes na rede',
-      'Garantir a entrega confiável de dados',
-      'Fornecer serviços de aplicação como e-mail e web'
-    ],
-    answer: 2,
-    explanation: 'O protocolo mencionado é responsável por garantir a entrega confiável de dados, característica da camada de transporte na arquitetura TCP/IP.'
-  },
-  {
-    id: 247,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função principal do protocolo número 42 na arquitetura TCP/IP?',
-    options: [
-      'Gerenciar conexões físicas entre dispositivos',
-      'Controlar o roteamento de pacotes na rede',
-      'Garantir a entrega confiável de dados',
-      'Fornecer serviços de aplicação como e-mail e web'
-    ],
-    answer: 2,
-    explanation: 'O protocolo mencionado é responsável por garantir a entrega confiável de dados, característica da camada de transporte na arquitetura TCP/IP.'
-  },
-  {
-    id: 248,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função principal do protocolo número 43 na arquitetura TCP/IP?',
-    options: [
-      'Gerenciar conexões físicas entre dispositivos',
-      'Controlar o roteamento de pacotes na rede',
-      'Garantir a entrega confiável de dados',
-      'Fornecer serviços de aplicação como e-mail e web'
-    ],
-    answer: 2,
-    explanation: 'O protocolo mencionado é responsável por garantir a entrega confiável de dados, característica da camada de transporte na arquitetura TCP/IP.'
-  },
-  {
-    id: 249,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função principal do protocolo número 44 na arquitetura TCP/IP?',
-    options: [
-      'Gerenciar conexões físicas entre dispositivos',
-      'Controlar o roteamento de pacotes na rede',
-      'Garantir a entrega confiável de dados',
-      'Fornecer serviços de aplicação como e-mail e web'
-    ],
-    answer: 2,
-    explanation: 'O protocolo mencionado é responsável por garantir a entrega confiável de dados, característica da camada de transporte na arquitetura TCP/IP.'
-  },
-  {
-    id: 250,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função principal do protocolo número 45 na arquitetura TCP/IP?',
-    options: [
-      'Gerenciar conexões físicas entre dispositivos',
-      'Controlar o roteamento de pacotes na rede',
-      'Garantir a entrega confiável de dados',
-      'Fornecer serviços de aplicação como e-mail e web'
-    ],
-    answer: 2,
-    explanation: 'O protocolo mencionado é responsável por garantir a entrega confiável de dados, característica da camada de transporte na arquitetura TCP/IP.'
-  },
-  {
-    id: 251,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função principal do protocolo número 46 na arquitetura TCP/IP?',
-    options: [
-      'Gerenciar conexões físicas entre dispositivos',
-      'Controlar o roteamento de pacotes na rede',
-      'Garantir a entrega confiável de dados',
-      'Fornecer serviços de aplicação como e-mail e web'
-    ],
-    answer: 2,
-    explanation: 'O protocolo mencionado é responsável por garantir a entrega confiável de dados, característica da camada de transporte na arquitetura TCP/IP.'
-  },
-  {
-    id: 252,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função principal do protocolo número 47 na arquitetura TCP/IP?',
-    options: [
-      'Gerenciar conexões físicas entre dispositivos',
-      'Controlar o roteamento de pacotes na rede',
-      'Garantir a entrega confiável de dados',
-      'Fornecer serviços de aplicação como e-mail e web'
-    ],
-    answer: 2,
-    explanation: 'O protocolo mencionado é responsável por garantir a entrega confiável de dados, característica da camada de transporte na arquitetura TCP/IP.'
-  },
-  {
-    id: 253,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função principal do protocolo número 48 na arquitetura TCP/IP?',
-    options: [
-      'Gerenciar conexões físicas entre dispositivos',
-      'Controlar o roteamento de pacotes na rede',
-      'Garantir a entrega confiável de dados',
-      'Fornecer serviços de aplicação como e-mail e web'
-    ],
-    answer: 2,
-    explanation: 'O protocolo mencionado é responsável por garantir a entrega confiável de dados, característica da camada de transporte na arquitetura TCP/IP.'
-  },
-  {
-    id: 254,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função principal do protocolo número 49 na arquitetura TCP/IP?',
-    options: [
-      'Gerenciar conexões físicas entre dispositivos',
-      'Controlar o roteamento de pacotes na rede',
-      'Garantir a entrega confiável de dados',
-      'Fornecer serviços de aplicação como e-mail e web'
-    ],
-    answer: 2,
-    explanation: 'O protocolo mencionado é responsável por garantir a entrega confiável de dados, característica da camada de transporte na arquitetura TCP/IP.'
-  },
-  {
-    id: 255,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função principal do protocolo número 50 na arquitetura TCP/IP?',
-    options: [
-      'Gerenciar conexões físicas entre dispositivos',
-      'Controlar o roteamento de pacotes na rede',
-      'Garantir a entrega confiável de dados',
-      'Fornecer serviços de aplicação como e-mail e web'
-    ],
-    answer: 2,
-    explanation: 'O protocolo mencionado é responsável por garantir a entrega confiável de dados, característica da camada de transporte na arquitetura TCP/IP.'
-  },
-  {
-    id: 256,
-    topicId: 'modelos-osi-tcpip',
-    question: 'Qual camada do modelo OSI é responsável pela entrega fim-a-fim e controle de fluxo?',
-    options: [
-      'Camada de Aplicação',
-      'Camada de Transporte',
-      'Camada de Rede',
-      'Camada de Enlace'
-    ],
-    answer: 1,
-    explanation: 'A camada de Transporte (usando protocolos como TCP/UDP) é responsável pela entrega fim-a-fim dos dados e pelo controle de fluxo.'
-  },
-  {
-    id: 257,
-    topicId: 'protocolos-essenciais',
-    question: 'O que faz o protocolo ARP (Address Resolution Protocol)?',
-    options: [
-      'Resolve nomes DNS para endereços IP',
-      'Define rotas entre redes diferentes',
-      'Traduz endereços IP para endereços de enlace (MAC)',
-      'Criptografa pacotes na camada de rede'
-    ],
-    answer: 2,
-    explanation: 'O ARP resolve endereços IP para endereços MAC na mesma rede local, permitindo a comunicação entre dispositivos.'
-  },
-  {
-    id: 258,
-    topicId: 'protocolos-essenciais',
-    question: 'O protocolo UDP oferece garantia de entrega dos pacotes. (Verdadeiro ou Falso)',
-    options: [
-      'Verdadeiro',
-      'Falso'
-    ],
-    answer: 1,
-    explanation: 'Falso. O UDP é um protocolo não orientado à conexão e não oferece garantias de entrega, sendo mais rápido e utilizado para tráfego que tolera perdas, como streaming de vídeo.'
-  },
-  {
-    id: 259,
-    topicId: 'conceitos-basicos',
-    question: 'Uma rede LAN típica usa qual dos seguintes dispositivos para dividir domínios de colisão?',
-    options: [
-      'Hub',
-      'Switch',
-      'Roteador',
-      'Repeater'
-    ],
-    answer: 1,
-    explanation: 'O switch segmenta domínios de colisão, já que ele encaminha o tráfego apenas para a porta de destino, ao contrário de um hub que envia para todas as portas.'
-  },
-  {
-    id: 260,
-    topicId: 'enderecamento-ip',
-    question: 'Qual máscara de sub-rede corresponde à /24 em notação decimal?',
-    options: [
-      '255.255.0.0',
-      '255.255.255.0',
-      '255.255.255.128',
-      '255.255.255.255'
-    ],
-    answer: 1,
-    explanation: 'A notação /24 indica que os 24 primeiros bits do endereço são da rede, o que em decimal corresponde a 255.255.255.0.'
-  },
-  {
-    id: 261,
-    topicId: 'enderecamento-ip',
-    question: 'Em uma rede IPv4, qual endereço é reservado para broadcast?',
-    options: [
-      'Endereço da rede +1',
-      'Endereço do gateway',
-      'O maior endereço da sub-rede',
-      'O menor endereço da sub-rede'
-    ],
-    answer: 2,
-    explanation: 'O endereço de broadcast é o último endereço de uma sub-rede, onde todos os bits da porção de host são "1". Ele é usado para enviar dados a todos os hosts daquela rede.'
-  },
-  {
-    id: 262,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual dos seguintes protocolos é orientado à conexão?',
-    options: [
-      'UDP',
-      'ICMP',
-      'TCP',
-      'IP'
-    ],
-    answer: 2,
-    explanation: 'TCP (Transmission Control Protocol) é um protocolo orientado à conexão que estabelece uma conexão confiável antes de enviar os dados.'
-  },
-  {
-    id: 263,
-    topicId: 'modelos-osi-tcpip',
-    question: 'Em qual camada do modelo OSI opera o switch de camada 2?',
-    options: [
-      'Camada de Rede',
-      'Camada Física',
-      'Camada de Enlace',
-      'Camada Física + Enlace'
-    ],
-    answer: 2,
-    explanation: 'Um switch de camada 2 opera na camada de Enlace de Dados, utilizando endereços MAC para tomar decisões de encaminhamento.'
-  },
-  {
-    id: 264,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual serviço converte nomes de domínio em endereços IP?',
-    options: [
-      'SMTP',
-      'DNS',
-      'FTP',
-      'DHCP'
-    ],
-    answer: 1,
-    explanation: 'O DNS (Domain Name System) é o serviço que traduz nomes de domínio legíveis por humanos (ex: www.google.com) para endereços IP numéricos.'
-  },
-  {
-    id: 265,
-    topicId: 'conceitos-basicos',
-    question: 'Qual topologia de rede consiste de todos os nós conectados a um único ponto central?',
-    options: [
-      'Barramento',
-      'Anel',
-      'Estrela',
-      'Malha'
-    ],
-    answer: 2,
-    explanation: 'Na topologia em estrela, todos os dispositivos se conectam a um ponto central, como um switch ou hub.'
-  },
-  {
-    id: 266,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual o propósito do protocolo DHCP?',
-    options: [
-      'Atribuir dinamicamente endereços IP',
-      'Converter nomes para IP',
-      'Fornecer serviço de e-mail',
-      'Sincronizar relógios'
-    ],
-    answer: 0,
-    explanation: 'O DHCP (Dynamic Host Configuration Protocol) atribui automaticamente endereços IP e outras configurações de rede a dispositivos conectados.'
-  },
-  {
-    id: 267,
-    topicId: 'protocolos-essenciais',
-    question: 'O que faz o protocolo ICMP?',
-    options: [
-      'Transporte de dados de aplicação',
-      'Diagnóstico e mensagens de controle (ex: ping)',
-      'Roteamento entre AS',
-      'Criptografia de tráfego'
-    ],
-    answer: 1,
-    explanation: 'O ICMP (Internet Control Message Protocol) é usado para enviar mensagens de erro e diagnóstico, como as usadas pelo comando "ping".'
-  },
-  {
-    id: 268,
-    topicId: 'seguranca-de-rede',
-    question: 'Qual é a função do NAT (Network Address Translation)?',
-    options: [
-      'Converter endereços MAC',
-      'Converter endereços IP privados em públicos',
-      'Aumentar a velocidade do link',
-      'Filtrar pacotes por conteúdo'
-    ],
-    answer: 1,
-    explanation: 'O NAT traduz endereços IP privados, usados em uma rede local, para um ou mais endereços IP públicos, permitindo que a rede interna acesse a Internet.'
-  },
-  {
-    id: 269,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual protocolo é normalmente usado para transferência segura de arquivos (com criptografia)?',
-    options: [
-      'FTP',
-      'TFTP',
-      'SFTP',
-      'HTTP'
-    ],
-    answer: 2,
-    explanation: 'O SFTP (SSH File Transfer Protocol) é um protocolo seguro que transfere arquivos sobre uma conexão SSH, garantindo a criptografia dos dados.'
-  },
-  {
-    id: 270,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual porta TCP padrão é utilizada pelo HTTP sem TLS?',
-    options: [
-      '80',
-      '443',
-      '21',
-      '25'
-    ],
-    answer: 0,
-    explanation: 'O protocolo HTTP, que não usa criptografia, utiliza a porta TCP padrão 80.'
-  },
-  {
-    id: 271,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual porta TCP padrão é utilizada pelo HTTPS?',
-    options: [
-      '80',
-      '443',
-      '22',
-      '110'
-    ],
-    answer: 1,
-    explanation: 'O protocolo HTTPS, que é a versão segura (com TLS/SSL) do HTTP, utiliza a porta TCP padrão 443.'
-  },
-  {
-    id: 272,
-    topicId: 'conceitos-basicos',
-    question: 'O que significa "half-duplex" em comunicações de rede?',
-    options: [
-      'Comunicação em ambos sentidos simultaneamente',
-      'Comunicação apenas em um sentido',
-      'Comunicação em ambos sentidos, mas não simultaneamente',
-      'Comunicação por fibra óptica'
-    ],
-    answer: 2,
-    explanation: 'Half-duplex permite a comunicação em ambos os sentidos, mas um de cada vez. É como um walkie-talkie: ou você fala ou escuta.'
-  },
-  {
-    id: 273,
-    topicId: 'conceitos-basicos',
-    question: 'Qual dispositivo opera na camada 3 e escolhe caminhos entre redes?',
-    options: [
-      'Hub',
-      'Switch L2',
-      'Roteador',
-      'Repeater'
-    ],
-    answer: 2,
-    explanation: 'Um roteador opera na camada de Rede (camada 3) e utiliza endereços IP para determinar o melhor caminho para encaminhar os pacotes entre redes diferentes.'
-  },
-  {
-    id: 274,
-    topicId: 'conceitos-basicos',
-    question: 'O que é uma VLAN?',
-    options: [
-      'Uma sub-rede física separada',
-      'Uma rede virtual que segmenta domínios de broadcast',
-      'Um protocolo de roteamento',
-      'Uma técnica para aumentar largura de banda'
-    ],
-    answer: 1,
-    explanation: 'VLANs (Virtual LANs) permitem segmentar uma única infraestrutura de rede física em múltiplas redes lógicas, isolando os domínios de broadcast.'
-  },
-  {
-    id: 275,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual é a finalidade do protocolo TCP three-way handshake?',
-    options: [
-      'Descoberta de caminho',
-      'Estabelecer conexão confiável entre cliente e servidor',
-      'Encryptar dados',
-      'Resolver endereços MAC'
-    ],
-    answer: 1,
-    explanation: 'O three-way handshake (troca de pacotes SYN, SYN-ACK, ACK) é o processo pelo qual um cliente e um servidor estabelecem uma conexão TCP confiável antes de começar a troca de dados.'
-  },
-  {
-    id: 276,
-    topicId: 'enderecamento-ip',
-    question: 'Qual campo do cabeçalho IP indica o protocolo de camada superior (TCP/UDP/ICMP)?',
-    options: [
-      'Source IP',
-      'Destination IP',
-      'Protocol',
-      'TTL'
-    ],
-    answer: 2,
-    explanation: 'O campo "Protocol" no cabeçalho IPv4 indica qual protocolo da camada de transporte (como TCP, UDP ou ICMP) está contido no payload do pacote IP.'
-  },
-  {
-    id: 277,
-    topicId: 'enderecamento-ip',
-    question: 'O que significa TTL em cabeçalho IP?',
-    options: [
-      'Tipo de Transporte',
-      'Time To Live (tempo de vida)',
-      'Tamanho do pacote',
-      'Token de segurança'
-    ],
-    answer: 1,
-    explanation: 'TTL (Time to Live) é um contador que garante que os pacotes não fiquem circulando indefinidamente na rede. Ele é decrementado a cada "salto" (hop), e o pacote é descartado quando o TTL chega a zero.'
-  },
-  {
-    id: 278,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual protocolo é usado para sincronizar relógios entre hosts na internet?',
-    options: [
-      'NTP',
-      'SNMP',
-      'DNS',
-      'DHCP'
-    ],
-    answer: 0,
-    explanation: 'O NTP (Network Time Protocol) é usado para sincronizar os relógios de computadores em uma rede de dados com alta precisão.'
-  },
-  {
-    id: 279,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual é a função do protocolo SNMP?',
-    options: [
-      'Gerenciamento e monitoramento de dispositivos de rede',
-      'Transferência de arquivos',
-      'Resolução de nomes',
-      'Estabelecer sessões TCP'
-    ],
-    answer: 0,
-    explanation: 'O SNMP (Simple Network Management Protocol) é usado para gerenciar e monitorar dispositivos em uma rede IP.'
-  },
-  {
-    id: 280,
-    topicId: 'enderecamento-ip',
-    question: 'Qual mecanismo divide uma rede grande em sub-redes menores?',
-    options: [
-      'VLAN',
-      'Subnetting',
-      'NAT',
-      'ARP'
-    ],
-    answer: 1,
-    explanation: 'Subnetting é o processo de dividir um bloco de endereços IP em sub-redes menores, o que ajuda a otimizar o uso do espaço de endereços e a gerenciar melhor o tráfego de rede.'
-  },
-  {
-    id: 281,
-    topicId: 'enderecamento-ip',
-    question: 'Qual endereço IPv4 é considerado "loopback"?',
-    options: [
-      '0.0.0.0',
-      '127.0.0.1',
-      '255.255.255.255',
-      '192.168.0.1'
-    ],
-    answer: 1,
-    explanation: 'O endereço 127.0.0.1 é reservado para "loopback", permitindo que um host envie pacotes para si mesmo para fins de teste e diagnóstico.'
-  },
-  {
-    id: 282,
-    topicId: 'protocolos-essenciais',
-    question: 'O que faz o protocolo FTP?',
-    options: [
-      'Envia e-mails',
-      'Transferência de arquivos sem criptografia',
-      'Resolução de nomes',
-      'Gerenciamento de rede'
-    ],
-    answer: 1,
-    explanation: 'O FTP (File Transfer Protocol) é usado para transferir arquivos entre um cliente e um servidor. Por padrão, ele não usa criptografia.'
-  },
-  {
-    id: 283,
-    topicId: 'modelos-osi-tcpip',
-    question: 'Qual camada do modelo TCP/IP corresponde aproximadamente à camada de sessão e apresentação do modelo OSI?',
-    options: [
-      'Aplicação',
-      'Transporte',
-      'Internet',
-      'Link'
-    ],
-    answer: 0,
-    explanation: 'No modelo simplificado TCP/IP, as funcionalidades das camadas de Sessão, Apresentação e Aplicação do modelo OSI são combinadas na única camada de Aplicação.'
-  },
-  {
-    id: 284,
-    topicId: 'enderecamento-ip',
-    question: 'Qual é o endereço IPv4 privado presente no bloco 10.0.0.0/8?',
-    options: [
-      '10.0.0.1',
-      '172.16.0.1',
-      '192.168.1.1',
-      '169.254.0.1'
-    ],
-    answer: 0,
-    explanation: 'Os endereços da classe A privada estão na faixa 10.0.0.0 a 10.255.255.255, ou seja, no bloco 10.0.0.0/8.'
-  },
-  {
-    id: 285,
-    topicId: 'enderecamento-ip',
-    question: 'Qual é a faixa de endereços IPv4 privados para 192.168.0.0/16?',
-    options: [
-      '192.168.0.0 - 192.168.255.255',
-      '192.168.0.0 - 192.168.0.255',
-      '192.0.0.0 - 192.168.255.255',
-      '192.168.1.0 - 192.168.1.255'
-    ],
-    answer: 0,
-    explanation: 'O bloco 192.168.0.0/16 engloba todos os endereços que começam com 192.168, desde 192.168.0.0 até 192.168.255.255.'
-  },
-  {
-    id: 286,
-    topicId: 'conceitos-basicos',
-    question: 'O que é "broadcast domain"?',
-    options: [
-      'Área onde broadcasts são limitados ao mesmo segmento de rede',
-      'Área onde roteadores encaminham broadcasts',
-      'Uma técnica de segurança',
-      'Um protocolo de roteamento'
-    ],
-    answer: 0,
-    explanation: 'Um "broadcast domain" é uma área de uma rede onde um pacote de broadcast enviado por um dispositivo pode ser ouvido por todos os outros dispositivos. Roteadores e VLANs segmentam esses domínios.'
-  },
-  {
-    id: 287,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual protocolo permite descobrir o endereço MAC de um IP conhecido (IPv4) na mesma rede?',
-    options: [
-      'DNS',
-      'ARP',
-      'DHCP',
-      'ICMP'
-    ],
-    answer: 1,
-    explanation: 'O ARP (Address Resolution Protocol) é usado para encontrar o endereço de hardware (MAC) de um host quando apenas o endereço IP é conhecido, dentro de um mesmo segmento de rede.'
-  },
-  {
-    id: 288,
-    topicId: 'conceitos-basicos',
-    question: 'O que é "collision domain" em redes Ethernet antigas?',
-    options: [
-      'Área onde switches isolam tráfego',
-      'Área onde frames podem colidir quando usando hubs',
-      'Domínio gerenciado por roteador',
-      'Um tipo de VLAN'
-    ],
-    answer: 1,
-    explanation: 'Um "collision domain" é a parte de uma rede onde pacotes de dados podem "colidir" uns com os outros, causando a perda de dados. Isso era comum em redes que usavam hubs e foi resolvido com o uso de switches.'
-  },
-  {
-    id: 289,
-    topicId: 'conceitos-basicos',
-    question: 'Qual técnica divide o tráfego em diferentes prioridades (voz, dados) em uma rede?',
-    options: [
-      'NAT',
-      'QoS',
-      'ARP',
-      'STP'
-    ],
-    answer: 1,
-    explanation: 'QoS (Quality of Service) é uma técnica usada para gerenciar o tráfego de rede e priorizar o tráfego mais importante (como voz e vídeo) em detrimento de outros, garantindo uma melhor experiência do usuário.'
-  },
-  {
-    id: 290,
-    topicId: 'protocolos-essenciais',
-    question: 'O que faz o protocolo BGP?',
-    options: [
-      'Roteamento dentro de um AS (Interior)',
-      'Roteamento entre sistemas autônomos (Exterior)',
-      'Resolving ARP',
-      'Gerenciar switches'
-    ],
-    answer: 1,
-    explanation: 'BGP (Border Gateway Protocol) é o principal protocolo de roteamento usado para trocar informações de roteamento entre diferentes Sistemas Autônomos (AS) na Internet.'
-  },
-  {
-    id: 291,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual protocolo é usado para envio de e-mail entre servidores?',
-    options: [
-      'IMAP',
-      'POP3',
-      'SMTP',
-      'FTP'
-    ],
-    answer: 2,
-    explanation: 'O SMTP (Simple Mail Transfer Protocol) é o protocolo padrão para enviar e-mails de um servidor para outro e de um cliente de e-mail para um servidor de e-mail.'
-  },
-  {
-    id: 292,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual protocolo permite acessar e gerenciar remotamente um shell de forma segura?',
-    options: [
-      'Telnet',
-      'FTP',
-      'SSH',
-      'RDP'
-    ],
-    answer: 2,
-    explanation: 'O SSH (Secure Shell) é um protocolo que fornece uma conexão de shell segura e criptografada para acesso remoto a sistemas.'
-  },
-  {
-    id: 293,
-    topicId: 'conceitos-basicos',
-    question: 'Qual técnica previne loops em redes com switches por meio de bloqueio de portas redundantes?',
-    options: [
-      'STP (Spanning Tree Protocol)',
-      'QoS',
-      'ARP',
-      'OSPF'
-    ],
-    answer: 0,
-    explanation: 'O STP (Spanning Tree Protocol) é um protocolo que detecta e desativa caminhos redundantes em uma rede com switches, evitando a criação de loops de broadcast.'
-  },
-  {
-    id: 294,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual protocolo de roteamento é tipicamente usado em redes corporativas para roteamento interno (link-state)?',
-    options: [
-      'RIP',
-      'OSPF',
-      'BGP',
-      'EIGRP'
-    ],
-    answer: 1,
-    explanation: 'O OSPF (Open Shortest Path First) é um protocolo de roteamento interno (IGP) do tipo link-state, muito utilizado em redes corporativas grandes e complexas.'
-  },
-  {
-    id: 295,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função do gateway padrão em uma estação de trabalho?',
-    options: [
-      'Servir como nome do host',
-      'Encaminhar pacotes para fora da sub-rede local',
-      'Atribuir IPs dinâmicos',
-      'Resolver MACs'
-    ],
-    answer: 1,
-    explanation: 'O gateway padrão é o endereço IP do roteador que o host usa para enviar pacotes para redes externas (ou seja, para fora de sua sub-rede local).'
-  },
-  {
-    id: 296,
-    topicId: 'conceitos-basicos',
-    question: 'O que é "MTU" (Maximum Transmission Unit)?',
-    options: [
-      'Máxima taxa de transferência',
-      'Tamanho máximo de payload que pode ser transmitido em um único quadro',
-      'Tempo de vida do pacote',
-      'Número de saltos permitido'
-    ],
-    answer: 1,
-    explanation: 'MTU (Maximum Transmission Unit) é o maior tamanho de um pacote de dados, em bytes, que pode ser transmitido em uma rede sem ser fragmentado.'
-  },
-  {
-    id: 297,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual protocolo de transporte usa números de porta e oferece controle de congestionamento?',
-    options: [
-      'UDP',
-      'ICMP',
-      'TCP',
-      'ARP'
-    ],
-    answer: 2,
-    explanation: 'O TCP usa números de porta para identificar aplicações e inclui mecanismos robustos para controle de fluxo e de congestionamento, garantindo a entrega confiável dos dados.'
-  },
-  {
-    id: 298,
-    topicId: 'enderecamento-ip',
-    question: 'O que é "fragmentação" em IPv4?',
-    options: [
-      'Divisão de pacotes grandes em pacotes menores para atravessar redes com MTU menor',
-      'Criptografia de pacotes',
-      'Conversão de IPv4 para IPv6',
-      'Segmentação por VLAN'
-    ],
-    answer: 0,
-    explanation: 'Fragmentação é o processo de dividir um pacote IP grande em pacotes menores quando ele precisa passar por uma rede que suporta um MTU menor do que o pacote original.'
-  },
-  {
-    id: 299,
-    topicId: 'conceitos-basicos',
-    question: 'Qual técnica permite múltiplos dispositivos compartilharem uma única interface física usando subinterfaces lógicas (ex: roteador)?',
-    options: [
-      'NAT',
-      'Subinterfaces e encapsulamentos (802.1Q)',
-      'ARP',
-      'DHCP'
-    ],
-    answer: 1,
-    explanation: 'Subinterfaces de roteador, combinadas com o padrão de encapsulamento 802.1Q (VLAN tagging), permitem que uma única porta física de roteador gerencie o tráfego de várias VLANs (redes lógicas).'
-  },
-  {
-    id: 300,
-    topicId: 'conceitos-basicos',
-    question: 'O que é "link aggregation" (LACP)?',
-    options: [
-      'Protocolo para balancear carga por múltiplos links físicos',
-      'Protocolo de roteamento',
-      'Técnica de encapsulamento',
-      'Uma forma de NAT'
-    ],
-    answer: 0,
-    explanation: 'Link Aggregation, através de protocolos como o LACP, combina múltiplos links físicos entre dois dispositivos (como switches) para aumentar a largura de banda e fornecer redundância.'
-  },
-  {
-    id: 301,
-    topicId: 'enderecamento-ip',
-    question: 'Qual tipo de endereço IPv6 representa múltiplos destinos (um para muitos)?',
-    options: [
-      'Unicast',
-      'Multicast',
-      'Anycast',
-      'Broadcast'
-    ],
-    answer: 1,
-    explanation: 'O endereço Multicast em IPv6 é usado para enviar pacotes de um único remetente para um grupo de destinatários, otimizando o envio de tráfego para múltiplos hosts.'
-  },
-  {
-    id: 302,
-    topicId: 'enderecamento-ip',
-    question: 'O que é um endereço IPv6 "link-local" que começa com "fe80::" usado para?',
-    options: [
-      'Roteamento na Internet',
-      'Comunicação apenas no segmento local',
-      'Broadcast global',
-      'Endereçamento privado para VPNs'
-    ],
-    answer: 1,
-    explanation: 'Endereços link-local IPv6, que começam com fe80::, são usados para comunicação entre dispositivos no mesmo segmento de rede e não podem ser roteados para fora.'
-  },
-  {
-    id: 303,
-    topicId: 'enderecamento-ip',
-    question: 'Qual é o propósito do IPv6 SLAAC (StateLess Address Auto-Configuration)?',
-    options: [
-      'Atribuir endereços IPv6 automaticamente sem DHCPv6',
-      'Substituir DNS',
-      'Criptografar pacotes',
-      'Converter MACs'
-    ],
-    answer: 0,
-    explanation: 'SLAAC permite que dispositivos configurem seus próprios endereços IPv6 automaticamente, usando informações do roteador e seu próprio endereço MAC, sem a necessidade de um servidor DHCPv6.'
-  },
-  {
-    id: 304,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual comando é comumente usado para testar conectividade entre dois hosts (ICMP echo)?',
-    options: [
-      'traceroute',
-      'telnet',
-      'ping',
-      'nslookup'
-    ],
-    answer: 2,
-    explanation: 'O comando "ping" envia pacotes ICMP "echo request" para um host de destino e mede o tempo de resposta, sendo uma ferramenta básica para testar a conectividade.'
-  },
-  {
-    id: 305,
-    topicId: 'protocolos-essenciais',
-    question: 'O que faz o comando traceroute (ou tracert)?',
-    options: [
-      'Mede velocidade da rede',
-      'Mostra rota e saltos entre origem e destino',
-      'Resolve nomes DNS',
-      'Atribui IPs'
-    ],
-    answer: 1,
-    explanation: 'O comando "traceroute" (ou "tracert" no Windows) exibe o caminho que um pacote percorre na rede, listando cada roteador ("hop") por onde o pacote passa até chegar ao destino.'
-  },
-  {
-    id: 306,
-    topicId: 'modelos-osi-tcpip',
-    question: 'Qual camada do modelo OSI é responsável pela entrega fim-a-fim e controle de fluxo?',
-    options: [
-      'Camada de Aplicação',
-      'Camada de Transporte',
-      'Camada de Rede',
-      'Camada de Enlace'
-    ],
-    answer: 1,
-    explanation: 'A camada de Transporte (usando protocolos como TCP/UDP) é responsável pela entrega fim-a-fim dos dados e pelo controle de fluxo.'
-  },
-  {
-    id: 307,
-    topicId: 'protocolos-essenciais',
-    question: 'O que faz o protocolo ARP (Address Resolution Protocol)?',
-    options: [
-      'Resolve nomes DNS para endereços IP',
-      'Define rotas entre redes diferentes',
-      'Traduz endereços IP para endereços de enlace (MAC)',
-      'Criptografa pacotes na camada de rede'
-    ],
-    answer: 2,
-    explanation: 'O ARP resolve endereços IP para endereços MAC na mesma rede local, permitindo a comunicação entre dispositivos.'
-  },
-  {
-    id: 308,
-    topicId: 'protocolos-essenciais',
-    question: 'O protocolo UDP oferece garantia de entrega dos pacotes. (Verdadeiro ou Falso)',
-    options: [
-      'Verdadeiro',
-      'Falso'
-    ],
-    answer: 1,
-    explanation: 'Falso. O UDP é um protocolo não orientado à conexão e não oferece garantias de entrega, sendo mais rápido e utilizado para tráfego que tolera perdas, como streaming de vídeo.'
-  },
-  {
-    id: 309,
-    topicId: 'conceitos-basicos',
-    question: 'Uma rede LAN típica usa qual dos seguintes dispositivos para dividir domínios de colisão?',
-    options: [
-      'Hub',
-      'Switch',
-      'Roteador',
-      'Repeater'
-    ],
-    answer: 1,
-    explanation: 'O switch segmenta domínios de colisão, já que ele encaminha o tráfego apenas para a porta de destino, ao contrário de um hub que envia para todas as portas.'
-  },
-  {
-    id: 310,
-    topicId: 'enderecamento-ip',
-    question: 'Qual máscara de sub-rede corresponde à /24 em notação decimal?',
-    options: [
-      '255.255.0.0',
-      '255.255.255.0',
-      '255.255.255.128',
-      '255.255.255.255'
-    ],
-    answer: 1,
-    explanation: 'A notação /24 indica que os 24 primeiros bits do endereço são da rede, o que em decimal corresponde a 255.255.255.0.'
-  },
-  {
-    id: 311,
-    topicId: 'enderecamento-ip',
-    question: 'Em uma rede IPv4, qual endereço é reservado para broadcast?',
-    options: [
-      'Endereço da rede +1',
-      'Endereço do gateway',
-      'O maior endereço da sub-rede',
-      'O menor endereço da sub-rede'
-    ],
-    answer: 2,
-    explanation: 'O endereço de broadcast é o último endereço de uma sub-rede, onde todos os bits da porção de host são "1". Ele é usado para enviar dados a todos os hosts daquela rede.'
-  },
-  {
-    id: 312,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual dos seguintes protocolos é orientado à conexão?',
-    options: [
-      'UDP',
-      'ICMP',
-      'TCP',
-      'IP'
-    ],
-    answer: 2,
-    explanation: 'TCP (Transmission Control Protocol) é um protocolo orientado à conexão que estabelece uma conexão confiável antes de enviar os dados.'
-  },
-  {
-    id: 313,
-    topicId: 'modelos-osi-tcpip',
-    question: 'Em qual camada do modelo OSI opera o switch de camada 2?',
-    options: [
-      'Camada de Rede',
-      'Camada Física',
-      'Camada de Enlace',
-      'Camada Física + Enlace'
-    ],
-    answer: 2,
-    explanation: 'Um switch de camada 2 opera na camada de Enlace de Dados, utilizando endereços MAC para tomar decisões de encaminhamento.'
-  },
-  {
-    id: 314,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual serviço converte nomes de domínio em endereços IP?',
-    options: [
-      'SMTP',
-      'DNS',
-      'FTP',
-      'DHCP'
-    ],
-    answer: 1,
-    explanation: 'O DNS (Domain Name System) é o serviço que traduz nomes de domínio legíveis por humanos (ex: www.google.com) para endereços IP numéricos.'
-  },
-  {
-    id: 315,
-    topicId: 'conceitos-basicos',
-    question: 'Qual topologia de rede consiste de todos os nós conectados a um único ponto central?',
-    options: [
-      'Barramento',
-      'Anel',
-      'Estrela',
-      'Malha'
-    ],
-    answer: 2,
-    explanation: 'Na topologia em estrela, todos os dispositivos se conectam a um ponto central, como um switch ou hub.'
-  },
-  {
-    id: 316,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual o propósito do protocolo DHCP?',
-    options: [
-      'Atribuir dinamicamente endereços IP',
-      'Converter nomes para IP',
-      'Fornecer serviço de e-mail',
-      'Sincronizar relógios'
-    ],
-    answer: 0,
-    explanation: 'O DHCP (Dynamic Host Configuration Protocol) atribui automaticamente endereços IP e outras configurações de rede a dispositivos conectados.'
-  },
-  {
-    id: 317,
-    topicId: 'protocolos-essenciais',
-    question: 'O que faz o protocolo ICMP?',
-    options: [
-      'Transporte de dados de aplicação',
-      'Diagnóstico e mensagens de controle (ex: ping)',
-      'Roteamento entre AS',
-      'Criptografia de tráfego'
-    ],
-    answer: 1,
-    explanation: 'O ICMP (Internet Control Message Protocol) é usado para enviar mensagens de erro e diagnóstico, como as usadas pelo comando "ping".'
-  },
-  {
-    id: 318,
-    topicId: 'seguranca-de-rede',
-    question: 'Qual é a função do NAT (Network Address Translation)?',
-    options: [
-      'Converter endereços MAC',
-      'Converter endereços IP privados em públicos',
-      'Aumentar a velocidade do link',
-      'Filtrar pacotes por conteúdo'
-    ],
-    answer: 1,
-    explanation: 'O NAT traduz endereços IP privados, usados em uma rede local, para um ou mais endereços IP públicos, permitindo que a rede interna acesse a Internet.'
-  },
-  {
-    id: 319,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual protocolo é normalmente usado para transferência segura de arquivos (com criptografia)?',
-    options: [
-      'FTP',
-      'TFTP',
-      'SFTP',
-      'HTTP'
-    ],
-    answer: 2,
-    explanation: 'O SFTP (SSH File Transfer Protocol) é um protocolo seguro que transfere arquivos sobre uma conexão SSH, garantindo a criptografia dos dados.'
-  },
-  {
-    id: 320,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual porta TCP padrão é utilizada pelo HTTP sem TLS?',
-    options: [
-      '80',
-      '443',
-      '21',
-      '25'
-    ],
-    answer: 0,
-    explanation: 'O protocolo HTTP, que não usa criptografia, utiliza a porta TCP padrão 80.'
-  },
-  {
-    id: 321,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual porta TCP padrão é utilizada pelo HTTPS?',
-    options: [
-      '80',
-      '443',
-      '22',
-      '110'
-    ],
-    answer: 1,
-    explanation: 'O protocolo HTTPS, que é a versão segura (com TLS/SSL) do HTTP, utiliza a porta TCP padrão 443.'
-  },
-  {
-    id: 322,
-    topicId: 'conceitos-basicos',
-    question: 'O que significa "half-duplex" em comunicações de rede?',
-    options: [
-      'Comunicação em ambos sentidos simultaneamente',
-      'Comunicação apenas em um sentido',
-      'Comunicação em ambos sentidos, mas não simultaneamente',
-      'Comunicação por fibra óptica'
-    ],
-    answer: 2,
-    explanation: 'Half-duplex permite a comunicação em ambos os sentidos, mas um de cada vez. É como um walkie-talkie: ou você fala ou escuta.'
-  },
-  {
-    id: 323,
-    topicId: 'conceitos-basicos',
-    question: 'Qual dispositivo opera na camada 3 e escolhe caminhos entre redes?',
-    options: [
-      'Hub',
-      'Switch L2',
-      'Roteador',
-      'Repeater'
-    ],
-    answer: 2,
-    explanation: 'Um roteador opera na camada de Rede (camada 3) e utiliza endereços IP para determinar o melhor caminho para encaminhar os pacotes entre redes diferentes.'
-  },
-  {
-    id: 324,
-    topicId: 'conceitos-basicos',
-    question: 'O que é uma VLAN?',
-    options: [
-      'Uma sub-rede física separada',
-      'Uma rede virtual que segmenta domínios de broadcast',
-      'Um protocolo de roteamento',
-      'Uma técnica para aumentar largura de banda'
-    ],
-    answer: 1,
-    explanation: 'VLANs (Virtual LANs) permitem segmentar uma única infraestrutura de rede física em múltiplas redes lógicas, isolando os domínios de broadcast.'
-  },
-  {
-    id: 325,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual é a finalidade do protocolo TCP three-way handshake?',
-    options: [
-      'Descoberta de caminho',
-      'Estabelecer conexão confiável entre cliente e servidor',
-      'Encryptar dados',
-      'Resolver endereços MAC'
-    ],
-    answer: 1,
-    explanation: 'O three-way handshake (troca de pacotes SYN, SYN-ACK, ACK) é o processo pelo qual um cliente e um servidor estabelecem uma conexão TCP confiável antes de começar a troca de dados.'
-  },
-  {
-    id: 326,
-    topicId: 'enderecamento-ip',
-    question: 'Qual campo do cabeçalho IP indica o protocolo de camada superior (TCP/UDP/ICMP)?',
-    options: [
-      'Source IP',
-      'Destination IP',
-      'Protocol',
-      'TTL'
-    ],
-    answer: 2,
-    explanation: 'O campo "Protocol" no cabeçalho IPv4 indica qual protocolo da camada de transporte (como TCP, UDP ou ICMP) está contido no payload do pacote IP.'
-  },
-  {
-    id: 327,
-    topicId: 'enderecamento-ip',
-    question: 'O que significa TTL em cabeçalho IP?',
-    options: [
-      'Tipo de Transporte',
-      'Time To Live (tempo de vida)',
-      'Tamanho do pacote',
-      'Token de segurança'
-    ],
-    answer: 1,
-    explanation: 'TTL (Time to Live) é um contador que garante que os pacotes não fiquem circulando indefinidamente na rede. Ele é decrementado a cada "salto" (hop), e o pacote é descartado quando o TTL chega a zero.'
-  },
-  {
-    id: 328,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual protocolo é usado para sincronizar relógios entre hosts na internet?',
-    options: [
-      'NTP',
-      'SNMP',
-      'DNS',
-      'DHCP'
-    ],
-    answer: 0,
-    explanation: 'O NTP (Network Time Protocol) é usado para sincronizar os relógios de computadores em uma rede de dados com alta precisão.'
-  },
-  {
-    id: 329,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual é a função do protocolo SNMP?',
-    options: [
-      'Gerenciamento e monitoramento de dispositivos de rede',
-      'Transferência de arquivos',
-      'Resolução de nomes',
-      'Estabelecer sessões TCP'
-    ],
-    answer: 0,
-    explanation: 'O SNMP (Simple Network Management Protocol) é usado para gerenciar e monitorar dispositivos em uma rede IP.'
-  },
-  {
-    id: 330,
-    topicId: 'enderecamento-ip',
-    question: 'Qual mecanismo divide uma rede grande em sub-redes menores?',
-    options: [
-      'VLAN',
-      'Subnetting',
-      'NAT',
-      'ARP'
-    ],
-    answer: 1,
-    explanation: 'Subnetting é o processo de dividir um bloco de endereços IP em sub-redes menores, o que ajuda a otimizar o uso do espaço de endereços e a gerenciar melhor o tráfego de rede.'
-  },
-  {
-    id: 331,
-    topicId: 'enderecamento-ip',
-    question: 'Qual endereço IPv4 é considerado "loopback"?',
-    options: [
-      '0.0.0.0',
-      '127.0.0.1',
-      '255.255.255.255',
-      '192.168.0.1'
-    ],
-    answer: 1,
-    explanation: 'O endereço 127.0.0.1 é reservado para "loopback", permitindo que um host envie pacotes para si mesmo para fins de teste e diagnóstico.'
-  },
-  {
-    id: 332,
-    topicId: 'protocolos-essenciais',
-    question: 'O que faz o protocolo FTP?',
-    options: [
-      'Envia e-mails',
-      'Transferência de arquivos sem criptografia',
-      'Resolução de nomes',
-      'Gerenciamento de rede'
-    ],
-    answer: 1,
-    explanation: 'O FTP (File Transfer Protocol) é usado para transferir arquivos entre um cliente e um servidor. Por padrão, ele não usa criptografia.'
-  },
-  {
-    id: 333,
-    topicId: 'modelos-osi-tcpip',
-    question: 'Qual camada do modelo TCP/IP corresponde aproximadamente à camada de sessão e apresentação do modelo OSI?',
-    options: [
-      'Aplicação',
-      'Transporte',
-      'Internet',
-      'Link'
-    ],
-    answer: 0,
-    explanation: 'No modelo simplificado TCP/IP, as funcionalidades das camadas de Sessão, Apresentação e Aplicação do modelo OSI são combinadas na única camada de Aplicação.'
-  },
-  {
-    id: 334,
-    topicId: 'enderecamento-ip',
-    question: 'Qual é o endereço IPv4 privado presente no bloco 10.0.0.0/8?',
-    options: [
-      '10.0.0.1',
-      '172.16.0.1',
-      '192.168.1.1',
-      '169.254.0.1'
-    ],
-    answer: 0,
-    explanation: 'Os endereços da classe A privada estão na faixa 10.0.0.0 a 10.255.255.255, ou seja, no bloco 10.0.0.0/8.'
-  },
-  {
-    id: 335,
-    topicId: 'enderecamento-ip',
-    question: 'Qual é a faixa de endereços IPv4 privados para 192.168.0.0/16?',
-    options: [
-      '192.168.0.0 - 192.168.255.255',
-      '192.168.0.0 - 192.168.0.255',
-      '192.0.0.0 - 192.168.255.255',
-      '192.168.1.0 - 192.168.1.255'
-    ],
-    answer: 0,
-    explanation: 'O bloco 192.168.0.0/16 engloba todos os endereços que começam com 192.168, desde 192.168.0.0 até 192.168.255.255.'
-  },
-  {
-    id: 336,
-    topicId: 'conceitos-basicos',
-    question: 'O que é "broadcast domain"?',
-    options: [
-      'Área onde broadcasts são limitados ao mesmo segmento de rede',
-      'Área onde roteadores encaminham broadcasts',
-      'Uma técnica de segurança',
-      'Um protocolo de roteamento'
-    ],
-    answer: 0,
-    explanation: 'Um "broadcast domain" é uma área de uma rede onde um pacote de broadcast enviado por um dispositivo pode ser ouvido por todos os outros dispositivos. Roteadores e VLANs segmentam esses domínios.'
-  },
-  {
-    id: 337,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual protocolo permite descobrir o endereço MAC de um IP conhecido (IPv4) na mesma rede?',
-    options: [
-      'DNS',
-      'ARP',
-      'DHCP',
-      'ICMP'
-    ],
-    answer: 1,
-    explanation: 'O ARP (Address Resolution Protocol) é usado para encontrar o endereço de hardware (MAC) de um host quando apenas o endereço IP é conhecido, dentro de um mesmo segmento de rede.'
-  },
-  {
-    id: 338,
-    topicId: 'conceitos-basicos',
-    question: 'O que é "collision domain" em redes Ethernet antigas?',
-    options: [
-      'Área onde switches isolam tráfego',
-      'Área onde frames podem colidir quando usando hubs',
-      'Domínio gerenciado por roteador',
-      'Um tipo de VLAN'
-    ],
-    answer: 1,
-    explanation: 'Um "collision domain" é a parte de uma rede onde pacotes de dados podem "colidir" uns com os outros, causando a perda de dados. Isso era comum em redes que usavam hubs e foi resolvido com o uso de switches.'
-  },
-  {
-    id: 339,
-    topicId: 'conceitos-basicos',
-    question: 'Qual técnica divide o tráfego em diferentes prioridades (voz, dados) em uma rede?',
-    options: [
-      'NAT',
-      'QoS',
-      'ARP',
-      'STP'
-    ],
-    answer: 1,
-    explanation: 'QoS (Quality of Service) é uma técnica usada para gerenciar o tráfego de rede e priorizar o tráfego mais importante (como voz e vídeo) em detrimento de outros, garantindo uma melhor experiência do usuário.'
-  },
-  {
-    id: 340,
-    topicId: 'protocolos-essenciais',
-    question: 'O que faz o protocolo BGP?',
-    options: [
-      'Roteamento dentro de um AS (Interior)',
-      'Roteamento entre sistemas autônomos (Exterior)',
-      'Resolving ARP',
-      'Gerenciar switches'
-    ],
-    answer: 1,
-    explanation: 'BGP (Border Gateway Protocol) é o principal protocolo de roteamento usado para trocar informações de roteamento entre diferentes Sistemas Autônomos (AS) na Internet.'
-  },
-  {
-    id: 341,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual protocolo é usado para envio de e-mail entre servidores?',
-    options: [
-      'IMAP',
-      'POP3',
-      'SMTP',
-      'FTP'
-    ],
-    answer: 2,
-    explanation: 'O SMTP (Simple Mail Transfer Protocol) é o protocolo padrão para enviar e-mails de um servidor para outro e de um cliente de e-mail para um servidor de e-mail.'
-  },
-  {
-    id: 342,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual protocolo permite acessar e gerenciar remotamente um shell de forma segura?',
-    options: [
-      'Telnet',
-      'FTP',
-      'SSH',
-      'RDP'
-    ],
-    answer: 2,
-    explanation: 'O SSH (Secure Shell) é um protocolo que fornece uma conexão de shell segura e criptografada para acesso remoto a sistemas.'
-  },
-  {
-    id: 343,
-    topicId: 'conceitos-basicos',
-    question: 'Qual técnica previne loops em redes com switches por meio de bloqueio de portas redundantes?',
-    options: [
-      'STP (Spanning Tree Protocol)',
-      'QoS',
-      'ARP',
-      'OSPF'
-    ],
-    answer: 0,
-    explanation: 'O STP (Spanning Tree Protocol) é um protocolo que detecta e desativa caminhos redundantes em uma rede com switches, evitando a criação de loops de broadcast.'
-  },
-  {
-    id: 344,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual protocolo de roteamento é tipicamente usado em redes corporativas para roteamento interno (link-state)?',
-    options: [
-      'RIP',
-      'OSPF',
-      'BGP',
-      'EIGRP'
-    ],
-    answer: 1,
-    explanation: 'O OSPF (Open Shortest Path First) é um protocolo de roteamento interno (IGP) do tipo link-state, muito utilizado em redes corporativas grandes e complexas.'
-  },
-  {
-    id: 345,
-    topicId: 'conceitos-basicos',
-    question: 'Qual é a função do gateway padrão em uma estação de trabalho?',
-    options: [
-      'Servir como nome do host',
-      'Encaminhar pacotes para fora da sub-rede local',
-      'Atribuir IPs dinâmicos',
-      'Resolver MACs'
-    ],
-    answer: 1,
-    explanation: 'O gateway padrão é o endereço IP do roteador que o host usa para enviar pacotes para redes externas (ou seja, para fora de sua sub-rede local).'
-  },
-  {
-    id: 346,
-    topicId: 'conceitos-basicos',
-    question: 'O que é "MTU" (Maximum Transmission Unit)?',
-    options: [
-      'Máxima taxa de transferência',
-      'Tamanho máximo de payload que pode ser transmitido em um único quadro',
-      'Tempo de vida do pacote',
-      'Número de saltos permitido'
-    ],
-    answer: 1,
-    explanation: 'MTU (Maximum Transmission Unit) é o maior tamanho de um pacote de dados, em bytes, que pode ser transmitido em uma rede sem ser fragmentado.'
-  },
-  {
-    id: 347,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual protocolo de transporte usa números de porta e oferece controle de congestionamento?',
-    options: [
-      'UDP',
-      'ICMP',
-      'TCP',
-      'ARP'
-    ],
-    answer: 2,
-    explanation: 'O TCP usa números de porta para identificar aplicações e inclui mecanismos robustos para controle de fluxo e de congestionamento, garantindo a entrega confiável dos dados.'
-  },
-  {
-    id: 348,
-    topicId: 'enderecamento-ip',
-    question: 'O que é "fragmentação" em IPv4?',
-    options: [
-      'Divisão de pacotes grandes em pacotes menores para atravessar redes com MTU menor',
-      'Criptografia de pacotes',
-      'Conversão de IPv4 para IPv6',
-      'Segmentação por VLAN'
-    ],
-    answer: 0,
-    explanation: 'Fragmentação é o processo de dividir um pacote IP grande em pacotes menores quando ele precisa passar por uma rede que suporta um MTU menor do que o pacote original.'
-  },
-  {
-    id: 349,
-    topicId: 'conceitos-basicos',
-    question: 'Qual técnica permite múltiplos dispositivos compartilharem uma única interface física usando subinterfaces lógicas (ex: roteador)?',
-    options: [
-      'NAT',
-      'Subinterfaces e encapsulamentos (802.1Q)',
-      'ARP',
-      'DHCP'
-    ],
-    answer: 1,
-    explanation: 'Subinterfaces de roteador, combinadas com o padrão de encapsulamento 802.1Q (VLAN tagging), permitem que uma única porta física de roteador gerencie o tráfego de várias VLANs (redes lógicas).'
-  },
-  {
-    id: 350,
-    topicId: 'conceitos-basicos',
-    question: 'O que é "link aggregation" (LACP)?',
-    options: [
-      'Protocolo para balancear carga por múltiplos links físicos',
-      'Protocolo de roteamento',
-      'Técnica de encapsulamento',
-      'Uma forma de NAT'
-    ],
-    answer: 0,
-    explanation: 'Link Aggregation, através de protocolos como o LACP, combina múltiplos links físicos entre dois dispositivos (como switches) para aumentar a largura de banda e fornecer redundância.'
-  },
-  {
-    id: 351,
-    topicId: 'enderecamento-ip',
-    question: 'Qual tipo de endereço IPv6 representa múltiplos destinos (um para muitos)?',
-    options: [
-      'Unicast',
-      'Multicast',
-      'Anycast',
-      'Broadcast'
-    ],
-    answer: 1,
-    explanation: 'O endereço Multicast em IPv6 é usado para enviar pacotes de um único remetente para um grupo de destinatários, otimizando o envio de tráfego para múltiplos hosts.'
-  },
-  {
-    id: 352,
-    topicId: 'enderecamento-ip',
-    question: 'O que é um endereço IPv6 "link-local" que começa com "fe80::" usado para?',
-    options: [
-      'Roteamento na Internet',
-      'Comunicação apenas no segmento local',
-      'Broadcast global',
-      'Endereçamento privado para VPNs'
-    ],
-    answer: 1,
-    explanation: 'Endereços link-local IPv6, que começam com fe80::, são usados para comunicação entre dispositivos no mesmo segmento de rede e não podem ser roteados para fora.'
-  },
-  {
-    id: 353,
-    topicId: 'enderecamento-ip',
-    question: 'Qual é o propósito do IPv6 SLAAC (StateLess Address Auto-Configuration)?',
-    options: [
-      'Atribuir endereços IPv6 automaticamente sem DHCPv6',
-      'Substituir DNS',
-      'Criptografar pacotes',
-      'Converter MACs'
-    ],
-    answer: 0,
-    explanation: 'SLAAC permite que dispositivos configurem seus próprios endereços IPv6 automaticamente, usando informações do roteador e seu próprio endereço MAC, sem a necessidade de um servidor DHCPv6.'
-  },
-  {
-    id: 354,
-    topicId: 'protocolos-essenciais',
-    question: 'Qual comando é comumente usado para testar conectividade entre dois hosts (ICMP echo)?',
-    options: [
-      'traceroute',
-      'telnet',
-      'ping',
-      'nslookup'
-    ],
-    answer: 2,
-    explanation: 'O comando "ping" envia pacotes ICMP "echo request" para um host de destino e mede o tempo de resposta, sendo uma ferramenta básica para testar a conectividade.'
-  },
-  {
-    id: 355,
-    topicId: 'protocolos-essenciais',
-    question: 'O que faz o comando traceroute (ou tracert)?',
-    options: [
-      'Mede velocidade da rede',
-      'Mostra rota e saltos entre origem e destino',
-      'Resolve nomes DNS',
-      'Atribui IPs'
-    ],
-    answer: 1,
-    explanation: 'O comando "traceroute" (ou "tracert" no Windows) exibe o caminho que um pacote percorre na rede, listando cada roteador ("hop") por onde o pacote passa até chegar ao destino.'
-  },
-  {
-    id: 401,
-    topicId: 'conceitos-basicos',
-    question: 'Na comutação de circuitos, a comunicação entre origem e destino é estabelecida em um procedimento de quantas fases?',
-    options: [
-      'Uma fase',
-      'Duas fases',
-      'Três fases',
-      'Nenhuma das anteriores'
-    ],
-    answer: 2,
-    explanation: 'A comutação de circuitos estabelece uma conexão dedicada através de três fases: estabelecimento da conexão, transferência de dados e desconexão.'
-  },
-  {
-    id: 402,
-    topicId: 'protocolos-essenciais',
-    question: 'Sendo TCP e UDP os principais protocolos da camada de transporte, qual das afirmações é verdadeira?',
-    options: [
-      'O protocolo TCP é adequado para aplicações que podem perder dados e requerem baixo atraso.',
-      'O protocolo UDP permite que os dados sejam entregues para o processo de destino, sem garantir a confiabilidade.',
-      'O protocolo UDP é adequado para aplicações que requerem confiabilidade e alto atraso.',
-      'O protocolo TCP utiliza o endereço lógico para realizar a identificação do processo de destino.'
-    ],
-    answer: 1,
-    explanation: 'A principal característica do UDP (User Datagram Protocol) é sua simplicidade e rapidez, pois ele não estabelece conexão e não garante a entrega dos pacotes, sendo ideal para aplicações que toleram perdas, como streaming de vídeo e jogos online.'
-  },
-  {
-    id: 403,
-    topicId: 'modelos-osi-tcpip',
-    question: 'Quanto ao surgimento da Internet, é possível afirmar que:',
-    options: [
-      'Foi resultado da substituição do protocolo TCP pelo protocolo IP.',
-      'Foi decorrência do crescimento da ARPANET, financiada pelo governo norte-americano.',
-      'Foi possível após o desenvolvimento das LAN.',
-      'Surgiu na Inglaterra.'
-    ],
-    answer: 1,
-    explanation: 'A Internet evoluiu diretamente da ARPANET, uma rede de pesquisa e desenvolvimento financiada pela Agência de Projetos de Pesquisa Avançada (ARPA) do Departamento de Defesa dos EUA.'
-  },
-  {
-    id: 404,
-    topicId: 'conceitos-basicos',
-    question: 'Sobre as colisões em redes de computadores, pode-se afirmar que:',
-    options: [
-      'Não são tratadas em redes sem fio.',
-      'Não afetam o desempenho dos protocolos.',
-      'Ocorrem apenas quando o meio físico é o par trançado.',
-      'São previstas nos protocolos baseados em contenção.'
-    ],
-    answer: 3,
-    explanation: 'Protocolos baseados em contenção, como o CSMA/CD usado em redes Ethernet, são projetados especificamente para gerenciar colisões, que são uma parte esperada da comunicação em um meio compartilhado.'
+    "id": 452,
+    "topicId": "conceitos-basicos",
+    "question": "A transmissão de sinais através de um cabo de par trançado significa que o cabo leva a informação, ou energia eletromagnética, adiante. A interferência que sai de uma ligação em sua casa e as ondas de rádio são o tipo de energia que causa um ruído na linha do telefone. O ruído do ambiente externo pode perturbar o sinal. Marque a alternativa que oferece a solução de menor custo:",
+    "options": [
+      "Fibra ótica",
+      "Cabo coaxial",
+      "Cabo de par trançado",
+      "Sem custo",
+      "Micro-ondas"
+    ],
+    "answer": 2,
+    "explanation": "O cabo de par trançado (Twisted Pair) é a solução de cabeamento mais comum e de menor custo para redes locais (LANs). A torção dos pares de fios ajuda a cancelar a interferência eletromagnética externa."
+  },
+  {
+    "id": 450,
+    "topicId": "protocolos-essenciais",
+    "question": "Qual é a função principal do protocolo número 1 na arquitetura TCP/IP?",
+    "options": [
+      "Gerenciar conexões físicas entre dispositivos",
+      "Controlar o roteamento de pacotes na rede",
+      "Garantir a entrega confiável de dados",
+      "Fornecer serviços de aplicação como e-mail e web"
+    ],
+    "answer": 2,
+    "explanation": "Esta pergunta é ambígua, mas se 'protocolo número 1' se referir ao protocolo TCP (cujo número de protocolo no cabeçalho IP é 6, mas é o principal protocolo de transporte), sua função é garantir a entrega confiável de dados."
   }
 ];
 
@@ -4142,5 +2270,3 @@ export const weeklyProgress = [
   { week: 'Semana 3', points: 180 },
   { week: 'Semana 4', points: 350 },
 ];
-
-    

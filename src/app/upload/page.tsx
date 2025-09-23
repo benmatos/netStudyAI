@@ -1,14 +1,16 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import MainLayout from '@/components/main-layout';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import type { Question } from '@/lib/data';
+import type { Question, ClientTopic } from '@/lib/data';
+import { topics as defaultTopics } from '@/lib/data';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Terminal } from 'lucide-react';
 
@@ -31,7 +33,26 @@ const jsonFormatExample = `[
 export default function UploadPage() {
   const [file, setFile] = useState<File | null>(null);
   const [fileContent, setFileContent] = useState('');
+  const [allTopics, setAllTopics] = useState<ClientTopic[]>(defaultTopics);
   const { toast } = useToast();
+
+  useEffect(() => {
+    try {
+      const customTopics: ClientTopic[] = JSON.parse(localStorage.getItem('customTopics') || '[]');
+      const combined = [...defaultTopics];
+      const defaultIds = new Set(defaultTopics.map(t => t.id));
+
+      customTopics.forEach(customT => {
+        if (!defaultIds.has(customT.id)) {
+          combined.push(customT);
+        }
+      });
+      setAllTopics(combined);
+    } catch (error) {
+      console.error('Failed to load custom topics:', error);
+      setAllTopics(defaultTopics);
+    }
+  }, []);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
@@ -72,17 +93,18 @@ export default function UploadPage() {
         throw new Error('O JSON deve ser um array de questões e não pode estar vazio.');
       }
       
-      // Validação básica da estrutura da questão
+      const topicIds = new Set(allTopics.map(t => t.id));
       for (const q of newQuestions) {
           if (
             typeof q.id !== 'number' ||
             typeof q.topicId !== 'string' ||
+            !topicIds.has(q.topicId) || // Check if topicId is valid
             typeof q.question !== 'string' ||
             !Array.isArray(q.options) ||
             typeof q.answer !== 'number' ||
             typeof q.explanation !== 'string'
           ) {
-              throw new Error(`A questão com ID ${q.id} tem um formato inválido.`);
+              throw new Error(`A questão com ID ${q.id} tem um formato inválido ou topicId não existente.`);
           }
       }
 
@@ -167,9 +189,22 @@ export default function UploadPage() {
              </p>
               <ul className="list-disc list-inside text-sm mt-2 space-y-1">
                 <li>O campo <code>id</code> deve ser um número único para cada questão.</li>
-                <li>O campo <code>topicId</code> deve corresponder a um dos IDs de tópico existentes (ex: "conceitos-basicos").</li>
+                <li>O campo <code>topicId</code> deve corresponder a um dos IDs de tópico existentes. Veja os IDs disponíveis abaixo.</li>
                  <li>Questões com um <code>id</code> que já existe no sistema não serão adicionadas novamente.</li>
               </ul>
+              <div className="mt-4">
+                <Label>IDs de Tópicos Disponíveis</Label>
+                 <Select>
+                    <SelectTrigger>
+                        <SelectValue placeholder="Selecione um ID de tópico para ver" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        {allTopics.map(topic => (
+                            <SelectItem key={topic.id} value={topic.id}>{topic.id} ({topic.name})</SelectItem>
+                        ))}
+                    </SelectContent>
+                </Select>
+              </div>
           </AlertDescription>
         </Alert>
       </div>
