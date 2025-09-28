@@ -5,6 +5,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
@@ -21,7 +22,8 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useState, useEffect } from 'react';
 import { generateQuestionsFromPdf, GenerateQuestionsOutput } from '@/ai/flows/generate-questions-flow';
-import { PlusCircle } from 'lucide-react';
+import { ArrowRight, PlusCircle } from 'lucide-react';
+import Link from 'next/link';
 
 interface StoredQuiz {
   disciplineName: string;
@@ -32,9 +34,9 @@ interface StoredQuiz {
 function CreateQuizForm({ onQuizCreated }: { onQuizCreated: (newQuiz: StoredQuiz) => void }) {
   const [disciplineName, setDisciplineName] = useState('');
   const [file, setFile] = useState<File | null>(null);
-  const [generatedQuestions, setGeneratedQuestions] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0];
@@ -55,7 +57,6 @@ function CreateQuizForm({ onQuizCreated }: { onQuizCreated: (newQuiz: StoredQuiz
     }
 
     setIsLoading(true);
-    setGeneratedQuestions('');
     setError(null);
 
     try {
@@ -78,7 +79,9 @@ function CreateQuizForm({ onQuizCreated }: { onQuizCreated: (newQuiz: StoredQuiz
           localStorage.setItem('quizzes', JSON.stringify([...existingQuizzes, newQuiz]));
           
           onQuizCreated(newQuiz);
-          setGeneratedQuestions(JSON.stringify(result.questions, null, 2));
+          setDisciplineName('');
+          setFile(null);
+          setDialogOpen(false); // Fecha o modal
         } catch (e) {
           console.error(e);
           setError('Ocorreu um erro ao gerar as questões. Verifique o console para mais detalhes.');
@@ -98,49 +101,51 @@ function CreateQuizForm({ onQuizCreated }: { onQuizCreated: (newQuiz: StoredQuiz
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="space-y-2">
-        <Label htmlFor="discipline-name">Nome da Disciplina</Label>
-        <Input
-          id="discipline-name"
-          placeholder="Ex: Cálculo I"
-          value={disciplineName}
-          onChange={(e) => setDisciplineName(e.target.value)}
-          required
-        />
-      </div>
-      <div className="space-y-2">
-        <Label htmlFor="pdf-file">Arquivo PDF</Label>
-        <Input
-          id="pdf-file"
-          type="file"
-          accept="application/pdf"
-          onChange={handleFileChange}
-          required
-        />
-      </div>
-      {error && <p className="text-sm text-destructive">{error}</p>}
-      
-      <div className="flex flex-col items-start gap-4">
-        <Button type="submit" disabled={isLoading}>
-          {isLoading ? 'Gerando Questões...' : 'Gerar Questões'}
+    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+      <DialogTrigger asChild>
+        <Button>
+          <PlusCircle className="mr-2" />
+          Criar Novo Questionário
         </Button>
-        {generatedQuestions && (
-          <div className="w-full space-y-2">
-            <Label htmlFor="generated-questions">JSON Gerado (Salvo Localmente)</Label>
-            <Textarea
-              id="generated-questions"
-              className="h-64 font-mono"
-              value={generatedQuestions}
-              readOnly
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-2xl">
+        <DialogHeader>
+          <DialogTitle>Criar Novo Questionário</DialogTitle>
+          <DialogDescription>
+            Dê um nome para a nova disciplina e faça o upload de um arquivo PDF. O conteúdo será usado para gerar questões de múltipla escolha automaticamente.
+          </DialogDescription>
+        </DialogHeader>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="discipline-name">Nome da Disciplina</Label>
+            <Input
+              id="discipline-name"
+              placeholder="Ex: Cálculo I"
+              value={disciplineName}
+              onChange={(e) => setDisciplineName(e.target.value)}
+              required
             />
-            <Button variant="outline" onClick={() => navigator.clipboard.writeText(generatedQuestions)}>
-                Copiar JSON
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="pdf-file">Arquivo PDF</Label>
+            <Input
+              id="pdf-file"
+              type="file"
+              accept="application/pdf"
+              onChange={handleFileChange}
+              required
+            />
+          </div>
+          {error && <p className="text-sm text-destructive">{error}</p>}
+          
+          <div className="flex justify-end gap-4">
+            <Button type="submit" disabled={isLoading}>
+              {isLoading ? 'Gerando...' : 'Gerar Questões'}
             </Button>
           </div>
-        )}
-      </div>
-    </form>
+        </form>
+      </DialogContent>
+    </Dialog>
   );
 }
 
@@ -151,12 +156,21 @@ export default function HomePage() {
 
   useEffect(() => {
     setIsClient(true);
-    const storedQuizzes = JSON.parse(localStorage.getItem('quizzes') || '[]');
+    const storedQuizzes = JSON.parse(localStorage.getItem('quizzes') || '[]').sort(
+        (a: StoredQuiz, b: StoredQuiz) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
     setQuizzes(storedQuizzes);
   }, []);
 
   const handleQuizCreated = (newQuiz: StoredQuiz) => {
-    setQuizzes(prevQuizzes => [...prevQuizzes, newQuiz]);
+    setQuizzes(prevQuizzes => [newQuiz, ...prevQuizzes]);
+  };
+
+  const slugify = (text: string) => {
+    return text
+      .toLowerCase()
+      .replace(/ /g, '-')
+      .replace(/[^\w-]+/g, '');
   };
 
   return (
@@ -165,42 +179,31 @@ export default function HomePage() {
         <div>
           <h1 className="text-3xl font-bold">Meus Questionários</h1>
           <p className="text-muted-foreground">
-            Visualize e gerencie seus questionários gerados.
+            Crie e realize seus questionários personalizados.
           </p>
         </div>
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button>
-              <PlusCircle className="mr-2" />
-              Criar Novo Questionário
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-2xl">
-            <DialogHeader>
-              <DialogTitle>Criar Nova Disciplina</DialogTitle>
-              <DialogDescription>
-                Dê um nome para a nova disciplina e faça o upload de um arquivo PDF. O conteúdo será usado para gerar questões de múltipla escolha automaticamente.
-              </DialogDescription>
-            </DialogHeader>
-            <CreateQuizForm onQuizCreated={handleQuizCreated} />
-          </DialogContent>
-        </Dialog>
+        <CreateQuizForm onQuizCreated={handleQuizCreated} />
       </div>
 
       {isClient && quizzes.length > 0 ? (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {quizzes.map((quiz, index) => (
-            <Card key={index}>
-              <CardHeader>
-                <CardTitle>{quiz.disciplineName}</CardTitle>
-                <CardDescription>
-                  Criado em: {new Date(quiz.createdAt).toLocaleDateString()}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p>{quiz.questions.length} questões</p>
-              </CardContent>
-            </Card>
+            <Link key={index} href={`/simulations/${slugify(quiz.disciplineName)}`} passHref>
+               <Card className="flex flex-col h-full hover:border-primary transition-all">
+                <CardHeader>
+                  <CardTitle>{quiz.disciplineName}</CardTitle>
+                  <CardDescription>
+                    Criado em: {new Date(quiz.createdAt).toLocaleDateString()}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="flex-grow">
+                  <p>{quiz.questions.length} questões</p>
+                </CardContent>
+                <CardFooter className="flex justify-end">
+                  <ArrowRight className="text-muted-foreground" />
+                </CardFooter>
+              </Card>
+            </Link>
           ))}
         </div>
       ) : (
