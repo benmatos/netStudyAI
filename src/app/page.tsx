@@ -266,7 +266,7 @@ export default function HomePage() {
             {quizzes.length > 0 ? (
               <div className="grid gap-4">
                 {recentQuizzes.map((quiz, index) => (
-                    <Card key={index} className="transition-all group">
+                    <Card key={index} className="transition-all">
                         <CardContent className="p-4 flex justify-between items-center">
                         <Link href={`/simulations/${slugify(quiz.disciplineName)}`} className="flex-grow">
                             <div className="hover:text-primary">
@@ -277,7 +277,7 @@ export default function HomePage() {
                             </div>
                         </Link>
 
-                        <div className="flex items-center space-x-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <div className="flex items-center space-x-2">
                             <AlertDialog>
                                 <AlertDialogTrigger asChild>
                                     <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:bg-destructive/10">
@@ -305,7 +305,6 @@ export default function HomePage() {
                                 <ArrowRight className="text-muted-foreground h-5 w-5" />
                             </Link>
                         </div>
-                        <ArrowRight className="text-muted-foreground h-5 w-5 group-hover:hidden" />
                         </CardContent>
                   </Card>
                 ))}
