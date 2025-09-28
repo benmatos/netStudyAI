@@ -34,13 +34,17 @@ interface StoredQuiz {
 }
 
 const slugify = (text: string) => {
+  if (!text) return '';
   return text
     .toLowerCase()
     .replace(/ /g, '-')
     .replace(/[^\w-]+/g, '');
 };
 
-function SimulationClientPage({ id }: { id: string }) {
+function SimulationClientPage() {
+  const params = useParams();
+  const id = params.id as string;
+
   const [quiz, setQuiz] = useState<StoredQuiz | null>(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
@@ -58,7 +62,7 @@ function SimulationClientPage({ id }: { id: string }) {
   }, [id]);
 
   if (!isClient) {
-    return <div>Carregando...</div>;
+    return <div className="container mx-auto p-8 text-center">Carregando...</div>;
   }
 
   if (!quiz) {
@@ -173,7 +177,7 @@ function SimulationClientPage({ id }: { id: string }) {
                   className={`flex items-center space-x-3 p-4 rounded-md border transition-all ${stateClass} ${!isAnswered && 'cursor-pointer hover:bg-accent'}`}
                   htmlFor={`r${index}`}
                 >
-                  <RadioGroupItem value={index.toString()} id={`r${index}`} />
+                  <RadioGroupItem value={String(index)} id={`r${index}`} />
                   <span className="flex-1">{option}</span>
                   {isAnswered && index === currentQuestion.answer && <CheckCircle className="text-green-600" />}
                   {isAnswered && index !== currentQuestion.answer && index === selectedAnswer && <XCircle className="text-red-600" />}
@@ -210,9 +214,7 @@ function SimulationClientPage({ id }: { id: string }) {
 }
 
 export default function SimulationPage() {
-  const params = useParams();
-  const id = params.id as string;
-  // We use the 'key' prop to force a re-render of the client component when the ID changes.
-  // This is a standard React pattern to reset state in a component tree.
-  return <SimulationClientPage key={id} id={id} />;
+  // We need to wrap the client component in a default export for the page to be a client component.
+  // This is a requirement for using hooks like `useParams`.
+  return <SimulationClientPage />;
 }
