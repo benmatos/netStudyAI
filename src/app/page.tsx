@@ -17,11 +17,22 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+  } from "@/components/ui/alert-dialog"
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useState, useEffect } from 'react';
 import { generateQuestionsFromPdf, GenerateQuestionsOutput } from '@/ai/flows/generate-questions-flow';
-import { ArrowRight, Book, CheckCircle, Clock, PlusCircle } from 'lucide-react';
+import { ArrowRight, Book, CheckCircle, Clock, PlusCircle, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 
 interface StoredQuiz {
@@ -171,15 +182,24 @@ export default function HomePage() {
 
   useEffect(() => {
     setIsClient(true);
-    const storedQuizzes = JSON.parse(localStorage.getItem('quizzes') || '[]').sort(
-        (a: StoredQuiz, b: StoredQuiz) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-    );
-    setQuizzes(storedQuizzes);
+    if (typeof window !== 'undefined') {
+        const storedQuizzes = JSON.parse(localStorage.getItem('quizzes') || '[]').sort(
+            (a: StoredQuiz, b: StoredQuiz) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+        setQuizzes(storedQuizzes);
+    }
   }, []);
 
   const handleQuizCreated = (newQuiz: StoredQuiz) => {
     setQuizzes(prevQuizzes => [newQuiz, ...prevQuizzes]);
   };
+  
+  const handleDeleteQuiz = (quizToDelete: StoredQuiz) => {
+    const updatedQuizzes = quizzes.filter(quiz => quiz.createdAt !== quizToDelete.createdAt);
+    setQuizzes(updatedQuizzes);
+    localStorage.setItem('quizzes', JSON.stringify(updatedQuizzes));
+  };
+
 
   const slugify = (text: string) => {
     return text
@@ -246,19 +266,48 @@ export default function HomePage() {
             {quizzes.length > 0 ? (
               <div className="grid gap-4">
                 {recentQuizzes.map((quiz, index) => (
-                  <Link key={index} href={`/simulations/${slugify(quiz.disciplineName)}`} passHref>
-                     <Card className="hover:border-primary transition-all">
-                      <CardContent className="p-4 flex justify-between items-center">
-                        <div>
-                          <p className="font-semibold">{quiz.disciplineName}</p>
-                          <p className="text-sm text-muted-foreground">
-                            {quiz.questions.length} questões ・ Criado em {new Date(quiz.createdAt).toLocaleDateString()}
-                          </p>
+                    <Card key={index} className="transition-all group">
+                        <CardContent className="p-4 flex justify-between items-center">
+                        <Link href={`/simulations/${slugify(quiz.disciplineName)}`} className="flex-grow">
+                            <div className="hover:text-primary">
+                                <p className="font-semibold">{quiz.disciplineName}</p>
+                                <p className="text-sm text-muted-foreground">
+                                    {quiz.questions.length} questões ・ Criado em {new Date(quiz.createdAt).toLocaleDateString()}
+                                </p>
+                            </div>
+                        </Link>
+
+                        <div className="flex items-center space-x-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <AlertDialog>
+                                <AlertDialogTrigger asChild>
+                                    <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:bg-destructive/10">
+                                        <Trash2 className="h-4 w-4" />
+                                    </Button>
+                                </AlertDialogTrigger>
+                                <AlertDialogContent>
+                                <AlertDialogHeader>
+                                    <AlertDialogTitle>Você tem certeza?</AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                    Esta ação não pode ser desfeita. Isso excluirá permanentemente o questionário
+                                    e seus dados de nossos servidores.
+                                    </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                    <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                                    <AlertDialogAction onClick={() => handleDeleteQuiz(quiz)}>
+                                    Excluir
+                                    </AlertDialogAction>
+                                </AlertDialogFooter>
+                                </AlertDialogContent>
+                            </AlertDialog>
+
+                            <Link href={`/simulations/${slugify(quiz.disciplineName)}`} passHref>
+                                <ArrowRight className="text-muted-foreground h-5 w-5" />
+                            </Link>
                         </div>
-                        <ArrowRight className="text-muted-foreground h-5 w-5" />
-                      </CardContent>
-                    </Card>
-                  </Link>
+                        <ArrowRight className="text-muted-foreground h-5 w-5 group-hover:hidden" />
+                        </CardContent>
+                  </Card>
                 ))}
               </div>
             ) : (
