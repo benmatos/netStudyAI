@@ -39,6 +39,7 @@ interface SimulationResult {
   completedAt: string;
   score: number;
   totalQuestions: number;
+  durationInSeconds: number;
 }
 
 interface StoredQuiz {
@@ -226,6 +227,23 @@ export default function HomePage() {
 
     return ((totalScore / totalQuestions) * 100).toFixed(0);
   };
+  
+    const calculateTotalStudyTime = () => {
+    let totalSeconds = 0;
+    quizzes.forEach(quiz => {
+      if (quiz.results) {
+        quiz.results.forEach(result => {
+          totalSeconds += result.durationInSeconds;
+        });
+      }
+    });
+
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+
+    return `${hours}h ${minutes}m`;
+  };
+
 
   const slugify = (text: string) => {
     return text
@@ -235,6 +253,7 @@ export default function HomePage() {
   };
   
   const averageScore = calculateAverageScore();
+  const totalStudyTime = calculateTotalStudyTime();
   const recentQuizzes = quizzes.slice(0, 4);
 
   return (
@@ -281,7 +300,7 @@ export default function HomePage() {
                 </div>
                 <div>
                   <p className="text-sm font-medium text-muted-foreground">Tempo de Estudo</p>
-                  <p className="text-2xl font-bold">12h 30m</p>
+                  <p className="text-2xl font-bold">{totalStudyTime}</p>
                 </div>
               </div>
             </CardContent>

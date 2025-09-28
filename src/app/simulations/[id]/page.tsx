@@ -31,7 +31,9 @@ interface SimulationResult {
   completedAt: string;
   score: number;
   totalQuestions: number;
+  durationInSeconds: number;
 }
+
 
 interface StoredQuiz {
   disciplineName: string;
@@ -58,6 +60,7 @@ function SimulationClientPage() {
   const [isAnswered, setIsAnswered] = useState(false);
   const [score, setScore] = useState(0);
   const [isClient, setIsClient] = useState(false);
+  const [startTime, setStartTime] = useState<Date | null>(null);
 
   useEffect(() => {
     setIsClient(true);
@@ -65,16 +68,21 @@ function SimulationClientPage() {
         const storedQuizzes: StoredQuiz[] = JSON.parse(localStorage.getItem('quizzes') || '[]');
         const currentQuiz = storedQuizzes.find(q => slugify(q.disciplineName) === id);
         setQuiz(currentQuiz || null);
+        setStartTime(new Date());
     }
   }, [id]);
 
   const saveResult = (finalScore: number) => {
-    if (!quiz) return;
+    if (!quiz || !startTime) return;
+  
+    const endTime = new Date();
+    const durationInSeconds = Math.round((endTime.getTime() - startTime.getTime()) / 1000);
 
     const newResult: SimulationResult = {
       completedAt: new Date().toISOString(),
       score: finalScore,
       totalQuestions: quiz.questions.length,
+      durationInSeconds: durationInSeconds,
     };
 
     const storedQuizzes: StoredQuiz[] = JSON.parse(localStorage.getItem('quizzes') || '[]');
@@ -133,6 +141,7 @@ function SimulationClientPage() {
     setScore(0);
     setIsAnswered(false);
     setSelectedAnswer(null);
+    setStartTime(new Date());
   };
   
   const progressValue = (currentQuestionIndex / quiz.questions.length) * 100;
