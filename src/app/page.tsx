@@ -21,7 +21,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useState, useEffect } from 'react';
 import { generateQuestionsFromPdf, GenerateQuestionsOutput } from '@/ai/flows/generate-questions-flow';
-import { ArrowRight, PlusCircle } from 'lucide-react';
+import { ArrowRight, Book, CheckCircle, Clock, PlusCircle } from 'lucide-react';
 import Link from 'next/link';
 
 interface StoredQuiz {
@@ -83,7 +83,7 @@ function CreateQuizForm({ onQuizCreated }: { onQuizCreated: (newQuiz: StoredQuiz
           setDisciplineName('');
           setFile(null);
           setNumberOfQuestions(10);
-          setDialogOpen(false); // Fecha o modal
+          setDialogOpen(false); 
         } catch (e) {
           console.error(e);
           setError('Ocorreu um erro ao gerar as questões. Verifique o console para mais detalhes.');
@@ -105,7 +105,7 @@ function CreateQuizForm({ onQuizCreated }: { onQuizCreated: (newQuiz: StoredQuiz
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <DialogTrigger asChild>
-        <Button>
+        <Button size="lg">
           <PlusCircle className="mr-2" />
           Criar Novo Questionário
         </Button>
@@ -153,6 +153,7 @@ function CreateQuizForm({ onQuizCreated }: { onQuizCreated: (newQuiz: StoredQuiz
           {error && <p className="text-sm text-destructive">{error}</p>}
           
           <div className="flex justify-end gap-4">
+             <Button type="button" variant="ghost" onClick={() => setDialogOpen(false)}>Cancelar</Button>
             <Button type="submit" disabled={isLoading}>
               {isLoading ? 'Gerando...' : 'Gerar Questões'}
             </Button>
@@ -187,46 +188,87 @@ export default function HomePage() {
       .replace(/[^\w-]+/g, '');
   };
 
+  const recentQuizzes = quizzes.slice(0, 4);
+
   return (
     <main className="container mx-auto p-4 md:p-8">
-      <div className="flex justify-between items-center mb-8">
+      <div className="flex justify-between items-start mb-8">
         <div>
-          <h1 className="text-3xl font-bold">Meus Questionários</h1>
+          <h1 className="text-3xl font-bold">Dashboard</h1>
           <p className="text-muted-foreground">
-            Crie e realize seus questionários personalizados.
+            Bem-vindo de volta! Aqui está um resumo do seu progresso.
           </p>
         </div>
         <CreateQuizForm onQuizCreated={handleQuizCreated} />
       </div>
 
-      {isClient && quizzes.length > 0 ? (
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {quizzes.map((quiz, index) => (
-            <Link key={index} href={`/simulations/${slugify(quiz.disciplineName)}`} passHref>
-               <Card className="flex flex-col h-full hover:border-primary transition-all">
-                <CardHeader>
-                  <CardTitle>{quiz.disciplineName}</CardTitle>
-                  <CardDescription>
-                    Criado em: {new Date(quiz.createdAt).toLocaleDateString()}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="flex-grow">
-                  <p>{quiz.questions.length} questões</p>
-                </CardContent>
-                <CardFooter className="flex justify-end">
-                  <ArrowRight className="text-muted-foreground" />
-                </CardFooter>
-              </Card>
-            </Link>
-          ))}
+      {isClient && (
+        <div className="grid gap-8">
+          {/* Visão Geral */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Visão Geral</CardTitle>
+            </CardHeader>
+            <CardContent className="grid gap-6 sm:grid-cols-3">
+              <div className="flex items-center space-x-4">
+                <div className="p-3 rounded-full bg-primary/10 text-primary">
+                    <Book className="h-6 w-6" />
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-muted-foreground">Questionários</p>
+                  <p className="text-2xl font-bold">{quizzes.length}</p>
+                </div>
+              </div>
+              <div className="flex items-center space-x-4">
+                <div className="p-3 rounded-full bg-primary/10 text-primary">
+                    <CheckCircle className="h-6 w-6" />
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-muted-foreground">Média de Acertos</p>
+                  <p className="text-2xl font-bold">85%</p>
+                </div>
+              </div>
+              <div className="flex items-center space-x-4">
+                <div className="p-3 rounded-full bg-primary/10 text-primary">
+                    <Clock className="h-6 w-6" />
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-muted-foreground">Tempo de Estudo</p>
+                  <p className="text-2xl font-bold">12h 30m</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Acesso Rápido */}
+          <div>
+            <h2 className="text-2xl font-bold mb-4">Acesso Rápido</h2>
+            {quizzes.length > 0 ? (
+              <div className="grid gap-4">
+                {recentQuizzes.map((quiz, index) => (
+                  <Link key={index} href={`/simulations/${slugify(quiz.disciplineName)}`} passHref>
+                     <Card className="hover:border-primary transition-all">
+                      <CardContent className="p-4 flex justify-between items-center">
+                        <div>
+                          <p className="font-semibold">{quiz.disciplineName}</p>
+                          <p className="text-sm text-muted-foreground">
+                            {quiz.questions.length} questões ・ Criado em {new Date(quiz.createdAt).toLocaleDateString()}
+                          </p>
+                        </div>
+                        <ArrowRight className="text-muted-foreground h-5 w-5" />
+                      </CardContent>
+                    </Card>
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-16 border-2 border-dashed rounded-lg">
+                  <h2 className="text-xl font-semibold text-muted-foreground">Nenhum questionário encontrado</h2>
+                  <p className="text-muted-foreground mt-2">Clique em "Criar Novo Questionário" para começar sua jornada de estudos.</p>
+              </div>
+            )}
+          </div>
         </div>
-      ) : (
-         isClient && (
-            <div className="text-center py-16 border-2 border-dashed rounded-lg">
-                <h2 className="text-xl font-semibold text-muted-foreground">Nenhum questionário encontrado</h2>
-                <p className="text-muted-foreground mt-2">Clique em "Criar Novo Questionário" para começar.</p>
-            </div>
-         )
       )}
     </main>
   );
