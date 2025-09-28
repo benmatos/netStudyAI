@@ -14,7 +14,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { CheckCircle, XCircle } from 'lucide-react';
+import { Check, Home, RefreshCw, X } from 'lucide-react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
@@ -128,10 +128,11 @@ function SimulationClientPage() {
   };
 
   const handleNext = () => {
-    if (currentQuestionIndex + 1 >= quiz.questions.length) {
-        saveResult(score);
+    const nextIndex = currentQuestionIndex + 1;
+    if (nextIndex >= quiz.questions.length) {
+        saveResult(score + (selectedAnswer === currentQuestion.answer && !isAnswered ? 1 : 0));
     }
-    setCurrentQuestionIndex(currentQuestionIndex + 1);
+    setCurrentQuestionIndex(nextIndex);
     setIsAnswered(false);
     setSelectedAnswer(null);
   };
@@ -144,30 +145,37 @@ function SimulationClientPage() {
     setStartTime(new Date());
   };
   
-  const progressValue = (currentQuestionIndex / quiz.questions.length) * 100;
+  const progressValue = ((currentQuestionIndex + 1) / quiz.questions.length) * 100;
 
   if (isFinished) {
+    const finalScorePercentage = ((score / quiz.questions.length) * 100).toFixed(0);
     return (
       <main className="container mx-auto p-4 md:p-8 flex items-center justify-center min-h-screen">
         <Card className="w-full max-w-2xl text-center">
           <CardHeader>
-            <CardTitle className="text-3xl">Simulado Concluído!</CardTitle>
+            <CardTitle className="text-3xl font-bold">Simulado Concluído!</CardTitle>
             <CardDescription>
               Você completou o questionário de {quiz.disciplineName}.
             </CardDescription>
           </CardHeader>
-          <CardContent>
-            <p className="text-5xl font-bold">
-              {((score / quiz.questions.length) * 100).toFixed(0)}%
-            </p>
-            <p className="text-muted-foreground mt-2">
+          <CardContent className="flex flex-col items-center gap-4">
+            <div className={`text-6xl font-bold ${Number(finalScorePercentage) >= 70 ? 'text-green-500' : 'text-destructive'}`}>
+              {finalScorePercentage}%
+            </div>
+            <p className="text-muted-foreground">
               Você acertou {score} de {quiz.questions.length} questões.
             </p>
           </CardContent>
           <CardFooter className="flex justify-center gap-4">
-            <Button onClick={handleRestart}>Refazer Questionário</Button>
+            <Button onClick={handleRestart}>
+              <RefreshCw className="mr-2" />
+              Refazer 
+            </Button>
             <Button variant="outline" asChild>
-              <Link href="/">Voltar ao Início</Link>
+              <Link href="/">
+                <Home className="mr-2" />
+                Início
+              </Link>
             </Button>
           </CardFooter>
         </Card>
@@ -176,82 +184,79 @@ function SimulationClientPage() {
   }
 
   return (
-    <main className="container mx-auto p-4 md:p-8">
-      <div className="mb-4">
-        <Link href="/" className="text-sm text-muted-foreground hover:underline">
-          &larr; Voltar para Meus Questionários
-        </Link>
-      </div>
-      <Card className="w-full max-w-4xl mx-auto">
-        <CardHeader>
-          <div className="flex justify-between items-center mb-4">
-            <CardTitle className="text-xl">{quiz.disciplineName}</CardTitle>
-            <div className="text-sm text-muted-foreground">
-              Questão {currentQuestionIndex + 1} de {quiz.questions.length}
+    <div className="w-full max-w-4xl mx-auto">
+        <div className="mb-6">
+            <div className="flex justify-between items-center mb-2">
+                <h1 className="text-xl font-semibold">{quiz.disciplineName}</h1>
+                <div className="text-sm text-muted-foreground">
+                Questão {currentQuestionIndex + 1} de {quiz.questions.length}
+                </div>
             </div>
-          </div>
-          <Progress value={progressValue} hidden/>
-          <CardDescription className="pt-6 text-lg text-foreground">
+            <Progress value={progressValue} />
+        </div>
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-2xl leading-relaxed">
             {currentQuestion.question}
-          </CardDescription>
+          </CardTitle>
         </CardHeader>
-        <CardFooter className="justify-end">
-          {isAnswered ? (
-             <Button onClick={handleNext}>
-                Próxima Questão
-             </Button>
-          ) : (
-             <Button onClick={handleAnswer} disabled={selectedAnswer === null}>
-               Responder
-             </Button>
-          )}
-        </CardFooter>
         <CardContent>
           <RadioGroup
             key={currentQuestion.id}
             onValueChange={(value) => setSelectedAnswer(Number(value))}
             disabled={isAnswered}
-            className="space-y-1"
+            className="space-y-3"
           >
             {currentQuestion.options.map((option, index) => {
               let stateClass = '';
               if (isAnswered) {
                 if (index === currentQuestion.answer) {
-                  stateClass = 'border-green-500 bg-green-500/10 text-green-700 dark:text-green-500';
+                  stateClass = 'border-green-500 bg-green-500/10 text-green-400';
                 } else if (index === selectedAnswer) {
-                  stateClass = 'border-destructive bg-destructive/10 text-destructive dark:text-destructive';
+                  stateClass = 'border-destructive bg-destructive/10 text-destructive';
                 }
               }
 
               return (
                 <Label
                   key={index}
-                  className={`flex items-center space-x-1 p-4 rounded-md border transition-all ${stateClass} ${!isAnswered && 'cursor-pointer hover:bg-accent'}`}
+                  className={`flex items-center gap-4 p-4 rounded-lg border-2 transition-all ${stateClass} ${!isAnswered ? 'cursor-pointer hover:border-primary' : ''}`}
                   htmlFor={`r${index}`}
                 >
                   <RadioGroupItem value={String(index)} id={`r${index}`} />
-                  <span className="flex-1">{option}</span>
-                  {isAnswered && index === currentQuestion.answer && <CheckCircle className="text-green-600" />}
-                  {isAnswered && index !== currentQuestion.answer && index === selectedAnswer && <XCircle className="text-red-600" />}
+                  <span className="flex-1 text-base">{option}</span>
+                  {isAnswered && index === currentQuestion.answer && <Check className="text-green-500" />}
+                  {isAnswered && index !== currentQuestion.answer && index === selectedAnswer && <X className="text-destructive" />}
                 </Label>
               );
             })}
           </RadioGroup>
 
           {isAnswered && (
-             <Alert className={`mt-6 ${selectedAnswer === currentQuestion.answer ? 'border-green-500/50 text-green-900 dark:border-green-500 dark:text-green-400' : 'border-destructive/50 text-destructive dark:text-destructive'}`} variant={selectedAnswer === currentQuestion.answer ? 'default' : 'destructive'}>
-                {selectedAnswer === currentQuestion.answer ? <CheckCircle className="h-4 w-4" /> : <XCircle className="h-4 w-4" />}
-                <AlertTitle>{selectedAnswer === currentQuestion.answer ? 'Resposta Correta!' : 'Resposta Incorreta'}</AlertTitle>
-                <AlertDescription className={selectedAnswer === currentQuestion.answer ? 'text-green-800 dark:text-green-300' : ''}>
+             <Alert className={`mt-6 ${selectedAnswer === currentQuestion.answer ? 'border-green-500/50 text-green-400' : 'border-destructive/50 text-destructive'}`} variant={selectedAnswer === currentQuestion.answer ? 'default' : 'destructive'}>
+                {selectedAnswer === currentQuestion.answer ? <Check className="h-4 w-4" /> : <X className="h-4 w-4" />}
+                <AlertTitle className="font-bold">{selectedAnswer === currentQuestion.answer ? 'Resposta Correta!' : 'Resposta Incorreta'}</AlertTitle>
+                <AlertDescription className={selectedAnswer === currentQuestion.answer ? 'text-green-400/80' : 'text-destructive/80'}>
                   {currentQuestion.explanation}
                 </AlertDescription>
              </Alert>
           )}
 
         </CardContent>
-        
+
+        <CardFooter className="justify-end border-t pt-6">
+          {isAnswered ? (
+             <Button onClick={handleNext} size="lg">
+                Próxima Questão
+             </Button>
+          ) : (
+             <Button onClick={handleAnswer} disabled={selectedAnswer === null} size="lg">
+               Responder
+             </Button>
+          )}
+        </CardFooter>
       </Card>
-    </main>
+    </div>
   );
 }
 

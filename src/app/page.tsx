@@ -32,7 +32,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useState, useEffect } from 'react';
 import { generateQuestionsFromPdf, GenerateQuestionsOutput } from '@/ai/flows/generate-questions-flow';
-import { ArrowRight, Book, CheckCircle, Clock, PlusCircle, Trash2 } from 'lucide-react';
+import { Book, CheckCircle, Clock, PlusCircle, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 
 interface SimulationResult {
@@ -124,24 +124,24 @@ function CreateQuizForm({ onQuizCreated }: { onQuizCreated: (newQuiz: StoredQuiz
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <DialogTrigger asChild>
-        <Button size="lg">
+        <Button size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90">
           <PlusCircle className="mr-2" />
           Criar Novo
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-2xl">
+      <DialogContent className="sm:max-w-lg">
         <DialogHeader>
           <DialogTitle>Criar Novo Questionário</DialogTitle>
           <DialogDescription>
-            Preencha os detalhes e faça o upload de um arquivo PDF. O conteúdo será usado para gerar questões automaticamente.
+            Preencha os detalhes e faça o upload de um arquivo PDF. A IA irá gerar as questões.
           </DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2">
             <Label htmlFor="discipline-name">Nome da Disciplina</Label>
             <Input
               id="discipline-name"
-              placeholder="Ex: Cálculo I"
+              placeholder="Ex: Direito Constitucional"
               value={disciplineName}
               onChange={(e) => setDisciplineName(e.target.value)}
               required
@@ -154,7 +154,7 @@ function CreateQuizForm({ onQuizCreated }: { onQuizCreated: (newQuiz: StoredQuiz
               type="number"
               value={numberOfQuestions}
               onChange={(e) => setNumberOfQuestions(Number(e.target.value))}
-              min="1"
+              min="3"
               max="50"
               required
             />
@@ -167,13 +167,14 @@ function CreateQuizForm({ onQuizCreated }: { onQuizCreated: (newQuiz: StoredQuiz
               accept="application/pdf"
               onChange={handleFileChange}
               required
+              className="file:text-primary file:font-semibold"
             />
           </div>
           {error && <p className="text-sm text-destructive">{error}</p>}
           
-          <div className="flex justify-end gap-4">
+          <div className="flex justify-end gap-4 pt-4">
              <Button type="button" variant="ghost" onClick={() => setDialogOpen(false)}>Cancelar</Button>
-            <Button type="submit" disabled={isLoading}>
+            <Button type="submit" disabled={isLoading} className="bg-primary hover:bg-primary/90">
               {isLoading ? 'Gerando...' : 'Gerar Questões'}
             </Button>
           </div>
@@ -254,116 +255,113 @@ export default function HomePage() {
   
   const averageScore = calculateAverageScore();
   const totalStudyTime = calculateTotalStudyTime();
-  const recentQuizzes = quizzes.slice(0, 4);
 
   return (
-    <main className="container mx-auto p-4 md:p-8">
-      <div className="flex justify-between items-start mb-8">
+    <div className="w-full">
+      <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-8">
         <div>
-          <h1 className="text-3xl font-bold">Meus Questionários</h1>
-          <p className="text-muted-foreground">
-            Bem-vindo de volta! Aqui está um resumo do seu progresso.
+          <h1 className="text-4xl font-bold tracking-tight">Meus Questionários</h1>
+          <p className="text-muted-foreground mt-1">
+            Seu centro de estudos pessoal. Crie, pratique e evolua.
           </p>
         </div>
         <CreateQuizForm onQuizCreated={handleQuizCreated} />
       </div>
 
       {isClient && (
-        <div className="grid gap-8">
+        <div className="flex flex-col gap-8">
           {/* Visão Geral */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Visão Geral</CardTitle>
-            </CardHeader>
-            <CardContent className="grid gap-6 sm:grid-cols-3">
-              <div className="flex items-center space-x-4">
-                <div className="p-3 rounded-full bg-primary/10 text-primary">
-                    <Book className="h-6 w-6" />
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-muted-foreground">Questionários</p>
-                  <p className="text-2xl font-bold">{quizzes.length}</p>
-                </div>
-              </div>
-              <div className="flex items-center space-x-4">
-                <div className="p-3 rounded-full bg-primary/10 text-primary">
-                    <CheckCircle className="h-6 w-6" />
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-muted-foreground">Média de Acertos</p>
-                  <p className="text-2xl font-bold">{averageScore !== null ? `${averageScore}%` : 'N/A'}</p>
-                </div>
-              </div>
-              <div className="flex items-center space-x-4">
-                <div className="p-3 rounded-full bg-primary/10 text-primary">
-                    <Clock className="h-6 w-6" />
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-muted-foreground">Tempo de Estudo</p>
-                  <p className="text-2xl font-bold">{totalStudyTime}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          <section>
+            <h2 className="text-2xl font-semibold tracking-tight mb-4">Visão Geral</h2>
+            <div className="grid gap-4 sm:grid-cols-3">
+               <Card>
+                  <CardHeader className="flex flex-row items-center justify-between pb-2">
+                     <CardTitle className="text-sm font-medium">Total de Questionários</CardTitle>
+                     <Book className="h-5 w-5 text-muted-foreground" />
+                  </CardHeader>
+                  <CardContent>
+                     <div className="text-3xl font-bold">{quizzes.length}</div>
+                     <p className="text-xs text-muted-foreground">Questionários criados</p>
+                  </CardContent>
+               </Card>
+               <Card>
+                  <CardHeader className="flex flex-row items-center justify-between pb-2">
+                     <CardTitle className="text-sm font-medium">Média de Acertos</CardTitle>
+                     <CheckCircle className="h-5 w-5 text-muted-foreground" />
+                  </CardHeader>
+                  <CardContent>
+                     <div className="text-3xl font-bold">{averageScore !== null ? `${averageScore}%` : 'N/A'}</div>
+                     <p className="text-xs text-muted-foreground">Performance geral</p>
+                  </CardContent>
+               </Card>
+               <Card>
+                  <CardHeader className="flex flex-row items-center justify-between pb-2">
+                     <CardTitle className="text-sm font-medium">Tempo de Estudo</CardTitle>
+                     <Clock className="h-5 w-5 text-muted-foreground" />
+                  </CardHeader>
+                  <CardContent>
+                     <div className="text-3xl font-bold">{totalStudyTime}</div>
+                     <p className="text-xs text-muted-foreground">Total de tempo focado</p>
+                  </CardContent>
+               </Card>
+            </div>
+          </section>
 
           {/* Acesso Rápido */}
-          <div>
-            <h2 className="text-2xl font-bold mb-4">Acesso Rápido</h2>
+          <section>
+            <h2 className="text-2xl font-semibold tracking-tight mb-4">Acesso Rápido</h2>
             {quizzes.length > 0 ? (
               <div className="grid gap-4">
-                {recentQuizzes.map((quiz, index) => (
-                    <Card key={index} className="transition-all">
-                        <CardContent className="p-4 flex justify-between items-center">
-                        <Link href={`/simulations/${slugify(quiz.disciplineName)}`} className="flex-grow">
-                            <div className="hover:text-primary">
-                                <p className="font-semibold">{quiz.disciplineName}</p>
-                                <p className="text-sm text-muted-foreground">
-                                    {quiz.questions.length} questões ・ Criado em {new Date(quiz.createdAt).toLocaleDateString()}
-                                </p>
-                            </div>
+                {quizzes.map((quiz, index) => (
+                    <Card key={index} className="hover:border-primary/80 transition-colors">
+                        <Link href={`/simulations/${slugify(quiz.disciplineName)}`} className="block">
+                            <CardContent className="p-4 flex justify-between items-center">
+                                <div>
+                                    <p className="font-semibold text-lg">{quiz.disciplineName}</p>
+                                    <p className="text-sm text-muted-foreground">
+                                        {quiz.questions.length} questões ・ Criado em {new Date(quiz.createdAt).toLocaleDateString()}
+                                    </p>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                    <AlertDialog>
+                                        <AlertDialogTrigger asChild>
+                                            <Button variant="ghost" size="icon" className="h-9 w-9 text-muted-foreground hover:text-destructive hover:bg-destructive/10">
+                                                <Trash2 className="h-5 w-5" />
+                                            </Button>
+                                        </AlertDialogTrigger>
+                                        <AlertDialogContent>
+                                        <AlertDialogHeader>
+                                            <AlertDialogTitle>Você tem certeza?</AlertDialogTitle>
+                                            <AlertDialogDescription>
+                                            Esta ação não pode ser desfeita. Isso excluirá permanentemente o questionário.
+                                            </AlertDialogDescription>
+                                        </AlertDialogHeader>
+                                        <AlertDialogFooter>
+                                            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                                            <AlertDialogAction onClick={() => handleDeleteQuiz(quiz)} className="bg-destructive hover:bg-destructive/90">
+                                            Excluir
+                                            </AlertDialogAction>
+                                        </AlertDialogFooter>
+                                        </AlertDialogContent>
+                                    </AlertDialog>
+                                </div>
+                            </CardContent>
                         </Link>
-
-                        <div className="flex items-center space-x-2">
-                            <AlertDialog>
-                                <AlertDialogTrigger asChild>
-                                    <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:bg-destructive/10">
-                                        <Trash2 className="h-4 w-4" />
-                                    </Button>
-                                </AlertDialogTrigger>
-                                <AlertDialogContent>
-                                <AlertDialogHeader>
-                                    <AlertDialogTitle>Você tem certeza?</AlertDialogTitle>
-                                    <AlertDialogDescription>
-                                    Esta ação não pode ser desfeita. Isso excluirá permanentemente o questionário
-                                    e seus dados de nossos servidores.
-                                    </AlertDialogDescription>
-                                </AlertDialogHeader>
-                                <AlertDialogFooter>
-                                    <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                                    <AlertDialogAction onClick={() => handleDeleteQuiz(quiz)}>
-                                    Excluir
-                                    </AlertDialogAction>
-                                </AlertDialogFooter>
-                                </AlertDialogContent>
-                            </AlertDialog>
-
-                            <Link href={`/simulations/${slugify(quiz.disciplineName)}`} passHref>
-                                <ArrowRight className="text-muted-foreground h-5 w-5" />
-                            </Link>
-                        </div>
-                        </CardContent>
                   </Card>
                 ))}
               </div>
             ) : (
-              <div className="text-center py-16 border-2 border-dashed rounded-lg">
-                  <h2 className="text-xl font-semibold text-muted-foreground">Nenhum questionário encontrado</h2>
-                  <p className="text-muted-foreground mt-2">Clique em "Criar Novo" para começar sua jornada de estudos.</p>
+              <div className="text-center py-20 border-2 border-dashed rounded-xl flex flex-col items-center justify-center">
+                  <Book className="h-12 w-12 text-muted-foreground/50 mb-4" />
+                  <h3 className="text-xl font-semibold text-muted-foreground">Nenhum questionário aqui ainda</h3>
+                  <p className="text-muted-foreground mt-2 max-w-sm">
+                    Clique em "Criar Novo" para transformar seus PDFs de estudo em questionários interativos e começar a praticar.
+                  </p>
               </div>
             )}
-          </div>
+          </section>
         </div>
       )}
-    </main>
+    </div>
   );
 }
