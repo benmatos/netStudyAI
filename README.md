@@ -14,7 +14,7 @@ Este é um aplicativo web construído com Next.js que permite aos usuários gera
 
 -   **Framework:** [Next.js](https://nextjs.org/) (com App Router)
 -   **Linguagem:** [TypeScript](https://www.typescriptlang.org/)
--   **Estilização:** [Tailwind CSS](https://tailwindcss.com/)
+-   **Estilização:** framework Tailwind CSS para estilização
 -   **Componentes UI:** [ShadCN UI](https://ui.shadcn.com/)
 -   **Inteligência Artificial:** [Google Genkit](https://firebase.google.com/docs/genkit)
 -   **Ícones:** [Lucide React](https://lucide.dev/guide/packages/lucide-react)
