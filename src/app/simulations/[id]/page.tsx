@@ -208,8 +208,8 @@ function SimulationClientPage({ id }: { id: string }) {
   );
 }
 
-export default function SimulationPage({ params }: { params: { id: string } }) {
+export default function SimulationPage({ params: { id } }: { params: { id: string } }) {
   // We use the 'key' prop to force a re-render of the client component when the ID changes.
   // This is a standard React pattern to reset state in a component tree.
-  return <SimulationClientPage key={params.id} id={params.id} />;
+  return <SimulationClientPage key={id} id={id} />;
 }
