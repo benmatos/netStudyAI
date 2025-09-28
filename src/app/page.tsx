@@ -35,10 +35,17 @@ import { generateQuestionsFromPdf, GenerateQuestionsOutput } from '@/ai/flows/ge
 import { ArrowRight, Book, CheckCircle, Clock, PlusCircle, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 
+interface SimulationResult {
+  completedAt: string;
+  score: number;
+  totalQuestions: number;
+}
+
 interface StoredQuiz {
   disciplineName: string;
   questions: GenerateQuestionsOutput['questions'];
   createdAt: string;
+  results?: SimulationResult[];
 }
 
 function CreateQuizForm({ onQuizCreated }: { onQuizCreated: (newQuiz: StoredQuiz) => void }) {
@@ -200,6 +207,25 @@ export default function HomePage() {
     localStorage.setItem('quizzes', JSON.stringify(updatedQuizzes));
   };
 
+  const calculateAverageScore = () => {
+    let totalScore = 0;
+    let totalQuestions = 0;
+
+    quizzes.forEach(quiz => {
+      if (quiz.results) {
+        quiz.results.forEach(result => {
+          totalScore += result.score;
+          totalQuestions += result.totalQuestions;
+        });
+      }
+    });
+
+    if (totalQuestions === 0) {
+      return null;
+    }
+
+    return ((totalScore / totalQuestions) * 100).toFixed(0);
+  };
 
   const slugify = (text: string) => {
     return text
@@ -207,7 +233,8 @@ export default function HomePage() {
       .replace(/ /g, '-')
       .replace(/[^\w-]+/g, '');
   };
-
+  
+  const averageScore = calculateAverageScore();
   const recentQuizzes = quizzes.slice(0, 4);
 
   return (
@@ -245,7 +272,7 @@ export default function HomePage() {
                 </div>
                 <div>
                   <p className="text-sm font-medium text-muted-foreground">Média de Acertos</p>
-                  <p className="text-2xl font-bold">85%</p>
+                  <p className="text-2xl font-bold">{averageScore !== null ? `${averageScore}%` : 'N/A'}</p>
                 </div>
               </div>
               <div className="flex items-center space-x-4">

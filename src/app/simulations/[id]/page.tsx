@@ -27,10 +27,17 @@ interface Question {
   explanation: string;
 }
 
+interface SimulationResult {
+  completedAt: string;
+  score: number;
+  totalQuestions: number;
+}
+
 interface StoredQuiz {
   disciplineName: string;
   questions: Question[];
   createdAt: string;
+  results?: SimulationResult[];
 }
 
 const slugify = (text: string) => {
@@ -60,6 +67,28 @@ function SimulationClientPage() {
         setQuiz(currentQuiz || null);
     }
   }, [id]);
+
+  const saveResult = (finalScore: number) => {
+    if (!quiz) return;
+
+    const newResult: SimulationResult = {
+      completedAt: new Date().toISOString(),
+      score: finalScore,
+      totalQuestions: quiz.questions.length,
+    };
+
+    const storedQuizzes: StoredQuiz[] = JSON.parse(localStorage.getItem('quizzes') || '[]');
+    const updatedQuizzes = storedQuizzes.map(q => {
+      if (slugify(q.disciplineName) === id) {
+        const updatedResults = q.results ? [...q.results, newResult] : [newResult];
+        return { ...q, results: updatedResults };
+      }
+      return q;
+    });
+
+    localStorage.setItem('quizzes', JSON.stringify(updatedQuizzes));
+  };
+
 
   if (!isClient) {
     return <div className="container mx-auto p-8 text-center">Carregando...</div>;
@@ -91,6 +120,9 @@ function SimulationClientPage() {
   };
 
   const handleNext = () => {
+    if (currentQuestionIndex + 1 >= quiz.questions.length) {
+        saveResult(score);
+    }
     setCurrentQuestionIndex(currentQuestionIndex + 1);
     setIsAnswered(false);
     setSelectedAnswer(null);
