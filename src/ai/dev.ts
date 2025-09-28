@@ -1,4 +1,5 @@
 import { config } from 'dotenv';
 config();
 
-import '@/ai/flows/adaptive-study-plan-generation.ts';
+// Import your flows here
+// Example: import '@/ai/flows/your-flow.ts';
