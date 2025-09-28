@@ -40,7 +40,10 @@ const slugify = (text: string) => {
     .replace(/[^\w-]+/g, '');
 };
 
-function SimulationClientPage({ id }: { id: string }) {
+function SimulationClientPage() {
+  const params = useParams();
+  const id = params.id as string;
+
   const [quiz, setQuiz] = useState<StoredQuiz | null>(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
@@ -50,7 +53,7 @@ function SimulationClientPage({ id }: { id: string }) {
 
   useEffect(() => {
     setIsClient(true);
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && id) {
         const storedQuizzes: StoredQuiz[] = JSON.parse(localStorage.getItem('quizzes') || '[]');
         const currentQuiz = storedQuizzes.find(q => slugify(q.disciplineName) === id);
         setQuiz(currentQuiz || null);
@@ -208,8 +211,9 @@ function SimulationClientPage({ id }: { id: string }) {
   );
 }
 
-export default function SimulationPage({ params: { id } }: { params: { id: string } }) {
+export default function SimulationPage() {
+  const params = useParams();
   // We use the 'key' prop to force a re-render of the client component when the ID changes.
   // This is a standard React pattern to reset state in a component tree.
-  return <SimulationClientPage key={id} id={id} />;
+  return <SimulationClientPage key={params.id as string} />;
 }
