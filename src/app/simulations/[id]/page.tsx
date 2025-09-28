@@ -149,17 +149,28 @@ function SimulationClientPage() {
               Questão {currentQuestionIndex + 1} de {quiz.questions.length}
             </div>
           </div>
-          <Progress value={progressValue} />
+          <Progress value={progressValue} hidden/>
           <CardDescription className="pt-6 text-lg text-foreground">
             {currentQuestion.question}
           </CardDescription>
         </CardHeader>
+        <CardFooter className="justify-end">
+          {isAnswered ? (
+             <Button onClick={handleNext}>
+                Próxima Questão
+             </Button>
+          ) : (
+             <Button onClick={handleAnswer} disabled={selectedAnswer === null}>
+               Responder
+             </Button>
+          )}
+        </CardFooter>
         <CardContent>
           <RadioGroup
             key={currentQuestion.id}
             onValueChange={(value) => setSelectedAnswer(Number(value))}
             disabled={isAnswered}
-            className="space-y-4"
+            className="space-y-1"
           >
             {currentQuestion.options.map((option, index) => {
               let stateClass = '';
@@ -174,7 +185,7 @@ function SimulationClientPage() {
               return (
                 <Label
                   key={index}
-                  className={`flex items-center space-x-3 p-4 rounded-md border transition-all ${stateClass} ${!isAnswered && 'cursor-pointer hover:bg-accent'}`}
+                  className={`flex items-center space-x-1 p-4 rounded-md border transition-all ${stateClass} ${!isAnswered && 'cursor-pointer hover:bg-accent'}`}
                   htmlFor={`r${index}`}
                 >
                   <RadioGroupItem value={String(index)} id={`r${index}`} />
@@ -197,17 +208,7 @@ function SimulationClientPage() {
           )}
 
         </CardContent>
-        <CardFooter className="justify-end">
-          {isAnswered ? (
-             <Button onClick={handleNext}>
-                Próxima Questão
-             </Button>
-          ) : (
-             <Button onClick={handleAnswer} disabled={selectedAnswer === null}>
-               Responder
-             </Button>
-          )}
-        </CardFooter>
+        
       </Card>
     </main>
   );
