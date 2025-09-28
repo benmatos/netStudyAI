@@ -157,7 +157,7 @@ function SimulationClientPage() {
         </CardHeader>
         <CardContent>
           <RadioGroup
-            value={selectedAnswer !== null ? String(selectedAnswer) : undefined}
+            key={currentQuestion.id}
             onValueChange={(value) => setSelectedAnswer(Number(value))}
             disabled={isAnswered}
             className="space-y-4"
