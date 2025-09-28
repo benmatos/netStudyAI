@@ -107,7 +107,7 @@ function CreateQuizForm({ onQuizCreated }: { onQuizCreated: (newQuiz: StoredQuiz
       <DialogTrigger asChild>
         <Button size="lg">
           <PlusCircle className="mr-2" />
-          Criar Novo Questionário
+          Criar Novo
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-2xl">
@@ -264,7 +264,7 @@ export default function HomePage() {
             ) : (
               <div className="text-center py-16 border-2 border-dashed rounded-lg">
                   <h2 className="text-xl font-semibold text-muted-foreground">Nenhum questionário encontrado</h2>
-                  <p className="text-muted-foreground mt-2">Clique em "Criar Novo Questionário" para começar sua jornada de estudos.</p>
+                  <p className="text-muted-foreground mt-2">Clique em "Criar Novo" para começar sua jornada de estudos.</p>
               </div>
             )}
           </div>
