@@ -19,7 +19,6 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 import { useState, useEffect } from 'react';
 import { generateQuestionsFromPdf, GenerateQuestionsOutput } from '@/ai/flows/generate-questions-flow';
 import { ArrowRight, PlusCircle } from 'lucide-react';
@@ -33,6 +32,7 @@ interface StoredQuiz {
 
 function CreateQuizForm({ onQuizCreated }: { onQuizCreated: (newQuiz: StoredQuiz) => void }) {
   const [disciplineName, setDisciplineName] = useState('');
+  const [numberOfQuestions, setNumberOfQuestions] = useState(10);
   const [file, setFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -52,7 +52,7 @@ function CreateQuizForm({ onQuizCreated }: { onQuizCreated: (newQuiz: StoredQuiz
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!file || !disciplineName) {
-      setError('Por favor, preencha o nome da disciplina e selecione um arquivo.');
+      setError('Por favor, preencha todos os campos e selecione um arquivo.');
       return;
     }
 
@@ -67,6 +67,7 @@ function CreateQuizForm({ onQuizCreated }: { onQuizCreated: (newQuiz: StoredQuiz
         try {
           const result = await generateQuestionsFromPdf({
             disciplineName,
+            numberOfQuestions,
             pdfDataUri,
           });
           const newQuiz: StoredQuiz = {
@@ -81,6 +82,7 @@ function CreateQuizForm({ onQuizCreated }: { onQuizCreated: (newQuiz: StoredQuiz
           onQuizCreated(newQuiz);
           setDisciplineName('');
           setFile(null);
+          setNumberOfQuestions(10);
           setDialogOpen(false); // Fecha o modal
         } catch (e) {
           console.error(e);
@@ -112,7 +114,7 @@ function CreateQuizForm({ onQuizCreated }: { onQuizCreated: (newQuiz: StoredQuiz
         <DialogHeader>
           <DialogTitle>Criar Novo Questionário</DialogTitle>
           <DialogDescription>
-            Dê um nome para a nova disciplina e faça o upload de um arquivo PDF. O conteúdo será usado para gerar questões de múltipla escolha automaticamente.
+            Preencha os detalhes e faça o upload de um arquivo PDF. O conteúdo será usado para gerar questões automaticamente.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -123,6 +125,18 @@ function CreateQuizForm({ onQuizCreated }: { onQuizCreated: (newQuiz: StoredQuiz
               placeholder="Ex: Cálculo I"
               value={disciplineName}
               onChange={(e) => setDisciplineName(e.target.value)}
+              required
+            />
+          </div>
+           <div className="space-y-2">
+            <Label htmlFor="number-of-questions">Número de Questões</Label>
+            <Input
+              id="number-of-questions"
+              type="number"
+              value={numberOfQuestions}
+              onChange={(e) => setNumberOfQuestions(Number(e.target.value))}
+              min="1"
+              max="50"
               required
             />
           </div>
