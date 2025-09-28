@@ -16,6 +16,7 @@ import { Progress } from '@/components/ui/progress';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { CheckCircle, XCircle } from 'lucide-react';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 
 interface Question {
   id: number;
@@ -39,7 +40,7 @@ const slugify = (text: string) => {
     .replace(/[^\w-]+/g, '');
 };
 
-export default function SimulationPage({ params }: { params: { id: string } }) {
+function SimulationClientPage({ id }: { id: string }) {
   const [quiz, setQuiz] = useState<StoredQuiz | null>(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
@@ -50,9 +51,9 @@ export default function SimulationPage({ params }: { params: { id: string } }) {
   useEffect(() => {
     setIsClient(true);
     const storedQuizzes: StoredQuiz[] = JSON.parse(localStorage.getItem('quizzes') || '[]');
-    const currentQuiz = storedQuizzes.find(q => slugify(q.disciplineName) === params.id);
+    const currentQuiz = storedQuizzes.find(q => slugify(q.disciplineName) === id);
     setQuiz(currentQuiz || null);
-  }, [params.id]);
+  }, [id]);
 
   if (!isClient) {
     return <div>Carregando...</div>;
@@ -150,7 +151,7 @@ export default function SimulationPage({ params }: { params: { id: string } }) {
         <CardContent>
           <RadioGroup
             value={selectedAnswer?.toString()}
-            onValueChange={(value) => setSelectedAnswer(Number(value))}
+            onValuechange={(value) => setSelectedAnswer(Number(value))}
             disabled={isAnswered}
             className="space-y-4"
           >
@@ -182,7 +183,7 @@ export default function SimulationPage({ params }: { params: { id: string } }) {
              <Alert className={`mt-6 ${selectedAnswer === currentQuestion.answer ? 'border-green-500 text-green-700 dark:text-green-500' : 'border-destructive text-destructive dark:text-destructive'}`}>
                 {selectedAnswer === currentQuestion.answer ? <CheckCircle className="h-4 w-4" /> : <XCircle className="h-4 w-4" />}
                 <AlertTitle>{selectedAnswer === currentQuestion.answer ? 'Resposta Correta!' : 'Resposta Incorreta'}</AlertTitle>
-                <AlertDescription className="text-muted-foreground">
+                <AlertDescription>
                   {currentQuestion.explanation}
                 </AlertDescription>
              </Alert>
@@ -203,4 +204,10 @@ export default function SimulationPage({ params }: { params: { id: string } }) {
       </Card>
     </main>
   );
+}
+
+export default function SimulationPage({ params }: { params: { id: string } }) {
+  // We use the 'key' prop to force a re-render of the client component when the ID changes.
+  // This is a standard React pattern to reset state in a component tree.
+  return <SimulationClientPage key={params.id} id={params.id} />;
 }
