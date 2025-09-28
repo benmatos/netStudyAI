@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -166,9 +165,9 @@ function SimulationClientPage() {
               let stateClass = '';
               if (isAnswered) {
                 if (index === currentQuestion.answer) {
-                  stateClass = 'border-green-500 bg-green-500/10';
+                  stateClass = 'border-green-500 bg-green-500/10 text-green-700 dark:text-green-500';
                 } else if (index === selectedAnswer) {
-                  stateClass = 'border-destructive bg-destructive/10';
+                  stateClass = 'border-destructive bg-destructive/10 text-destructive dark:text-destructive';
                 }
               }
 
@@ -188,10 +187,10 @@ function SimulationClientPage() {
           </RadioGroup>
 
           {isAnswered && (
-             <Alert className={`mt-6 ${selectedAnswer === currentQuestion.answer ? 'border-green-500 text-green-700 dark:text-green-500' : 'border-destructive text-destructive dark:text-destructive'}`}>
+             <Alert className={`mt-6 ${selectedAnswer === currentQuestion.answer ? 'border-green-500/50 text-green-900 dark:border-green-500 dark:text-green-400' : 'border-destructive/50 text-destructive dark:text-destructive'}`} variant={selectedAnswer === currentQuestion.answer ? 'default' : 'destructive'}>
                 {selectedAnswer === currentQuestion.answer ? <CheckCircle className="h-4 w-4" /> : <XCircle className="h-4 w-4" />}
                 <AlertTitle>{selectedAnswer === currentQuestion.answer ? 'Resposta Correta!' : 'Resposta Incorreta'}</AlertTitle>
-                <AlertDescription>
+                <AlertDescription className={selectedAnswer === currentQuestion.answer ? 'text-green-800 dark:text-green-300' : ''}>
                   {currentQuestion.explanation}
                 </AlertDescription>
              </Alert>
