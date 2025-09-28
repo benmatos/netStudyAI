@@ -100,8 +100,12 @@ const generateQuestionsFromPdfFlow = ai.defineFlow(
   },
   async (input) => {
     const { output } = await generateQuestionsPrompt(input);
-    if (!output) {
-      throw new Error('A geração de questões não produziu uma saída válida.');
+    
+    // Adiciona uma verificação robusta para a saída
+    if (!output || !output.questions || output.questions.length === 0) {
+      throw new Error(
+        'A geração de questões falhou ou não retornou questões. A IA pode não ter conseguido processar o documento ou aderir ao formato de saída esperado.'
+      );
     }
     
     return output;
