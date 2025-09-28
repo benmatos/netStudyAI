@@ -214,7 +214,7 @@ export default function HomePage() {
     <main className="container mx-auto p-4 md:p-8">
       <div className="flex justify-between items-start mb-8">
         <div>
-          <h1 className="text-3xl font-bold">Dashboard</h1>
+          <h1 className="text-3xl font-bold">Meus Questionários</h1>
           <p className="text-muted-foreground">
             Bem-vindo de volta! Aqui está um resumo do seu progresso.
           </p>
