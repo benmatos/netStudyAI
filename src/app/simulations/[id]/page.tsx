@@ -152,14 +152,15 @@ export default function SimulationPage({ params }: { params: { id: string } }) {
             value={selectedAnswer?.toString()}
             onValueChange={(value) => setSelectedAnswer(Number(value))}
             disabled={isAnswered}
+            className="space-y-4"
           >
             {currentQuestion.options.map((option, index) => {
               let stateClass = '';
               if (isAnswered) {
                 if (index === currentQuestion.answer) {
-                  stateClass = 'bg-green-100 dark:bg-green-900 border-green-500';
+                  stateClass = 'border-green-500 bg-green-500/10';
                 } else if (index === selectedAnswer) {
-                  stateClass = 'bg-red-100 dark:bg-red-900 border-red-500';
+                  stateClass = 'border-destructive bg-destructive/10';
                 }
               }
 
@@ -178,10 +179,10 @@ export default function SimulationPage({ params }: { params: { id: string } }) {
           </RadioGroup>
 
           {isAnswered && (
-             <Alert className={`mt-6 ${selectedAnswer === currentQuestion.answer ? 'border-green-500 text-green-700' : 'border-red-500 text-red-700'}`}>
+             <Alert className={`mt-6 ${selectedAnswer === currentQuestion.answer ? 'border-green-500 text-green-700 dark:text-green-500' : 'border-destructive text-destructive dark:text-destructive'}`}>
                 {selectedAnswer === currentQuestion.answer ? <CheckCircle className="h-4 w-4" /> : <XCircle className="h-4 w-4" />}
                 <AlertTitle>{selectedAnswer === currentQuestion.answer ? 'Resposta Correta!' : 'Resposta Incorreta'}</AlertTitle>
-                <AlertDescription className="dark:text-muted-foreground">
+                <AlertDescription className="text-muted-foreground">
                   {currentQuestion.explanation}
                 </AlertDescription>
              </Alert>
