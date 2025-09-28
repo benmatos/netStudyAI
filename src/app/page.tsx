@@ -15,7 +15,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { useState } from 'react';
 import { generateQuestionsFromPdf } from '@/ai/flows/generate-questions-flow';
 
-export default function NovaDisciplinaPage() {
+export default function HomePage() {
   const [disciplineName, setDisciplineName] = useState('');
   const [file, setFile] = useState<File | null>(null);
   const [generatedQuestions, setGeneratedQuestions] = useState('');
