@@ -50,9 +50,11 @@ function SimulationClientPage({ id }: { id: string }) {
 
   useEffect(() => {
     setIsClient(true);
-    const storedQuizzes: StoredQuiz[] = JSON.parse(localStorage.getItem('quizzes') || '[]');
-    const currentQuiz = storedQuizzes.find(q => slugify(q.disciplineName) === id);
-    setQuiz(currentQuiz || null);
+    if (typeof window !== 'undefined') {
+        const storedQuizzes: StoredQuiz[] = JSON.parse(localStorage.getItem('quizzes') || '[]');
+        const currentQuiz = storedQuizzes.find(q => slugify(q.disciplineName) === id);
+        setQuiz(currentQuiz || null);
+    }
   }, [id]);
 
   if (!isClient) {
@@ -150,8 +152,7 @@ function SimulationClientPage({ id }: { id: string }) {
         </CardHeader>
         <CardContent>
           <RadioGroup
-            value={selectedAnswer?.toString()}
-            onValuechange={(value) => setSelectedAnswer(Number(value))}
+            onValueChange={(value) => setSelectedAnswer(Number(value))}
             disabled={isAnswered}
             className="space-y-4"
           >
@@ -168,7 +169,8 @@ function SimulationClientPage({ id }: { id: string }) {
               return (
                 <Label
                   key={index}
-                  className={`flex items-center space-x-3 p-4 rounded-md border transition-all ${stateClass} ${isAnswered ? '' : 'cursor-pointer hover:bg-accent'}`}
+                  className={`flex items-center space-x-3 p-4 rounded-md border transition-all ${stateClass} ${!isAnswered && 'cursor-pointer hover:bg-accent'}`}
+                  htmlFor={`r${index}`}
                 >
                   <RadioGroupItem value={index.toString()} id={`r${index}`} />
                   <span className="flex-1">{option}</span>
