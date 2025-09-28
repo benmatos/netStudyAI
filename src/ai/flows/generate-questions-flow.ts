@@ -103,11 +103,7 @@ const generateQuestionsFromPdfFlow = ai.defineFlow(
     if (!output) {
       throw new Error('A geração de questões não produziu uma saída válida.');
     }
-    // Garante que o número de questões geradas corresponda ao solicitado
-    if (output.questions.length !== input.numberOfQuestions) {
-        console.warn(`A IA gerou ${output.questions.length} questões, mas foram solicitadas ${input.numberOfQuestions}. Retornando o que foi gerado.`);
-    }
-
+    
     return output;
   }
 );
