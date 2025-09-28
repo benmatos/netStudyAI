@@ -183,7 +183,7 @@ export default function SimulationPage({ params }: { params: { id: string } }) {
                 <AlertTitle>{selectedAnswer === currentQuestion.answer ? 'Resposta Correta!' : 'Resposta Incorreta'}</AlertTitle>
                 <AlertDescription className="dark:text-muted-foreground">
                   {currentQuestion.explanation}
-                </AletDescription>
+                </AlertDescription>
              </Alert>
           )}
 
