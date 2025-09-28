@@ -4,6 +4,13 @@ import withPWAInit from "@ducanh2912/next-pwa";
 const withPWA = withPWAInit({
   dest: "public",
   disable: process.env.NODE_ENV === "development",
+  // Habilita o PWA apenas quando não estiver usando o Turbopack
+  webpack: (config, { dev, isServer }) => {
+    if (dev && !isServer) {
+      config.devtool = 'cheap-module-source-map';
+    }
+    return config;
+  },
 });
 
 const nextConfig: NextConfig = {
@@ -36,6 +43,8 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  // Desabilita o PWA quando o TURBOPACK estiver ativo
+  ...(!process.env.TURBOPACK ? { PWA: true } : {}),
 };
 
 export default withPWA(nextConfig);
