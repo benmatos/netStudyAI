@@ -14,7 +14,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Check, Home, RefreshCw, X } from 'lucide-react';
+import { Check, Home, RefreshCw, X, ArrowLeft, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
@@ -33,7 +33,6 @@ interface SimulationResult {
   totalQuestions: number;
   durationInSeconds: number;
 }
-
 
 interface StoredQuiz {
   disciplineName: string;
@@ -56,21 +55,35 @@ function SimulationClientPage() {
 
   const [quiz, setQuiz] = useState<StoredQuiz | null>(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
+  const [userAnswers, setUserAnswers] = useState<(number | null)[]>([]);
   const [isAnswered, setIsAnswered] = useState(false);
-  const [score, setScore] = useState(0);
   const [isClient, setIsClient] = useState(false);
   const [startTime, setStartTime] = useState<Date | null>(null);
+
+  const selectedAnswer = userAnswers[currentQuestionIndex];
 
   useEffect(() => {
     setIsClient(true);
     if (typeof window !== 'undefined' && id) {
         const storedQuizzes: StoredQuiz[] = JSON.parse(localStorage.getItem('quizzes') || '[]');
         const currentQuiz = storedQuizzes.find(q => slugify(q.disciplineName) === id);
-        setQuiz(currentQuiz || null);
-        setStartTime(new Date());
+        if (currentQuiz) {
+          setQuiz(currentQuiz);
+          setUserAnswers(Array(currentQuiz.questions.length).fill(null));
+          setStartTime(new Date());
+        }
     }
   }, [id]);
+  
+  const calculateScore = () => {
+    if (!quiz) return 0;
+    return userAnswers.reduce((acc, answer, index) => {
+      if (answer === quiz.questions[index].answer) {
+        return acc + 1;
+      }
+      return acc;
+    }, 0);
+  };
 
   const saveResult = (finalScore: number) => {
     if (!quiz || !startTime) return;
@@ -97,7 +110,6 @@ function SimulationClientPage() {
     localStorage.setItem('quizzes', JSON.stringify(updatedQuizzes));
   };
 
-
   if (!isClient) {
     return <div className="container mx-auto p-8 text-center">Carregando...</div>;
   }
@@ -119,36 +131,46 @@ function SimulationClientPage() {
   const currentQuestion = quiz.questions[currentQuestionIndex];
   const isFinished = currentQuestionIndex >= quiz.questions.length;
 
-  const handleAnswer = () => {
-    if (selectedAnswer === null) return;
+  const handleAnswerSelect = (value: string) => {
+    const newAnswers = [...userAnswers];
+    newAnswers[currentQuestionIndex] = Number(value);
+    setUserAnswers(newAnswers);
     setIsAnswered(true);
-    if (selectedAnswer === currentQuestion.answer) {
-      setScore(score + 1);
-    }
   };
 
   const handleNext = () => {
-    const nextIndex = currentQuestionIndex + 1;
-    if (nextIndex >= quiz.questions.length) {
-        saveResult(score + (selectedAnswer === currentQuestion.answer && !isAnswered ? 1 : 0));
-    }
-    setCurrentQuestionIndex(nextIndex);
     setIsAnswered(false);
-    setSelectedAnswer(null);
+    if (currentQuestionIndex < quiz.questions.length - 1) {
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
+    }
   };
+
+  const handlePrevious = () => {
+    setIsAnswered(false);
+    if (currentQuestionIndex > 0) {
+      setCurrentQuestionIndex(currentQuestionIndex - 1);
+    }
+  };
+  
+  const handleFinish = () => {
+    const finalScore = calculateScore();
+    saveResult(finalScore);
+    setCurrentQuestionIndex(quiz.questions.length); // Trigger finish screen
+  };
+
 
   const handleRestart = () => {
     setCurrentQuestionIndex(0);
-    setScore(0);
+    setUserAnswers(Array(quiz.questions.length).fill(null));
     setIsAnswered(false);
-    setSelectedAnswer(null);
     setStartTime(new Date());
   };
   
-  const progressValue = ((currentQuestionIndex + 1) / quiz.questions.length) * 100;
+  const progressValue = ((currentQuestionIndex) / quiz.questions.length) * 100;
 
   if (isFinished) {
-    const finalScorePercentage = ((score / quiz.questions.length) * 100).toFixed(0);
+    const finalScore = calculateScore();
+    const finalScorePercentage = ((finalScore / quiz.questions.length) * 100).toFixed(0);
     return (
       <main className="container mx-auto p-4 md:p-8 flex items-center justify-center min-h-screen">
         <Card className="w-full max-w-2xl text-center">
@@ -163,7 +185,7 @@ function SimulationClientPage() {
               {finalScorePercentage}%
             </div>
             <p className="text-muted-foreground">
-              Você acertou {score} de {quiz.questions.length} questões.
+              Você acertou {finalScore} de {quiz.questions.length} questões.
             </p>
           </CardContent>
           <CardFooter className="flex justify-center gap-4">
@@ -203,20 +225,22 @@ function SimulationClientPage() {
         <CardContent>
           <RadioGroup
             key={currentQuestion.id}
-            onValueChange={(value) => setSelectedAnswer(Number(value))}
-            disabled={isAnswered}
+            value={selectedAnswer !== null ? String(selectedAnswer) : undefined}
+            onValueChange={handleAnswerSelect}
             className="space-y-3"
           >
             {currentQuestion.options.map((option, index) => {
-              let stateClass = '';
-              if (isAnswered) {
-                if (index === currentQuestion.answer) {
-                  stateClass = 'border-green-500 bg-green-500/10 text-green-400';
-                } else if (index === selectedAnswer) {
-                  stateClass = 'border-destructive bg-destructive/10 text-destructive';
-                }
-              }
+               const isCorrect = index === currentQuestion.answer;
+               const isSelected = index === selectedAnswer;
+               let stateClass = '';
 
+               if (isAnswered) {
+                 if (isCorrect) {
+                   stateClass = 'border-green-500 bg-green-500/10 text-green-400';
+                 } else if (isSelected) {
+                   stateClass = 'border-destructive bg-destructive/10 text-destructive';
+                 }
+               }
               return (
                 <Label
                   key={index}
@@ -225,8 +249,8 @@ function SimulationClientPage() {
                 >
                   <RadioGroupItem value={String(index)} id={`r${index}`} />
                   <span className="flex-1 text-base">{option}</span>
-                  {isAnswered && index === currentQuestion.answer && <Check className="text-green-500" />}
-                  {isAnswered && index !== currentQuestion.answer && index === selectedAnswer && <X className="text-destructive" />}
+                  {isAnswered && isCorrect && <Check className="text-green-500" />}
+                  {isAnswered && !isCorrect && isSelected && <X className="text-destructive" />}
                 </Label>
               );
             })}
@@ -244,16 +268,21 @@ function SimulationClientPage() {
 
         </CardContent>
 
-        <CardFooter className="justify-end border-t pt-6">
-          {isAnswered ? (
-             <Button onClick={handleNext} size="lg">
-                Próxima Questão
-             </Button>
-          ) : (
-             <Button onClick={handleAnswer} disabled={selectedAnswer === null} size="lg">
-               Responder
-             </Button>
-          )}
+        <CardFooter className="justify-between border-t pt-6">
+            <Button onClick={handlePrevious} variant="outline" disabled={currentQuestionIndex === 0}>
+                <ArrowLeft className="mr-2" />
+                Anterior
+            </Button>
+            {currentQuestionIndex === quiz.questions.length - 1 ? (
+                <Button onClick={handleFinish} size="lg" disabled={userAnswers.includes(null)}>
+                    Finalizar
+                </Button>
+            ) : (
+                <Button onClick={handleNext} size="lg">
+                    Próxima
+                    <ArrowRight className="ml-2" />
+                </Button>
+            )}
         </CardFooter>
       </Card>
     </div>
@@ -261,7 +290,7 @@ function SimulationClientPage() {
 }
 
 export default function SimulationPage() {
-  // We need to wrap the client component in a default export for the page to be a client component.
-  // This is a requirement for using hooks like `useParams`.
   return <SimulationClientPage />;
 }
+
+    
