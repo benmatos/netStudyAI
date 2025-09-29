@@ -214,14 +214,30 @@ function SimulationClientPage() {
                 Questão {currentQuestionIndex + 1} de {quiz.questions.length}
                 </div>
             </div>
-            <Progress value={progressValue} />
+            <Progress value={progressValue} hidden />
         </div>
       <Card>
         <CardHeader>
-          <CardTitle className="text-2xl leading-relaxed">
+          <CardTitle className="text-xl leading-relaxed">
             {currentQuestion.question}
           </CardTitle>
         </CardHeader>
+        <CardFooter className="justify-between border-t pt-6">
+            <Button onClick={handlePrevious} variant="outline" disabled={currentQuestionIndex === 0}>
+                <ArrowLeft className="mr-2" />
+                Anterior
+            </Button>
+            {currentQuestionIndex === quiz.questions.length - 1 ? (
+                <Button onClick={handleFinish} size="lg" disabled={userAnswers.includes(null)}>
+                    Finalizar
+                </Button>
+            ) : (
+                <Button onClick={handleNext} size="lg">
+                    Próxima
+                    <ArrowRight className="ml-2" />
+                </Button>
+            )}
+        </CardFooter>        
         <CardContent>
           <RadioGroup
             key={currentQuestion.id}
@@ -268,22 +284,7 @@ function SimulationClientPage() {
 
         </CardContent>
 
-        <CardFooter className="justify-between border-t pt-6">
-            <Button onClick={handlePrevious} variant="outline" disabled={currentQuestionIndex === 0}>
-                <ArrowLeft className="mr-2" />
-                Anterior
-            </Button>
-            {currentQuestionIndex === quiz.questions.length - 1 ? (
-                <Button onClick={handleFinish} size="lg" disabled={userAnswers.includes(null)}>
-                    Finalizar
-                </Button>
-            ) : (
-                <Button onClick={handleNext} size="lg">
-                    Próxima
-                    <ArrowRight className="ml-2" />
-                </Button>
-            )}
-        </CardFooter>
+        
       </Card>
     </div>
   );
