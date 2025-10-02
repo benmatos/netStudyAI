@@ -14,9 +14,20 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Check, Home, RefreshCw, X, ArrowLeft, ArrowRight } from 'lucide-react';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Check, Home, RefreshCw, X, ArrowLeft, ArrowRight, Trash2 } from 'lucide-react';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 
 interface Question {
   id: number;
@@ -51,6 +62,7 @@ const slugify = (text: string) => {
 
 function SimulationClientPage() {
   const params = useParams();
+  const router = useRouter();
   const id = params.id as string;
 
   const [quiz, setQuiz] = useState<StoredQuiz | null>(null);
@@ -74,6 +86,14 @@ function SimulationClientPage() {
         }
     }
   }, [id]);
+
+  const handleDeleteQuiz = () => {
+    if (!quiz) return;
+    const storedQuizzes: StoredQuiz[] = JSON.parse(localStorage.getItem('quizzes') || '[]');
+    const updatedQuizzes = storedQuizzes.filter(q => q.createdAt !== quiz.createdAt);
+    localStorage.setItem('quizzes', JSON.stringify(updatedQuizzes));
+    router.push('/');
+  };
   
   const calculateScore = () => {
     if (!quiz) return 0;
@@ -119,7 +139,7 @@ function SimulationClientPage() {
       <div className="container mx-auto p-8 text-center">
         <h1 className="text-2xl font-bold">Questionário não encontrado</h1>
         <p className="text-muted-foreground mt-2">
-          O questionário que você está tentando acessar não existe.
+          O questionário que você está tentando acessar não existe ou foi excluído.
         </p>
         <Button asChild className="mt-4">
           <Link href="/">Voltar para a Página Inicial</Link>
@@ -139,16 +159,16 @@ function SimulationClientPage() {
   };
 
   const handleNext = () => {
-    setIsAnswered(false);
     if (currentQuestionIndex < quiz.questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
+      setIsAnswered(userAnswers[currentQuestionIndex + 1] !== null);
     }
   };
 
   const handlePrevious = () => {
-    setIsAnswered(false);
     if (currentQuestionIndex > 0) {
       setCurrentQuestionIndex(currentQuestionIndex - 1);
+      setIsAnswered(userAnswers[currentQuestionIndex - 1] !== null);
     }
   };
   
@@ -166,13 +186,13 @@ function SimulationClientPage() {
     setStartTime(new Date());
   };
   
-  const progressValue = ((currentQuestionIndex) / quiz.questions.length) * 100;
+  const progressValue = ((currentQuestionIndex + 1) / quiz.questions.length) * 100;
 
   if (isFinished) {
     const finalScore = calculateScore();
     const finalScorePercentage = ((finalScore / quiz.questions.length) * 100).toFixed(0);
     return (
-      <main className="container mx-auto p-4 md:p-8 flex items-center justify-center min-h-screen">
+      <main className="container mx-auto p-4 md:p-8 flex items-center justify-center min-h-[calc(100vh-10rem)]">
         <Card className="w-full max-w-2xl text-center">
           <CardHeader>
             <CardTitle className="text-3xl font-bold">Simulado Concluído!</CardTitle>
@@ -209,41 +229,50 @@ function SimulationClientPage() {
     <div className="w-full max-w-4xl mx-auto">
         <div className="mb-6">
             <div className="flex justify-between items-center mb-2">
-                <h1 className="text-xl font-semibold">{quiz.disciplineName}</h1>
+                <div className="flex items-center gap-4">
+                    <h1 className="text-xl font-semibold">{quiz.disciplineName}</h1>
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                          <Button variant="destructive" size="icon" className="h-8 w-8">
+                              <Trash2 className="h-4 w-4" />
+                          </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                      <AlertDialogHeader>
+                          <AlertDialogTitle>Você tem certeza?</AlertDialogTitle>
+                          <AlertDialogDescription>
+                          Esta ação não pode ser desfeita. Isso excluirá permanentemente o questionário.
+                          </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                          <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                          <AlertDialogAction onClick={handleDeleteQuiz} className="bg-destructive hover:bg-destructive/90">
+                          Excluir
+                          </AlertDialogAction>
+                      </AlertDialogFooter>
+                      </AlertDialogContent>
+                  </AlertDialog>
+                </div>
                 <div className="text-sm text-muted-foreground">
                 Questão {currentQuestionIndex + 1} de {quiz.questions.length}
                 </div>
             </div>
-            <Progress value={progressValue} hidden />
+            <Progress value={progressValue} />
         </div>
       <Card>
         <CardHeader>
-          <CardTitle className="text-xl leading-relaxed">
+          <CardTitle className="text-2xl leading-relaxed">
             {currentQuestion.question}
           </CardTitle>
         </CardHeader>
-        <CardFooter className="justify-between border-t pt-6">
-            <Button onClick={handlePrevious} variant="outline" disabled={currentQuestionIndex === 0}>
-                <ArrowLeft className="mr-2" />
-                Anterior
-            </Button>
-            {currentQuestionIndex === quiz.questions.length - 1 ? (
-                <Button onClick={handleFinish} size="lg" disabled={userAnswers.includes(null)}>
-                    Finalizar
-                </Button>
-            ) : (
-                <Button onClick={handleNext} size="lg">
-                    Próxima
-                    <ArrowRight className="ml-2" />
-                </Button>
-            )}
-        </CardFooter>        
+              
         <CardContent>
           <RadioGroup
             key={currentQuestion.id}
             value={selectedAnswer !== null ? String(selectedAnswer) : undefined}
             onValueChange={handleAnswerSelect}
             className="space-y-3"
+            disabled={isAnswered}
           >
             {currentQuestion.options.map((option, index) => {
                const isCorrect = index === currentQuestion.answer;
@@ -260,7 +289,7 @@ function SimulationClientPage() {
               return (
                 <Label
                   key={index}
-                  className={`flex items-center gap-4 p-4 rounded-lg border-2 transition-all ${stateClass} ${!isAnswered ? 'cursor-pointer hover:border-primary' : ''}`}
+                  className={`flex items-center gap-4 p-4 rounded-lg border-2 transition-all ${stateClass} ${!isAnswered ? 'cursor-pointer hover:border-primary' : 'cursor-default'}`}
                   htmlFor={`r${index}`}
                 >
                   <RadioGroupItem value={String(index)} id={`r${index}`} />
@@ -284,7 +313,22 @@ function SimulationClientPage() {
 
         </CardContent>
 
-        
+        <CardFooter className="justify-between border-t pt-6">
+            <Button onClick={handlePrevious} variant="outline" disabled={currentQuestionIndex === 0}>
+                <ArrowLeft className="mr-2" />
+                Anterior
+            </Button>
+            {currentQuestionIndex === quiz.questions.length - 1 ? (
+                <Button onClick={handleFinish} size="lg" disabled={!isAnswered}>
+                    Finalizar
+                </Button>
+            ) : (
+                <Button onClick={handleNext} size="lg" disabled={!isAnswered}>
+                    Próxima
+                    <ArrowRight className="ml-2" />
+                </Button>
+            )}
+        </CardFooter> 
       </Card>
     </div>
   );
@@ -293,5 +337,3 @@ function SimulationClientPage() {
 export default function SimulationPage() {
   return <SimulationClientPage />;
 }
-
-    

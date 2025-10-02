@@ -32,7 +32,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useState, useEffect } from 'react';
 import { generateQuestionsFromPdf, GenerateQuestionsOutput } from '@/ai/flows/generate-questions-flow';
-import { Book, CheckCircle, Clock, PlusCircle, Trash2 } from 'lucide-react';
+import { Book, CheckCircle, Clock, PlusCircle, Trash2, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 
 interface SimulationResult {
@@ -103,9 +103,9 @@ function CreateQuizForm({ onQuizCreated }: { onQuizCreated: (newQuiz: StoredQuiz
           setFile(null);
           setNumberOfQuestions(10);
           setDialogOpen(false); 
-        } catch (e) {
+        } catch (e: any) {
           console.error(e);
-          setError('Ocorreu um erro ao gerar as questões. Verifique o console para mais detalhes.');
+          setError(e.message || 'Ocorreu um erro ao gerar as questões. Verifique o console para mais detalhes.');
         } finally {
           setIsLoading(false);
         }
@@ -202,12 +202,6 @@ export default function HomePage() {
   const handleQuizCreated = (newQuiz: StoredQuiz) => {
     setQuizzes(prevQuizzes => [newQuiz, ...prevQuizzes]);
   };
-  
-  const handleDeleteQuiz = (quizToDelete: StoredQuiz) => {
-    const updatedQuizzes = quizzes.filter(quiz => quiz.createdAt !== quizToDelete.createdAt);
-    setQuizzes(updatedQuizzes);
-    localStorage.setItem('quizzes', JSON.stringify(updatedQuizzes));
-  };
 
   const calculateAverageScore = () => {
     let totalScore = 0;
@@ -277,7 +271,9 @@ export default function HomePage() {
                <Card>
                   <CardHeader className="flex flex-row items-center justify-between pb-2">
                      <CardTitle className="text-sm font-medium">Total de Questionários</CardTitle>
-                     <Book className="h-5 w-5 text-muted-foreground" />
+                     <div className="p-3 rounded-full bg-primary/10 text-primary">
+                        <Book className="h-6 w-6" />
+                     </div>
                   </CardHeader>
                   <CardContent>
                      <div className="text-3xl font-bold">{quizzes.length}</div>
@@ -287,7 +283,9 @@ export default function HomePage() {
                <Card>
                   <CardHeader className="flex flex-row items-center justify-between pb-2">
                      <CardTitle className="text-sm font-medium">Média de Acertos</CardTitle>
-                     <CheckCircle className="h-5 w-5 text-muted-foreground" />
+                     <div className="p-3 rounded-full bg-green-500/10 text-green-500">
+                        <CheckCircle className="h-6 w-6" />
+                     </div>
                   </CardHeader>
                   <CardContent>
                      <div className="text-3xl font-bold">{averageScore !== null ? `${averageScore}%` : 'N/A'}</div>
@@ -297,7 +295,9 @@ export default function HomePage() {
                <Card>
                   <CardHeader className="flex flex-row items-center justify-between pb-2">
                      <CardTitle className="text-sm font-medium">Tempo de Estudo</CardTitle>
-                     <Clock className="h-5 w-5 text-muted-foreground" />
+                      <div className="p-3 rounded-full bg-accent/10 text-accent">
+                        <Clock className="h-6 w-6" />
+                     </div>
                   </CardHeader>
                   <CardContent>
                      <div className="text-3xl font-bold">{totalStudyTime}</div>
@@ -313,8 +313,8 @@ export default function HomePage() {
             {quizzes.length > 0 ? (
               <div className="grid gap-4">
                 {quizzes.map((quiz, index) => (
-                    <Card key={index} className="hover:border-primary/80 transition-colors">
-                        <Link href={`/simulations/${slugify(quiz.disciplineName)}`} className="block">
+                    <Link href={`/simulations/${slugify(quiz.disciplineName)}`} key={index} className="block group">
+                        <Card className="hover:border-primary/80 transition-colors">
                             <CardContent className="p-4 flex justify-between items-center">
                                 <div>
                                     <p className="font-semibold text-lg">{quiz.disciplineName}</p>
@@ -322,32 +322,10 @@ export default function HomePage() {
                                         {quiz.questions.length} questões ・ Criado em {new Date(quiz.createdAt).toLocaleDateString()}
                                     </p>
                                 </div>
-                                <div className="flex items-center space-x-2">
-                                    <AlertDialog>
-                                        <AlertDialogTrigger asChild>
-                                            <Button variant="ghost" size="icon" className="h-9 w-9 text-muted-foreground hover:text-destructive hover:bg-destructive/10">
-                                                <Trash2 className="h-5 w-5" />
-                                            </Button>
-                                        </AlertDialogTrigger>
-                                        <AlertDialogContent>
-                                        <AlertDialogHeader>
-                                            <AlertDialogTitle>Você tem certeza?</AlertDialogTitle>
-                                            <AlertDialogDescription>
-                                            Esta ação não pode ser desfeita. Isso excluirá permanentemente o questionário.
-                                            </AlertDialogDescription>
-                                        </AlertDialogHeader>
-                                        <AlertDialogFooter>
-                                            <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                                            <AlertDialogAction onClick={() => handleDeleteQuiz(quiz)} className="bg-destructive hover:bg-destructive/90">
-                                            Excluir
-                                            </AlertDialogAction>
-                                        </AlertDialogFooter>
-                                        </AlertDialogContent>
-                                    </AlertDialog>
-                                </div>
+                                <ArrowRight className="h-5 w-5 text-muted-foreground transition-transform group-hover:translate-x-1" />
                             </CardContent>
-                        </Link>
-                  </Card>
+                        </Card>
+                    </Link>
                 ))}
               </div>
             ) : (
