@@ -265,8 +265,21 @@ function SimulationClientPage() {
             {currentQuestion.question}
           </CardTitle>
         </CardHeader>
+
+        <div className="px-6 pb-6 border-b flex justify-between items-center">
+            <Button onClick={handlePrevious} variant="outline" disabled={currentQuestionIndex === 0}>
+                <ArrowLeft className="mr-2" />
+                Anterior
+            </Button>
+            {currentQuestionIndex < quiz.questions.length - 1 && (
+                <Button onClick={handleNext} disabled={!isAnswered}>
+                    Próxima
+                    <ArrowRight className="ml-2" />
+                </Button>
+            )}
+        </div>
               
-        <CardContent>
+        <CardContent className="pt-6">
           <RadioGroup
             key={currentQuestion.id}
             value={selectedAnswer !== null ? String(selectedAnswer) : undefined}
@@ -313,22 +326,13 @@ function SimulationClientPage() {
 
         </CardContent>
 
-        <CardFooter className="justify-between border-t pt-6">
-            <Button onClick={handlePrevious} variant="outline" disabled={currentQuestionIndex === 0}>
-                <ArrowLeft className="mr-2" />
-                Anterior
-            </Button>
-            {currentQuestionIndex === quiz.questions.length - 1 ? (
+        {currentQuestionIndex === quiz.questions.length - 1 && (
+            <CardFooter className="justify-end border-t pt-6">
                 <Button onClick={handleFinish} size="lg" disabled={!isAnswered}>
                     Finalizar
                 </Button>
-            ) : (
-                <Button onClick={handleNext} size="lg" disabled={!isAnswered}>
-                    Próxima
-                    <ArrowRight className="ml-2" />
-                </Button>
-            )}
-        </CardFooter> 
+            </CardFooter> 
+        )}
       </Card>
     </div>
   );
