@@ -155,7 +155,7 @@ function CreateQuizForm({ onQuizCreated }: { onQuizCreated: (newQuiz: StoredQuiz
               value={numberOfQuestions}
               onChange={(e) => setNumberOfQuestions(Number(e.target.value))}
               min="3"
-              max="50"
+              max="100"
               required
             />
           </div>

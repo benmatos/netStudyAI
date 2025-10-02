@@ -38,7 +38,7 @@ const GenerateQuestionsInputSchema = z.object({
   numberOfQuestions: z
     .number()
     .min(1)
-    .max(50)
+    .max(100)
     .describe('O número total de questões a serem geradas.'),
   pdfDataUri: z
     .string()
