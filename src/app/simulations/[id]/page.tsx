@@ -261,7 +261,7 @@ function SimulationClientPage() {
         </div>
       <Card>
         <CardHeader>
-          <CardTitle className="text-2xl leading-relaxed">
+          <CardTitle className="text-xl leading-relaxed">
             {currentQuestion.question}
           </CardTitle>
         </CardHeader>
